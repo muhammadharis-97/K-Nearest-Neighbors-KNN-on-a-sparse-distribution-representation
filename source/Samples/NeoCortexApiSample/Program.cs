@@ -1,4 +1,5 @@
-﻿using NeoCortexApi;
+﻿//Global Variable
+using NeoCortexApi;
 using NeoCortexApi.Encoders;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace NeoCortexApiSample
             //GridCellSamples gridCells = new GridCellSamples();
             //gridCells.Run();
 
-            // RunMultiSimpleSequenceLearningExperiment();
+            //RunMultiSimpleSequenceLearningExperiment();
 
 
             //RunMultiSequenceLearningExperiment();
