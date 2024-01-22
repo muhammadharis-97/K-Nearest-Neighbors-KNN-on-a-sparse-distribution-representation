@@ -6,7 +6,7 @@ namespace KNNClassifier_GlobalVariable
         static void Main(string[] args)
         {
             /// loading data
-            Console.WriteLine("Begin with KNN Classification")
+            Console.WriteLine("Begin with KNN Classification");
             double[][] trainData = Loaddata();
 
             //// Initializing num of features and classes
@@ -15,11 +15,21 @@ namespace KNNClassifier_GlobalVariable
             double[] unknown = new double[] { 5.25, 1.75 };
             Console.WriteLine("Predictor values: 5.25 1.75 ");
 
-            /// Applying classifier
+            /// Applying classifier for K=1
             int k = 1;
             Console.WriteLine("With k = 1");
             int predicted = Classify(unknown, trainData, numClasses, k);
             Console.WriteLine("Predicted class = " + predicted);
+
+            /// Applying classifier for K=1
+            k = 4;
+            Console.WriteLine("With k = 4");
+            predicted = Classify(unknown, trainData, numClasses, k);
+            Console.WriteLine("Predicted class = " + predicted);
+            Console.WriteLine("End kNN ");
+            Console.ReadLine();
+
+
 
 
         }
@@ -39,28 +49,62 @@ namespace KNNClassifier_GlobalVariable
         {
             int n = trainData.Length;
             IndexAndDistance[] info = new IndexAndDistance[n];
-            for (int i = 0; i < n; ++i)
+            for (int i = 0; i < n; i++)
             {
                 IndexAndDistance curr = new IndexAndDistance();
                 double dist = Distance(unknown, trainData[i]);
                 curr.idx = i;
                 curr.dist = dist;
                 info[i] = curr;
+                Array.Sort(info);
+                int result = Vote(info, trainData, numClasses, k);
+                return result;
             }
 
         }
 
-        public class IndexAndDistance : IComparable<IndexAndDistance>
+        static double Distance(double[] unknown, double[] data)
         {
-            public int idx;  // index of a training item
-            public double dist;  // distance to unknown
-            public int CompareTo(IndexAndDistance other)
-            {
-                if (this.dist < other.dist) return -1;
-                else if (this.dist > other.dist) return +1;
-                else return 0;
-            }
+            double sum = 0.0;
+            for (int i = 0; i < unknown.Length; ++i)
+                sum += (unknown[i] - data[i]) * (unknown[i] - data[i]);
+            return Math.Sqrt(sum);
         }
-    }
 
+        static int Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)
+        {
+            int[] votes = new int[numClasses];  // One cell per class
+            for (int i = 0; i < k; ++i)
+            {       // Just first k
+                int idx = info[i].idx;            // Which train item
+                int c = (int)trainData[idx][2];   // Class in last cell
+                ++votes[c];
+            }
+            int mostVotes = 0;
+            int classWithMostVotes = 0;
+            for (int j = 0; j < numClasses; ++j)
+            {
+                if (votes[j] > mostVotes)
+                {
+                    mostVotes = votes[j];
+                    classWithMostVotes = j;
+                }
+            }
+            return classWithMostVotes;
+        }
+
+
+    }
+    public class IndexAndDistance : IComparable<IndexAndDistance>
+    {
+        public int idx;  // index of a training item
+        public double dist;  // distance to unknown
+        public int CompareTo(IndexAndDistance other)
+        {
+            if (this.dist < other.dist) return -1;
+            else if (this.dist > other.dist) return +1;
+            else return 0;
+        }
+
+    }
 }
