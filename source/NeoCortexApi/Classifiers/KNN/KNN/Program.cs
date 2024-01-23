@@ -3,7 +3,7 @@ namespace KNNClassifier_GlobalVariable
 {
     public class Knnprogram
     {
-        interface IComparable<IndexAndDistance>;
+        //interface IComparable<IndexAndDistance>;
         static void Main(string[] args)
         {
             /// loading data
@@ -41,7 +41,7 @@ namespace KNNClassifier_GlobalVariable
             data[0] = new double[] { 2.0, 4.0, 1 };
             data[1] = new double[] { 3.0, 4.0, 1 };
             data[2] = new double[] { 4.0, 2.0, 1 };
-            data[3] = new double[] { 5.0, 3.0, 1 };
+            data[3] = new double[] { 5.0, 3.0, 2 };
             data[4] = new double[] { 1.0, 4.0, 1 };
             return data;
         }
@@ -57,7 +57,7 @@ namespace KNNClassifier_GlobalVariable
                 curr.idx = i;
                 curr.dist = dist;
                 info[i] = curr;
-                Array.Sort(info);
+                
             }
             int result = Vote(info, trainData, numClasses, k);
             return result;
@@ -108,4 +108,4 @@ namespace KNNClassifier_GlobalVariable
         }
 
     }
-}   
+}
