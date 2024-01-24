@@ -13,8 +13,8 @@ namespace KNNClassifier_GlobalVariable
             //// Initializing num of features and classes
             int numFeatures = 2;
             int numClasses = 3;
-            double[] unknown = new double[] { 5.25, 1.75 };
-            Console.WriteLine("Predictor values: 5.25 1.75 ");
+            double[] unknown = new double[] { 5.25, 3.75 };
+            Console.WriteLine("Predictor values: 5.25 3.75 ");
 
             /// Applying classifier for K=1
             int k = 1;
@@ -40,9 +40,9 @@ namespace KNNClassifier_GlobalVariable
             double[][] data = new double[5][];
             data[0] = new double[] { 2.0, 4.0, 1 };
             data[1] = new double[] { 3.0, 4.0, 1 };
-            data[2] = new double[] { 4.0, 2.0, 1 };
+            data[2] = new double[] { 4.0, 2.0, 2 };
             data[3] = new double[] { 5.0, 3.0, 2 };
-            data[4] = new double[] { 1.0, 4.0, 3 };
+            data[4] = new double[] { 1.0, 4.0, 0 };
             return data;
         }
 
