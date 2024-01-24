@@ -1,4 +1,5 @@
-KNN CLassifier
+KNN CLassifier (DEMO)
+
 Knn classifier is used for classification prolem, predict a class or label based on the predictor value. Simple and elgant approach for classification relative to other ML classification technique
 like naive Bayes or Neural Network Classification. KNN classifier advantage is Flexibility and Simplicity.
 
@@ -20,3 +21,8 @@ Thing to remember while Applying KNN
 2. Two technique are usually used to predict a class, one is based on distance method and other is based on voting method between classes whom distance from predictor value is almost same.
 3. There are no fixed rules to figure out the best value for k in k-NN classification. The choice of k is a hyperparameter, and you have to rely on intuition and experimentation to find
 the right value.
+
+All the step of Algo
+1. Compute distances from unknown to all training items
+2. Sort the distances from nearest to farthest
+3. Scan the k-nearest items; use a vote to determine the result
