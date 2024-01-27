@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KNNClassifier_GlobalVariable", "KNNClassifier_GlobalVariable\KNNClassifier_GlobalVariable.csproj", "{EB888E9F-4EEC-4AE9-B514-78264F868CB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KNNclassifier", "KNNclassifier\KNNclassifier.csproj", "{872704A2-484E-4681-9690-524FB8FC1DA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB888E9F-4EEC-4AE9-B514-78264F868CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB888E9F-4EEC-4AE9-B514-78264F868CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB888E9F-4EEC-4AE9-B514-78264F868CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB888E9F-4EEC-4AE9-B514-78264F868CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{872704A2-484E-4681-9690-524FB8FC1DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{872704A2-484E-4681-9690-524FB8FC1DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{872704A2-484E-4681-9690-524FB8FC1DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{872704A2-484E-4681-9690-524FB8FC1DA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F4BAD3BF-49E4-4E65-BF35-E0D82C1B6A2C}
+		SolutionGuid = {1E26FDB4-4786-4BFD-9674-B1591EF665B7}
 	EndGlobalSection
 EndGlobal
