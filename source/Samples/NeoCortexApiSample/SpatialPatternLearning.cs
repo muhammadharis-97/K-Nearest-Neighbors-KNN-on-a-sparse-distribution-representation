@@ -51,7 +51,7 @@ namespace NeoCortexApiSample
                 StimulusThreshold=10,
             };
 
-            double max = 100;
+            double max = 10;
 
             //
             // This dictionary defines a set of typical encoder parameters.
@@ -165,7 +165,7 @@ namespace NeoCortexApiSample
             }
 
             // Learning process will take 1000 iterations (cycles)
-            int maxSPLearningCycles = 1000;
+            int maxSPLearningCycles = 500;
 
             int numStableCycles = 0;
 

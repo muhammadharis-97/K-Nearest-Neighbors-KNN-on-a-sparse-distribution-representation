@@ -21,8 +21,8 @@ namespace NeoCortexApiSample
         {
             //
             // Starts experiment that demonstrates how to learn spatial patterns.
-            SpatialPatternLearning experiment = new SpatialPatternLearning();
-            experiment.Run();
+           // SpatialPatternLearning experiment = new SpatialPatternLearning();
+           // experiment.Run();
 
             //
             // Starts experiment that demonstrates how to learn spatial patterns.
@@ -35,7 +35,7 @@ namespace NeoCortexApiSample
             //RunMultiSimpleSequenceLearningExperiment();
 
 
-            //RunMultiSequenceLearningExperiment();
+            RunMultiSequenceLearningExperiment();
         }
 
         private static void RunMultiSimpleSequenceLearningExperiment()
@@ -43,7 +43,7 @@ namespace NeoCortexApiSample
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
 
             sequences.Add("S1", new List<double>(new double[] { 1.0, 2.0, 3.0 }));
-            sequences.Add("S2", new List<double>(new double[] { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0 }));
+            sequences.Add("S2", new List<double>(new double[] { 10.0, 11.0, 12.0 }));
 
             //
             // Prototype for building the prediction engine.
@@ -65,8 +65,8 @@ namespace NeoCortexApiSample
             //sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 0.0, 2.0, 3.0, 4.0, 5.0, 6.0, 5.0, 4.0, 3.0, 7.0, 1.0, 9.0, 12.0, 11.0, 12.0, 13.0, 14.0, 11.0, 12.0, 14.0, 5.0, 7.0, 6.0, 9.0, 3.0, 4.0, 3.0, 4.0, 3.0, 4.0 }));
             //sequences.Add("S2", new List<double>(new double[] { 0.8, 2.0, 0.0, 3.0, 3.0, 4.0, 5.0, 6.0, 5.0, 7.0, 2.0, 7.0, 1.0, 9.0, 11.0, 11.0, 10.0, 13.0, 14.0, 11.0, 7.0, 6.0, 5.0, 7.0, 6.0, 5.0, 3.0, 2.0, 3.0, 4.0, 3.0, 4.0 }));
 
-            sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 2.0, 3.0, 4.0, 2.0, 5.0, }));
-            sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
+            sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 2.0}));
+            sequences.Add("S2", new List<double>(new double[] { 8.0, 2.0, 4.0, 9.0 }));
 
             //
             // Prototype for building the prediction engine.

@@ -1,0 +1,7 @@
+SDR CLassfier
+
+1. the problem of SDR Classifier
+2. Feedforward Classification Network
+3. Maximum Likelihood estimation
+4. Algorithm Description of the SDR Classifier
+5. Compare performance of the SDR Classifier with the CLA Classifier
