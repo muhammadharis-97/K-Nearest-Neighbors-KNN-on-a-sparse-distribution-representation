@@ -28,7 +28,7 @@ double[][] trainData = Loaddata();
 //// Initializing num of features and classes
 int numFeatures = 20;
 int numClasses = 10;
-double[] unknown = new double[] { 772, 779, 780, 800, 810, 811, 812, 826, 830, 853, 861, 878, 886, 889, 891, 897, 954, 957, 960, 1007 };
+double[] unknown = new double[] { 483, 487, 500, 509, 510, 515, 519, 529, 533, 556, 577, 594, 597, 601, 651, 657, 665, 667, 668, 726 };
 //Console.WriteLine("Predictor values: 5.25 3.75 ");
 
 /// Applying classifier for K=1
@@ -38,7 +38,7 @@ double[] unknown = new double[] { 772, 779, 780, 800, 810, 811, 812, 826, 830, 8
 //Console.WriteLine("Predicted class = " + predicted);
 
 /// Applying classifier for K=1
-int k = 4;
+int k = 1;
 Console.WriteLine("With k = 4");
 int predicted = KNN.Classifier(unknown, trainData, numClasses, k);
 Console.WriteLine("Predicted class = " + predicted);
