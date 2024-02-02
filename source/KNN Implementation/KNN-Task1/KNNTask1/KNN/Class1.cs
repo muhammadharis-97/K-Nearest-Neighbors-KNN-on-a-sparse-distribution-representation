@@ -23,7 +23,12 @@ namespace KNN
 
             }
             Array.Sort(info);  // sort by distance
+
+       
+           
+
             int result = Vote(info, trainData, numClasses, k);
+
             return result;
 
         }
@@ -43,7 +48,7 @@ namespace KNN
             for (int i = 0; i < k; ++i)
             {       // Just first k
                 int idx = info[i].idx;            // Which train item
-                int c = (int)trainData[idx][19];   // Class in last cell
+                int c = (int)trainData[idx][20];   // Class in last cell
                 ++votes[c];
             }
             int mostVotes = 0;

@@ -38,8 +38,8 @@ double[] unknown = new double[] { 17, 45, 55, 38, 42, 62, 35, 74, 78, 88, 45, 95
 //Console.WriteLine("Predicted class = " + predicted);
 
 /// Applying classifier for K=1
-int k = 20;
-Console.WriteLine("With k = 20");
+int k = 4;
+Console.WriteLine("With k = 4");
 int predicted = KNN.Classifier(unknown, trainData, numClasses, k);
 Console.WriteLine("Predicted class = " + predicted);
 Console.WriteLine("End kNN ");
