@@ -9,7 +9,7 @@ namespace KNN
     public class KNN_GlobalVariable
     {
 
-        static int Classifier(double[] unknown, double[][] trainData, int numClasses, int k)
+        public int Classifier(double[] unknown, double[][] trainData, int numClasses, int k)
         {
             int n = trainData.Length;
             IndexAndDistance[] info = new IndexAndDistance[n];
@@ -43,7 +43,7 @@ namespace KNN
             for (int i = 0; i < k; ++i)
             {       // Just first k
                 int idx = info[i].idx;            // Which train item
-                int c = (int)trainData[idx][2];   // Class in last cell
+                int c = (int)trainData[idx][19];   // Class in last cell
                 ++votes[c];
             }
             int mostVotes = 0;
