@@ -1,10 +1,12 @@
-﻿using NeoCortexApi;
+﻿//Global Variable
+using NeoCortexApi;
 using NeoCortexApi.Encoders;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using static NeoCortexApiSample.MultiSequenceLearning;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace NeoCortexApiSample
 {
@@ -20,8 +22,8 @@ namespace NeoCortexApiSample
         {
             //
             // Starts experiment that demonstrates how to learn spatial patterns.
-            SpatialPatternLearning experiment = new SpatialPatternLearning();
-            experiment.Run();
+            //SpatialPatternLearning experiment = new SpatialPatternLearning();
+            //experiment.Run();
 
             //
             // Starts experiment that demonstrates how to learn spatial patterns.
@@ -31,7 +33,7 @@ namespace NeoCortexApiSample
             //GridCellSamples gridCells = new GridCellSamples();
             //gridCells.Run();
 
-            // RunMultiSimpleSequenceLearningExperiment();
+            RunMultiSimpleSequenceLearningExperiment();
 
 
             //RunMultiSequenceLearningExperiment();
@@ -40,26 +42,24 @@ namespace NeoCortexApiSample
         private static void RunMultiSimpleSequenceLearningExperiment()
         {
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
+            // This sequence has a difference of 3 between each number. First Number starting from 1
+            sequences.Add("S1", new List<double>(new double[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34 }));
+            // This sequence has a difference of 5 between each number. First Number starting from 3
+            sequences.Add("S2", new List<double>(new double[] { 3, 8, 13, 18, 23, 28, 33, 38, 43, 48, 53, 58 }));
+            //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
+            sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7, 5, 3 }));
+            //The sequence is even Number. First Number Starting from 0
+            sequences.Add("S4", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22 }));
+            //The sequence is odd Number. First Number Starting from 0
+            sequences.Add("S5", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23 }));
+            //This Sequence is of Triangular Number, generated from a pattern of dots that form a triangle.
+            sequences.Add("S6", new List<double>(new double[] { 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78 }));
+            //They are the squares of whole numbers
+            sequences.Add("S7", new List<double>(new double[] { 0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 111 }));
+            // The sequence is Fibonacci Sequence, found by adding the two numbers before it together.
+            sequences.Add("S8", new List<double>(new double[] { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 }));
 
-            sequences.Add("S1", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15, 17 }));
-            sequences.Add("S2", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14, 16, 18 }));
-            sequences.Add("S3", new List<double>(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, }));
-            sequences.Add("S4", new List<double>(new double[] { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0 }));
-            sequences.Add("S5", new List<double>(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, }));
-            sequences.Add("S6", new List<double>(new double[] { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0 }));
-            sequences.Add("S7", new List<double>(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, }));
-            sequences.Add("S8", new List<double>(new double[] { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0 }));
-            sequences.Add("S9", new List<double>(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, }));
-            sequences.Add("S10", new List<double>(new double[] { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0 }));
 
-            //Creating a Inputs
-            // S1 will be Odd.
-            // S2 will be Even.
-            // S3 will be Even.
-
-
-
-            //
             // Prototype for building the prediction engine.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
             var predictor = experiment.Run(sequences);
