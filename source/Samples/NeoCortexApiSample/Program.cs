@@ -41,8 +41,8 @@ namespace NeoCortexApiSample
         {
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
 
-            sequences.Add("S1", new List<double>(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, }));
-            sequences.Add("S2", new List<double>(new double[] { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0 }));
+            sequences.Add("S1", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15, 17 }));
+            sequences.Add("S2", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14, 16, 18 }));
             sequences.Add("S3", new List<double>(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, }));
             sequences.Add("S4", new List<double>(new double[] { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0 }));
             sequences.Add("S5", new List<double>(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, }));
@@ -55,6 +55,7 @@ namespace NeoCortexApiSample
             //Creating a Inputs
             // S1 will be Odd.
             // S2 will be Even.
+            // S3 will be Even.
 
 
 
