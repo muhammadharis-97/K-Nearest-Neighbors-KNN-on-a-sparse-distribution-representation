@@ -55,7 +55,7 @@ namespace NeoCortexApiSample
                 PredictedSegmentDecrement = 0.1
             };
 
-            double max = 115;
+            double max = 30;
 
             Dictionary<string, object> settings = new Dictionary<string, object>()
             {
@@ -134,7 +134,7 @@ namespace NeoCortexApiSample
 
             var lastPredictedValues = new List<string>(new string[] { "0"});
             
-            int maxCycles = 25000;
+            int maxCycles = 1000;
 
             //
             // Training SP to get stable. New-born stage.

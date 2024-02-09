@@ -33,31 +33,31 @@ namespace NeoCortexApiSample
             //GridCellSamples gridCells = new GridCellSamples();
             //gridCells.Run();
 
-            RunMultiSimpleSequenceLearningExperiment();
+           // RunMultiSimpleSequenceLearningExperiment();
 
 
-            //RunMultiSequenceLearningExperiment();
+            RunMultiSequenceLearningExperiment();
         }
 
         private static void RunMultiSimpleSequenceLearningExperiment()
         {
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
             // This sequence has a difference of 3 between each number. First Number starting from 1
-            sequences.Add("S1", new List<double>(new double[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28 }));
+            sequences.Add("S1", new List<double>(new double[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28}));
             // This sequence has a difference of 5 between each number. First Number starting from 3
-            sequences.Add("S2", new List<double>(new double[] { 3, 8, 13, 18, 23, 28, 33, 38, 43, 48 }));
+            sequences.Add("S2", new List<double>(new double[] { 3, 8, 13, 18, 23, 28, 33, 38, 43, 48}));
             //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
             sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7}));
             //The sequence is even Number. First Number Starting from 0
-            sequences.Add("S4", new List<double>(new double[] {0, 2, 4, 6, 8, 10, 12, 14, 16, 18 }));
+           // sequences.Add("S4", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18}));
             //The sequence is odd Number. First Number Starting from 0
-            sequences.Add("S5", new List<double>(new double[] {1, 3, 5, 7, 9, 11, 13, 15, 17, 19 }));
+           // sequences.Add("S5", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19}));
             //This Sequence is of Triangular Number, generated from a pattern of dots that form a triangle.
-            sequences.Add("S6", new List<double>(new double[] {1, 3, 6, 10, 15, 21, 28, 36, 45, 55 }));
+           // sequences.Add("S6", new List<double>(new double[] { 1, 3, 6, 10, 15, 21, 28, 36, 45, 55}));
             //They are the squares of whole numbers
-            sequences.Add("S7", new List<double>(new double[] {0, 1, 4, 9, 16, 25, 36, 49, 64, 81 }));
+           // sequences.Add("S7", new List<double>(new double[] { 0, 1, 4, 9, 16, 25, 36, 49, 64, 81}));
             // The sequence is Fibonacci Sequence, found by adding the two numbers before it together.
-            sequences.Add("S8", new List<double>(new double[] {0, 1, 1, 2, 3, 5, 8, 13, 21, 34 }));
+           // sequences.Add("S8", new List<double>(new double[] { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34}));
 
 
             // Prototype for building the prediction engine.
@@ -79,8 +79,14 @@ namespace NeoCortexApiSample
             //sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 0.0, 2.0, 3.0, 4.0, 5.0, 6.0, 5.0, 4.0, 3.0, 7.0, 1.0, 9.0, 12.0, 11.0, 12.0, 13.0, 14.0, 11.0, 12.0, 14.0, 5.0, 7.0, 6.0, 9.0, 3.0, 4.0, 3.0, 4.0, 3.0, 4.0 }));
             //sequences.Add("S2", new List<double>(new double[] { 0.8, 2.0, 0.0, 3.0, 3.0, 4.0, 5.0, 6.0, 5.0, 7.0, 2.0, 7.0, 1.0, 9.0, 11.0, 11.0, 10.0, 13.0, 14.0, 11.0, 7.0, 6.0, 5.0, 7.0, 6.0, 5.0, 3.0, 2.0, 3.0, 4.0, 3.0, 4.0 }));
 
-            sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 2.0, 3.0, 4.0, 2.0, 5.0, }));
-            sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
+            // sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 2.0, 3.0, 4.0, 2.0, 5.0, }));
+            // sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
+
+            sequences.Add("S1", new List<double>(new double[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28 }));
+            // This sequence has a difference of 5 between each number. First Number starting from 3
+           // sequences.Add("S2", new List<double>(new double[] { 3, 8, 13, 18, 23, 28, 33, 38, 43, 48 }));
+            //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
+           // sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7 }));
 
             //
             // Prototype for building the prediction engine.
@@ -91,18 +97,18 @@ namespace NeoCortexApiSample
             // These list are used to see how the prediction works.
             // Predictor is traversing the list element by element. 
             // By providing more elements to the prediction, the predictor delivers more precise result.
-            var list1 = new double[] { 1.0, 2.0, 3.0, 4.0, 2.0, 5.0 };
-            var list2 = new double[] { 2.0, 3.0, 4.0 };
-            var list3 = new double[] { 8.0, 1.0, 2.0 };
+           // var list1 = new double[] { 1.0, 2.0, 3.0, 4.0, 2.0, 5.0 };
+           // var list2 = new double[] { 2.0, 3.0, 4.0 };
+           // var list3 = new double[] { 8.0, 1.0, 2.0 };
 
-            predictor.Reset();
-            PredictNextElement(predictor, list1);
+            //predictor.Reset();
+            //PredictNextElement(predictor, list1);
 
-            predictor.Reset();
-            PredictNextElement(predictor, list2);
+            //predictor.Reset();
+            //PredictNextElement(predictor, list2);
 
-            predictor.Reset();
-            PredictNextElement(predictor, list3);
+           // predictor.Reset();
+           // PredictNextElement(predictor, list3);
         }
 
         private static void PredictNextElement(Predictor predictor, double[] list)
