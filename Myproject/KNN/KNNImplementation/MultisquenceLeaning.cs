@@ -3,7 +3,13 @@ using NeoCortexApi.Classifiers;
 using NeoCortexApi.Encoders;
 using NeoCortexApi.Entities;
 using NeoCortexApi.Network;
+using Org.BouncyCastle.Asn1.Tsp;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+
 
 namespace NeoCortexApiSample
 {
@@ -50,7 +56,7 @@ namespace NeoCortexApiSample
                 PredictedSegmentDecrement = 0.1
             };
 
-            double max = 20;
+            double max = 48;
 
             Dictionary<string, object> settings = new Dictionary<string, object>()
             {
@@ -129,7 +135,7 @@ namespace NeoCortexApiSample
 
             var lastPredictedValues = new List<string>(new string[] { "0" });
 
-            int maxCycles = 3500;
+            int maxCycles = 600;
 
             //
             // Training SP to get stable. New-born stage.
