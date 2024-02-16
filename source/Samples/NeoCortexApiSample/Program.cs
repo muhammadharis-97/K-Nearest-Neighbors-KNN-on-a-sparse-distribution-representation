@@ -43,11 +43,11 @@ namespace NeoCortexApiSample
         {
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
             // This sequence has a difference of 3 between each number. First Number starting from 1
-            sequences.Add("S1", new List<double>(new double[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28}));
+            sequences.Add("S1", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14}));
             // This sequence has a difference of 5 between each number. First Number starting from 3
-            sequences.Add("S2", new List<double>(new double[] { 3, 8, 13, 18, 23, 28, 33, 38, 43, 48}));
+            sequences.Add("S2", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15}));
             //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
-            sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7}));
+            //sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7}));
             //The sequence is even Number. First Number Starting from 0
            // sequences.Add("S4", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18}));
             //The sequence is odd Number. First Number Starting from 0
@@ -82,7 +82,7 @@ namespace NeoCortexApiSample
             // sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 2.0, 3.0, 4.0, 2.0, 5.0, }));
             // sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
 
-            sequences.Add("S1", new List<double>(new double[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28 }));
+            sequences.Add("S1", new List<double>(new double[] { 2, 4, 7, 10, 13, 16, 19, 22, 25, 28 }));
             // This sequence has a difference of 5 between each number. First Number starting from 3
             sequences.Add("S2", new List<double>(new double[] { 3, 8, 13, 18, 23, 28, 33, 38, 43, 48 }));
             //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
