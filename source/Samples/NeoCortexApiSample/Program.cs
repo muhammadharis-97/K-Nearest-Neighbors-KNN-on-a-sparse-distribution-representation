@@ -1,4 +1,4 @@
-﻿//Global Variable
+﻿//Global Vari8iable
 using NeoCortexApi;
 using NeoCortexApi.Encoders;
 using System;
@@ -36,7 +36,7 @@ namespace NeoCortexApiSample
            // RunMultiSimpleSequenceLearningExperiment();
 
 
-            RunMultiSequenceLearningExperiment();
+            //RunMultiSequenceLearningExperiment();
         }
 
         private static void RunMultiSimpleSequenceLearningExperiment()
