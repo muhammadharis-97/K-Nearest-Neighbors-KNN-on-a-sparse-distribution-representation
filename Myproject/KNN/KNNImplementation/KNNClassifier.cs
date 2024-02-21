@@ -17,7 +17,7 @@ namespace KNNImplementation
         // While K is the tune to see how many Neareast Neibour SDr are near to unknownSDR values 
         public int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k)
         {
-            int 
+            
 
 
 
