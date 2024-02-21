@@ -7,10 +7,7 @@ KNN_GlobalVariable KNN = new KNN_GlobalVariable();
 /// Load Data
 static double[][] Loaddata()
 {
-    Dictionary<List<int>, string> SDRdata1 = new Dictionary<List<int>, string> ();
-    Dictionary<List<int>, string> SDRdata2 = new Dictionary<List<int>, string>();
-    SDRdata1.Add([7, 18, 24, 29, 43, 46, 59, 62, 65, 70, 95, 102, 118, 146, 148, 155, 953, 960, 982, 1012, 0] , "Even");
-    SDRdata2.Add()
+
     double[][] data = new double[10][];
     data[0] = new double[] { 7, 18, 24, 29, 43, 46, 59, 62, 65, 70, 95, 102, 118, 146, 148, 155, 953, 960, 982, 1012, 0 };
     data[1] = new double[] { 25, 31, 44, 48, 49, 52, 65, 71, 87, 88, 90, 95, 100, 110, 111, 115, 128, 137, 176, 188, 1 };
