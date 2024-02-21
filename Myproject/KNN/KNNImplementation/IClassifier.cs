@@ -11,7 +11,7 @@ namespace KNNImplementation
 {
     public interface IClassifier
     {
-        public class KNNClassifier()
+        public class KNNClassifier
          {
 
 
