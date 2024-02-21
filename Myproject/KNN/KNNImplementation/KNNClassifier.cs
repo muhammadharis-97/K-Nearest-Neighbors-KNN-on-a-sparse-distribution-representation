@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace KNNImplementation
 {
+
+    // KNN Impementation
     public class KNNClassifier() : IClassifier
     {
 
