@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using static NeoCortexApiSample.MultiSequenceLearning;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -21,26 +22,30 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
             // List of SDR value and Sequence list name Dateset 
-            List<(int, string)> mylist = new List<(int, string)>();
-        
-            //
-            // Starts experiment that demonstrates how to learn spatial patterns.
-            //SpatialPatternLearning experiment = new SpatialPatternLearning();
-            //experiment.Run();
 
-            //
-            // Starts experiment that demonstrates how to learn spatial patterns.
-            //SequenceLearning experiment = new SequenceLearning();
-            //experiment.Run();
+            
+  
 
-            //GridCellSamples gridCells = new GridCellSamples();
-            //gridCells.Run();
+        //
+        // Starts experiment that demonstrates how to learn spatial patterns.
+        //SpatialPatternLearning experiment = new SpatialPatternLearning();
+        //experiment.Run();
 
-            RunMultiSimpleSequenceLearningExperiment();
+        //
+        // Starts experiment that demonstrates how to learn spatial patterns.
+        //SequenceLearning experiment = new SequenceLearning();
+        //experiment.Run();
+
+        //GridCellSamples gridCells = new GridCellSamples();
+        //gridCells.Run();
+
+        //RunMultiSimpleSequenceLearningExperiment();
 
 
             //RunMultiSequenceLearningExperiment();
         }
+
+
 
         private static void RunMultiSimpleSequenceLearningExperiment()
         {
