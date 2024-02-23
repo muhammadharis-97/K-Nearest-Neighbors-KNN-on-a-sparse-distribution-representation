@@ -15,18 +15,56 @@ namespace KNNImplementation
     {
 
         /// <summary>
-        ///
+        /// Distance Calculation between Known SDR with unknown SDR to see weather the SDR is nearest to unknown SDR 
         /// </summary>
-        /// <param name="unknown"></param>
-        /// <param name="data"></param>
+        /// <param name="unknownSDR"></param>
+        /// <param name="sdrdata"></param>
         /// <returns></returns>
 
-        static double Distance(double[] unknown, double[] data)
+        static double Distance(double[] unknownSDR, double[] sdrdata)
         {
             double sum = 0.0;
-            for (int i = 0; i < unknown.Length; ++i)
-                sum += (unknown[i] - data[i]) * (unknown[i] - data[i]);
-            return Math.Sqrt(sum);
+
+            for (int i = 0; i < unknownSDR.Length; ++i)
+            {
+                double difference = unknownSDR[i] - sdrdata[i];
+                double squaredDifference = difference * difference;
+                sum += squaredDifference;
+            }
+
+            double euclideanDistance = Math.Sqrt(sum);
+
+            return euclideanDistance;
+        }
+
+        /// <summary>
+        /// The Method is for classify test SDR value based on voting, Voting between no of classes classify from the train SDR.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="trainData"></param>
+        /// <param name="numClasses"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        static int Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)
+        {
+            int[] votes = new int[numClasses];  // One cell per class
+            for (int i = 0; i < k; ++i)
+            {       // Just first k
+                int idx = info[i].idx;            // Which train item
+                int c = (int)trainData[idx][20];   // Class in last cell
+                ++votes[c];
+            }
+            int mostVotes = 0;
+            int classWithMostVotes = 0;
+            for (int j = 0; j < numClasses; ++j)
+            {
+                if (votes[j] > mostVotes)
+                {
+                    mostVotes = votes[j];
+                    classWithMostVotes = j;
+                }
+            }
+            return classWithMostVotes;
         }
 
 
