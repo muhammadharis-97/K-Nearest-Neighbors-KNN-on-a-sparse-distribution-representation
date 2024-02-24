@@ -22,23 +22,32 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
             // List of SDR value and Sequence list name Dateset 
+            double[] sdrdata;
+            double[] sdrdata1;
 
-            Dictionary<double[], string> dict1 = new Dictionary<double[], string>();
+            sdrdata = new double[20];
+            sdrdata1 = new double[20];
 
-            Dictionary<double[], string> dict2 = new Dictionary<double[], string>();
+            sdrdata = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154 };
+            sdrdata1 = new double[] { 8443, 8737, 9286, 9412, 9562, 10052, 10115, 10149, 10227, 10416, 10443, 10612, 10687, 10760, 10796, 10996, 11165, 11214, 11298, 11311 };
+            string sdrlistname = "Even";
+            string sdrlistname1 = "odd";
 
-            double[] data = new double[20];
-            double[] data1 = new double[20];
 
-            data = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154};
-            data1 = new double[] { 8443, 8737, 9286, 9412, 9562, 10052, 10115, 10149, 10227, 10416, 10443, 10612, 10687, 10760, 10796, 10996, 11165, 11214, 11298, 11311 };
 
-            dict1.Add(data, "even");
-            dict2.Add(data1, "odd");
+            static Dictionary<double[], string> Loaddata(double [] sdrdata, double [] sdrdata1, string sdrlistname, string sdrlist1name)
+            {
+                Dictionary<double[], string> dict = new Dictionary<double[], string>();
 
-            Console.WriteLine(dict1);
-            Console.WriteLine(dict2);
-            
+                ///Dictionary<double[], string> dict2 = new Dictionary<double[], string>();
+
+                dict.Add(sdrdata, sdrlistname);
+                dict.Add(sdrdata1, sdrlist1name);
+
+                ///Console.WriteLine(dict);
+                return dict;
+            }
+
 
 
             //
