@@ -23,7 +23,15 @@ namespace NeoCortexApiSample
         {
             // List of SDR value and Sequence list name Dateset 
 
+            Dictionary<double[], string> dict1 = new Dictionary<double[], string>();
 
+            Dictionary<double[], string> dict2 = new Dictionary<double[], string>();
+
+            double[][] data = new double[10][];
+            data[0] = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154};
+            data[1] = new double[] { 25, 31, 44, 48, 49, 52, 65, 71, 87, 88, 90, 95, 100, 110, 111, 115, 128, 137, 176, 188, 1 };
+           
+            
 
 
             //

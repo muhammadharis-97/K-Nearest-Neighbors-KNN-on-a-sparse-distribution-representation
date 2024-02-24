@@ -109,7 +109,7 @@ namespace KNNImplementation
         /// Comparing index of Sdr training data with the distance computed between with test SDR and Train SDR at given Index
         /// </summary>
 
-        public class IndexAndDistance : IComparable<IndexAndDistance>
+        public class IndexAndDistance : IClassifier
         {
             public int idx;  // index of a training item
             public double dist;  // distance to unknown

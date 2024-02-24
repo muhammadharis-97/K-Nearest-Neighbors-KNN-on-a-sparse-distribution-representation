@@ -16,5 +16,12 @@ namespace KNNImplementation
 
 
          }
+
+        public class IndexAndDistance
+        { 
+        
+        
+        }
+
     }
 }
