@@ -68,6 +68,7 @@ namespace KNNImplementation
         }
 
 
+
         /// <summary>
         ///  Classification Methond using SDRValue in the form of training Data to the Classifier Model
         /// For Classification UnknownSDR value of a paricualar squence is used to classify, to see wheater these SDR value belong or near to any of SDR vlaues in Dataset
@@ -82,12 +83,12 @@ namespace KNNImplementation
 
         public int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k)
         {
-            int n = trainData.Length;
+            int n = Sdrdata.Length;
             IndexAndDistance[] info = new IndexAndDistance[n];
             for (int i = 0; i < n; i++)
             {
                 IndexAndDistance curr = new IndexAndDistance();
-                double dist = Distance(unknown, trainData[i]);
+                double dist = Distance(unknownSDR, Sdrdata[i]);
                 curr.idx = i;
                 curr.dist = dist;
                 info[i] = curr;
@@ -98,13 +99,28 @@ namespace KNNImplementation
 
 
 
-            int result = Vote(info, trainData, numClasses, k);
+            int result = Vote(info, Sdrdata, numofclass, k);
 
             return result;
 
         }
 
+        /// <summary>
+        /// Comparing index of Sdr training data with the distance computed between with test SDR and Train SDR at given Index
+        /// </summary>
 
+        public class IndexAndDistance : IComparable<IndexAndDistance>
+        {
+            public int idx;  // index of a training item
+            public double dist;  // distance to unknown
+            public int CompareTo(IndexAndDistance other)
+            {
+                if (this.dist < other.dist) return -1;
+                else if (this.dist > other.dist) return +1;
+                else return 0;
+            }
+
+        }
 
 
     }
