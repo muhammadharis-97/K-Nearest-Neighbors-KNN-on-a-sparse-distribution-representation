@@ -27,10 +27,17 @@ namespace NeoCortexApiSample
 
             Dictionary<double[], string> dict2 = new Dictionary<double[], string>();
 
-            double[][] data = new double[10][];
-            data[0] = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154};
-            data[1] = new double[] { 25, 31, 44, 48, 49, 52, 65, 71, 87, 88, 90, 95, 100, 110, 111, 115, 128, 137, 176, 188, 1 };
-           
+            double[] data = new double[20];
+            double[] data1 = new double[20];
+
+            data = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154};
+            data1 = new double[] { 8443, 8737, 9286, 9412, 9562, 10052, 10115, 10149, 10227, 10416, 10443, 10612, 10687, 10760, 10796, 10996, 11165, 11214, 11298, 11311 };
+
+            dict1.Add(data, "even");
+            dict2.Add(data1, "odd");
+
+            Console.WriteLine(dict1);
+            Console.WriteLine(dict2);
             
 
 
