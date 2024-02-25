@@ -74,7 +74,7 @@ namespace KNNImplementation
         ///  Classification Methond using SDRValue in the form of training Data to the Classifier Model
         /// For Classification UnknownSDR value of a paricualar squence is used to classify, to see wheater these SDR value belong or near to any of SDR vlaues in Dataset
         /// the number of classification type are defined as numofclass
-        /// While K is the tunner to see how many Neareast Neibour SDr are near to unknownSDR values
+        /// While K is the tunner to see how many Neareast Neibour SDr are near to unknownSDR values and what would be the optimial value 
         /// </summary>
         /// <param name="unknownSDR"></param>
         /// <param name="Sdrdata"></param>
