@@ -16,7 +16,7 @@ namespace KNNImplementation
 
 
         /// <summary>
-        /// Dictionary used to make a dataset of SDR Value of the squence and the variable name of the Squence 
+        /// Dictionary used to make a dataset of SDR Value of the squence and the variable name of the Squences 
         /// </summary>
         /// <param name="sdrdata"></param>
         /// <param name="sdrdata1"></param>
