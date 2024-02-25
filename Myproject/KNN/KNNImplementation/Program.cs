@@ -30,13 +30,24 @@ namespace NeoCortexApiSample
             /// loading dataset SDR value and Sequence list reference name
             /// 
             double[][] trainData = KNNDataset();
-            double[] testData = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154 }; ;
+            double[] testData = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154 };
             int numofclass = 2;
             int K = 1;
             KNNClassifier kNN = new KNNClassifier(); 
 
-            kNN.Classifier(testData, trainData, numofclass, K);
+            int sequence = kNN.Classifier(testData, trainData, numofclass, K);
 
+            if (sequence == 0)
+            {
+                Console.WriteLine("Even");
+            
+            }
+
+            else
+            {
+                Console.WriteLine("odd");   
+
+             }
 
 
 
