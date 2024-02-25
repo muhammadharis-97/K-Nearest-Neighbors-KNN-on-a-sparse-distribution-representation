@@ -1,4 +1,5 @@
-﻿using NeoCortexEntities.NeuroVisualizer;
+﻿//Global Variable
+using NeoCortexEntities.NeuroVisualizer;
 using System;
 using System.Collections.Generic;
 using System.Data;

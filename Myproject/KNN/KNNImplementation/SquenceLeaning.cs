@@ -66,7 +66,7 @@ namespace NeoCortexApiSample
                 { "MaxVal", max}
             };
 
-            EncoderBase encoder = new ScalarEncoder(settings);
+            EncoderBase encoder = new NeoCortexApi.Encoders.ScalarEncoder(settings);
 
             // not stable with 2048 cols 25 cells per column and 0.02 * numColumns synapses on segment.
             // Stable with permanence decrement 0.25/ increment 0.15 and ActivationThreshold 25.

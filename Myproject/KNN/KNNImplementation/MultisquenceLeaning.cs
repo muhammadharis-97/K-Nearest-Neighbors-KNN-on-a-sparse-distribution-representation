@@ -70,7 +70,7 @@ namespace NeoCortexApiSample
                 { "MaxVal", max}
             };
 
-            EncoderBase encoder = new ScalarEncoder(settings);
+            EncoderBase encoder = new NeoCortexApi.Encoders.ScalarEncoder(settings);
 
             return RunExperiment(inputBits, cfg, encoder, sequences);
         }
