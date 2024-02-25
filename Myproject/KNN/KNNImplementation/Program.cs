@@ -1,4 +1,5 @@
 ﻿//Global Variable
+using KNNImplementation;
 using NeoCortexApi;
 using NeoCortexApi.Encoders;
 using System;
@@ -34,9 +35,11 @@ namespace NeoCortexApiSample
             string Sdrlistname = "Even";
             string sdrlistname1 = "odd";
 
+            Dictionary<double[], string> dict = new Dictionary<double[], string>();
 
+            KNNClassifier kNNClassifier = new KNNClassifier();
 
-
+            
 
 
 
