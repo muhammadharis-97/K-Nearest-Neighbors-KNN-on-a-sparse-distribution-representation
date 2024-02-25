@@ -11,17 +11,10 @@ namespace KNNImplementation
 {
     public interface IClassifier
     {
-        public class KNNClassifier
-         {
+     
+        public int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k);
 
-
-         }
-
-        public class IndexAndDistance
-        { 
         
-        
-        }
 
     }
 }

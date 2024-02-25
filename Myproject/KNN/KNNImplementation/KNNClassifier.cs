@@ -14,6 +14,31 @@ namespace KNNImplementation
     public class KNNClassifier : IClassifier
     {
 
+
+        /// <summary>
+        /// Dictionary used to make a dataset of SDR Value of the squence and the variable name of the Squence 
+        /// </summary>
+        /// <param name="sdrdata"></param>
+        /// <param name="sdrdata1"></param>
+        /// <param name="sdrlistname"></param>
+        /// <param name="sdrlist1name"></param>
+        /// <returns></returns>
+
+        static Dictionary<double[], string> Loaddata(double[] sdrdata, double[] sdrdata1, string sdrlistname, string sdrlist1name)
+        {
+            Dictionary<double[], string> dict = new Dictionary<double[], string>();
+
+            ///Dictionary<double[], string> dict2 = new Dictionary<double[], string>();
+
+            dict.Add(sdrdata, sdrlistname);
+            dict.Add(sdrdata1, sdrlist1name);
+
+            ///Console.WriteLine(dict);
+            return dict;
+        }
+
+
+
         /// <summary>
         /// Distance Calculation between Known SDR with unknown SDR to see weather the SDR is nearest to unknown SDR 
         /// </summary>
@@ -106,10 +131,10 @@ namespace KNNImplementation
         }
 
         /// <summary>
-        /// Comparing index of Sdr training data with the distance computed between with test SDR and Train SDR at given Index
+        /// Comparing Class to compare index of Sdr training data with the distance computed between with test SDR and Train SDR at given Index
         /// </summary>
 
-        public class IndexAndDistance : IClassifier
+        public class IndexAndDistance
         {
             public int idx;  // index of a training item
             public double dist;  // distance to unknown
