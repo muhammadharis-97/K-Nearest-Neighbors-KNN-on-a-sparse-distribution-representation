@@ -30,23 +30,13 @@ namespace NeoCortexApiSample
 
             sdrdata = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154 };
             sdrdata1 = new double[] { 8443, 8737, 9286, 9412, 9562, 10052, 10115, 10149, 10227, 10416, 10443, 10612, 10687, 10760, 10796, 10996, 11165, 11214, 11298, 11311 };
-            string sdrlistname = "Even";
+            
+            string Sdrlistname = "Even";
             string sdrlistname1 = "odd";
 
 
 
-            static Dictionary<double[], string> Loaddata(double [] sdrdata, double [] sdrdata1, string sdrlistname, string sdrlist1name)
-            {
-                Dictionary<double[], string> dict = new Dictionary<double[], string>();
 
-                ///Dictionary<double[], string> dict2 = new Dictionary<double[], string>();
-
-                dict.Add(sdrdata, sdrlistname);
-                dict.Add(sdrdata1, sdrlist1name);
-
-                ///Console.WriteLine(dict);
-                return dict;
-            }
 
 
 
