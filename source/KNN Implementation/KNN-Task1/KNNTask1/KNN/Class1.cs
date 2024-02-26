@@ -34,12 +34,27 @@ namespace KNN
         }
 
 
+        // This method calculates the Euclidean distance between two points in n-dimensional space.
         static double Distance(double[] unknown, double[] data)
         {
+            // Initialize a variable to store the sum of squared differences
             double sum = 0.0;
+
+            // Loop through each dimension (each element in the arrays)
             for (int i = 0; i < unknown.Length; ++i)
-                sum += (unknown[i] - data[i]) * (unknown[i] - data[i]);
-            return Math.Sqrt(sum);
+            {
+                // Calculate the squared difference between corresponding elements
+                double differenceSquared = (unknown[i] - data[i]) * (unknown[i] - data[i]);
+
+                // Add the squared difference to the sum
+                sum += differenceSquared;
+            }
+
+            // Take the square root of the sum to get the Euclidean distance
+            double distance = Math.Sqrt(sum);
+
+            // Return the calculated distance
+            return distance;
         }
 
         static int Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)
