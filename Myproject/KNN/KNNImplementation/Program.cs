@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 using static NeoCortexApiSample.MultiSequenceLearning;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -29,25 +30,20 @@ namespace NeoCortexApiSample
             
             /// loading dataset SDR value and Sequence list reference name
             /// 
-            double[][] trainData = KNNDataset();
-            double[] testData = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154 };
-            int numofclass = 2;
+            double[][] trainData = SDRdataset();
+            double[] testData = new double[] { 240, 242, 257, 266, 273, 313, 321, 335, 338, 344, 364, 386, 389, 395, 398, 411, 427, 430, 437, 444 };
+            int numofclass = 9;
+            
             int K = 1;
+            Console.WriteLine(" Value of K is equal to 1");
             KNNClassifier kNN = new KNNClassifier(); 
 
             int sequence = kNN.Classifier(testData, trainData, numofclass, K);
 
-            if (sequence == 0)
-            {
-                Console.WriteLine("Even");
             
-            }
-
-            else
-            {
-                Console.WriteLine("odd");   
-
-             }
+            Console.WriteLine("Predicted class ", sequence);
+            
+            
 
 
 
@@ -74,28 +70,26 @@ namespace NeoCortexApiSample
         ///  Dataset of SDR values extracted from the sequence of even and odd set of numbers
         /// </summary>
         /// <returns></returns>
-        static double[][] KNNDataset()
+       
+        static double[][] SDRdataset()
         {
 
-            double[][] data = new double[10][];
-            data[0] = new double[] { 8209, 8316, 8442, 9292, 9421, 9553, 9662, 9811, 10050, 10135, 10343, 10351, 10375, 10422, 10437, 10465, 10618, 10770, 10981, 11154, 0 };
-            data[1] = new double[] { 8443, 8737, 9286, 9412, 9562, 10052, 10115, 10149, 10227, 10416, 10443, 10612, 10687, 10760, 10796, 10996, 11165, 11214, 11298, 11311, 1 };
-
-            //data[0] = new double[] { 7, 18, 24, 29, 43, 46, 59, 62, 65, 70, 95, 102, 118, 146, 148, 155, 953, 960, 982, 1012, 0 };
-            //data[1] = new double[] { 25, 31, 44, 48, 49, 52, 65, 71, 87, 88, 90, 95, 100, 110, 111, 115, 128, 137, 176, 188, 1 };
-            //data[2] = new double[] { 118, 123, 127, 156, 160, 201, 212, 218, 219, 225, 229, 232, 235, 236, 242, 243, 253, 286, 310, 340, 2 };
-            //data[3] = new double[] { 240, 242, 257, 266, 273, 313, 321, 335, 338, 344, 364, 386, 389, 395, 398, 411, 427, 430, 437, 444, 3 };
-            //data[4] = new double[] { 302, 314, 324, 327, 340, 345, 350, 362, 390, 400, 425, 431, 435, 442, 446, 466, 498, 499, 506, 518, 4 };
-            //data[5] = new double[] { 393, 405, 428, 429, 433, 434, 436, 445, 454, 457, 460, 471, 504, 540, 568, 585, 586, 615, 616, 624, 5 };
-            //data[6] = new double[] { 483, 487, 500, 509, 510, 515, 519, 529, 533, 556, 577, 594, 597, 601, 651, 657, 665, 667, 668, 726, 6 };
-            //data[7] = new double[] { 579, 587, 595, 607, 617, 633, 635, 637, 641, 654, 661, 664, 677, 701, 711, 725, 735, 755, 788, 814, 7 };
-            //data[8] = new double[] { 676, 691, 700, 707, 723, 732, 738, 748, 753, 758, 762, 767, 778, 786, 799, 806, 825, 848, 854, 916, 8 };
-            //data[9] = new double[] { 772, 779, 780, 800, 810, 811, 812, 826, 830, 853, 861, 878, 886, 889, 891, 897, 954, 957, 960, 1007, 9 };
-            return data;
+                double[][] data = new double[10][];
+                data[0] = new double[] { 7, 18, 24, 29, 43, 46, 59, 62, 65, 70, 95, 102, 118, 146, 148, 155, 953, 960, 982, 1012, 0 };
+                data[1] = new double[] { 25, 31, 44, 48, 49, 52, 65, 71, 87, 88, 90, 95, 100, 110, 111, 115, 128, 137, 176, 188, 1 };
+                data[2] = new double[] { 118, 123, 127, 156, 160, 201, 212, 218, 219, 225, 229, 232, 235, 236, 242, 243, 253, 286, 310, 340, 2 };
+                data[3] = new double[] { 240, 242, 257, 266, 273, 313, 321, 335, 338, 344, 364, 386, 389, 395, 398, 411, 427, 430, 437, 444, 3 };
+                data[4] = new double[] { 302, 314, 324, 327, 340, 345, 350, 362, 390, 400, 425, 431, 435, 442, 446, 466, 498, 499, 506, 518, 4 };
+                data[5] = new double[] { 393, 405, 428, 429, 433, 434, 436, 445, 454, 457, 460, 471, 504, 540, 568, 585, 586, 615, 616, 624, 5 };
+                data[6] = new double[] { 483, 487, 500, 509, 510, 515, 519, 529, 533, 556, 577, 594, 597, 601, 651, 657, 665, 667, 668, 726, 6 };
+                data[7] = new double[] { 579, 587, 595, 607, 617, 633, 635, 637, 641, 654, 661, 664, 677, 701, 711, 725, 735, 755, 788, 814, 7 };
+                data[8] = new double[] { 676, 691, 700, 707, 723, 732, 738, 748, 753, 758, 762, 767, 778, 786, 799, 806, 825, 848, 854, 916, 8 };
+                data[9] = new double[] { 772, 779, 780, 800, 810, 811, 812, 826, 830, 853, 861, 878, 886, 889, 891, 897, 954, 957, 960, 1007, 9 };
+                return data;
         }
 
 
-        private static void RunMultiSimpleSequenceLearningExperiment()
+            private static void RunMultiSimpleSequenceLearningExperiment()
         {
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
             // This sequence has a difference of 3 between each number. First Number starting from 1

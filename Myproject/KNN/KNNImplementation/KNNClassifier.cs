@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
+
 namespace KNNImplementation
 {
 
@@ -23,14 +24,16 @@ namespace KNNImplementation
         /// <param name="sdrdata"></param>
         /// <returns></returns>
 
-        static double Distance(double[] unknownSDR, double[] sdrdata)
+        static double Distance(double[] unknownSDR, double[] Sdrdata)
         {
             double sum = 0.0;
 
             for (int i = 0; i < unknownSDR.Length; ++i)
             {
-                double difference = unknownSDR[i] - sdrdata[i];
+                double difference = unknownSDR[i] - Sdrdata[i];
+                
                 double squaredDifference = difference * difference;
+            
                 sum += squaredDifference;
             }
 
@@ -49,23 +52,47 @@ namespace KNNImplementation
         /// <returns></returns>
         static int Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)
         {
-            int[] votes = new int[numClasses];  // One cell per class
+            // Array to store the number of votes for each class
+            int[] votes = new int[numClasses];
+
+            // Initialize votes to zero for each class
+            for (int i = 0; i < numClasses; ++i)
+            {
+                votes[i] = 0;
+            }
+
+            // Loop through the first k neighbors
             for (int i = 0; i < k; ++i)
-            {       // Just first k
-                int idx = info[i].idx;            // Which train item
-                int c = (int)trainData[idx][20];   // Class in last cell
+            {
+                // Get the index of the i-th neighbor
+                int idx = info[i].idx;
+
+                // Determine the class label of the i-th neighbor
+                int c = (int)trainData[idx][20];
+
+                // Increment the vote count for the corresponding class
                 ++votes[c];
             }
+
+            // Variables to keep track of the class with the most votes
             int mostVotes = 0;
+            
             int classWithMostVotes = 0;
+
+            // Loop through each class
             for (int j = 0; j < numClasses; ++j)
             {
+                // Check if the current class has more votes than the previous maximum
                 if (votes[j] > mostVotes)
                 {
+                    // Update the mostVotes and classWithMostVotes variables
                     mostVotes = votes[j];
+                   
                     classWithMostVotes = j;
                 }
             }
+
+            // Return the class label with the most votes
             return classWithMostVotes;
         }
 
@@ -86,19 +113,23 @@ namespace KNNImplementation
         public int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k)
         {
             int n = Sdrdata.Length;
+            
             IndexAndDistance[] info = new IndexAndDistance[n];
+            
             for (int i = 0; i < n; i++)
             {
                 IndexAndDistance curr = new IndexAndDistance();
+                
                 double dist = Distance(unknownSDR, Sdrdata[i]);
+                
                 curr.idx = i;
+                
                 curr.dist = dist;
+                
                 info[i] = curr;
 
             }
             Array.Sort(info);  // sort by distance
-
-
 
 
             int result = Vote(info, Sdrdata, numofclass, k);
@@ -111,14 +142,17 @@ namespace KNNImplementation
         /// Comparing Class to compare index of Sdr training data with the distance computed between with test SDR and Train SDR at given Index
         /// </summary>
 
-        public class IndexAndDistance
+        public class IndexAndDistance : IComparable<IndexAndDistance>
         {
             public int idx;  // index of a training item
+
             public double dist;  // distance to unknown
             public int CompareTo(IndexAndDistance other)
             {
                 if (this.dist < other.dist) return -1;
+            
                 else if (this.dist > other.dist) return +1;
+                
                 else return 0;
             }
 
