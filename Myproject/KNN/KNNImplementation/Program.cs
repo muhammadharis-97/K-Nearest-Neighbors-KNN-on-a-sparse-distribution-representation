@@ -138,12 +138,6 @@ namespace NeoCortexApiSample
             sequences.Add("S1", new List<double>(new double[] { 21, 25, 29 }));
 
 
-
-
-
-
-
-
             /*
             // This sequence has a difference of 3 between each number. First Number starting from 1
             sequences.Add("S1", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14 }));
