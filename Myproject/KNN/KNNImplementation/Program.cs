@@ -135,7 +135,7 @@ namespace NeoCortexApiSample
             sequences.Add("S5", new List<double>(new double[] { 17, 19, 23 }));
 
             // the sequence has prime number set containing value  21, 25, 29 
-            sequences.Add("S1", new List<double>(new double[] { 21, 25, 29 }));
+            sequences.Add("S6", new List<double>(new double[] { 21, 25, 29 }));
 
 
             /*
