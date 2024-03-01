@@ -24,7 +24,7 @@ namespace NeoCortexApiSample
         
         static void Main(string[] args)
         {
-            Console.WriteLine("Begin with KNN Classification");
+            //Console.WriteLine("Begin with KNN Classification");
 
             
             /*
