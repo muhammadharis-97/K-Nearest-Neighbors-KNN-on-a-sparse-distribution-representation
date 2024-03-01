@@ -112,26 +112,57 @@ namespace NeoCortexApiSample
 
 
             private static void RunMultiSimpleSequenceLearningExperiment()
-        {
+        { 
+            
+           
+            
+
+            
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
+            // the sequence has prime number set containing value  2, 3, 5
+            sequences.Add("S1", new List<double>(new double[] { 2, 3, 5}));
+
+            // the sequence has not prime number set containing value  4, 6, 9 
+            sequences.Add("S2", new List<double>(new double[] { 4, 6, 9 }));
+
+            // the sequence has prime number set containing value 7, 11, 13 
+            sequences.Add("S3", new List<double>(new double[] { 7, 11, 13 }));
+
+            // the sequence has not prime number set containing value  10, 15, 20 
+            sequences.Add("S4", new List<double>(new double[] { 10, 15, 20 }));
+
+            // the sequence has prime number set containing value  17, 19, 23 
+            sequences.Add("S5", new List<double>(new double[] { 17, 19, 23 }));
+
+            // the sequence has prime number set containing value  21, 25, 29 
+            sequences.Add("S1", new List<double>(new double[] { 21, 25, 29 }));
+
+
+
+
+
+
+
+
+            /*
             // This sequence has a difference of 3 between each number. First Number starting from 1
             sequences.Add("S1", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14 }));
             // This sequence has a difference of 5 between each number. First Number starting from 3
             sequences.Add("S2", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15 }));
             //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
-            sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7}));
+            sequences.Add("S3", new List<double>(new double[] { }));
             //The sequence is even Number. First Number Starting from 0
-            //sequences.Add("S4", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18}));
+            sequences.Add("S4", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18}));
             
             //The sequence is odd Number. First Number Starting from 0
-            // sequences.Add("S5", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19}));
+            sequences.Add("S5", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19}));
             //This Sequence is of Triangular Number, generated from a pattern of dots that form a triangle.
              sequences.Add("S6", new List<double>(new double[] { 1, 3, 6, 10, 15, 21, 28, 36, 45}));
             //They are the squares of whole numbers
-            // sequences.Add("S7", new List<double>(new double[] { 0, 1, 4, 9, 16, 25, 36, 49, 64, 81}));
+            sequences.Add("S7", new List<double>(new double[] { 0, 1, 4, 9, 16, 25, 36, 49, 64, 81}));
             // The sequence is Fibonacci Sequence, found by adding the two numbers before it together.
-            // sequences.Add("S8", new List<double>(new double[] { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34}));
-
+            sequences.Add("S8", new List<double>(new double[] { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34}));
+            */
 
             // Prototype for building the prediction engine.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
