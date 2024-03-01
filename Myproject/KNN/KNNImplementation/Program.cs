@@ -27,41 +27,43 @@ namespace NeoCortexApiSample
             Console.WriteLine("Begin with KNN Classification");
 
             
-            
+            /*
             /// loading dataset SDR value and Sequence list reference name
             /// 
             double[][] trainData = SDRdataset();
             double[] testData = new double[] { 240, 242, 257, 266, 273, 313, 321, 335, 338, 344, 364, 386, 389, 395, 398, 411, 427, 430, 437, 444 };
             int numofclass = 9;
-            
             int K = 1;
-            Console.WriteLine(" Value of K is equal to 1");
-            KNNClassifier kNN = new KNNClassifier(); 
+            */
+            
+            
+            //Console.WriteLine(" Value of K is equal to 1");
+            //KNNClassifier kNN = new KNNClassifier(); 
 
-            int sequence = kNN.Classifier(testData, trainData, numofclass, K);
+            //int sequence = kNN.Classifier(testData, trainData, numofclass, K);
 
             
-            Console.WriteLine("Predicted class ");
-            Console.WriteLine(sequence);
+            //Console.WriteLine("Predicted class ");
+            //Console.WriteLine(sequence);
+            
+
+            //K = 2;
+            //Console.WriteLine(" Value of K is equal to 2");
+            //sequence = kNN.Classifier(testData, trainData, numofclass, K);
+
+            //Console.WriteLine("Predicted class ");
+            //Console.WriteLine(sequence);
+            
 
 
-            K = 2;
-            Console.WriteLine(" Value of K is equal to 2");
-            sequence = kNN.Classifier(testData, trainData, numofclass, K);
+            //K = 3;
+            //Console.WriteLine(" Value of K is equal to 3");
 
-            Console.WriteLine("Predicted class ");
-            Console.WriteLine(sequence);
+            //sequence = kNN.Classifier(testData, trainData, numofclass, K);
 
 
-
-            K = 3;
-            Console.WriteLine(" Value of K is equal to 3");
-
-            sequence = kNN.Classifier(testData, trainData, numofclass, K);
-
-
-            Console.WriteLine("Predicted class ");
-            Console.WriteLine(sequence);
+            //Console.WriteLine("Predicted class ");
+            //Console.WriteLine(sequence);
 
 
 
@@ -80,7 +82,7 @@ namespace NeoCortexApiSample
             //GridCellSamples gridCells = new GridCellSamples();
             //gridCells.Run();
 
-            //RunMultiSimpleSequenceLearningExperiment();
+            RunMultiSimpleSequenceLearningExperiment();
 
 
             //RunMultiSequenceLearningExperiment();
@@ -117,13 +119,14 @@ namespace NeoCortexApiSample
             // This sequence has a difference of 5 between each number. First Number starting from 3
             sequences.Add("S2", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15 }));
             //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
-            //sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7}));
+            sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7}));
             //The sequence is even Number. First Number Starting from 0
-            // sequences.Add("S4", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18}));
+            //sequences.Add("S4", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18}));
+            
             //The sequence is odd Number. First Number Starting from 0
             // sequences.Add("S5", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19}));
             //This Sequence is of Triangular Number, generated from a pattern of dots that form a triangle.
-            // sequences.Add("S6", new List<double>(new double[] { 1, 3, 6, 10, 15, 21, 28, 36, 45, 55}));
+             sequences.Add("S6", new List<double>(new double[] { 1, 3, 6, 10, 15, 21, 28, 36, 45}));
             //They are the squares of whole numbers
             // sequences.Add("S7", new List<double>(new double[] { 0, 1, 4, 9, 16, 25, 36, 49, 64, 81}));
             // The sequence is Fibonacci Sequence, found by adding the two numbers before it together.
