@@ -119,6 +119,7 @@ namespace NeoCortexApiSample
 
             
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
+            /*
             // the sequence has prime number set containing value  2, 3, 5
             sequences.Add("S1", new List<double>(new double[] { 2, 3, 5}));
 
@@ -136,6 +137,14 @@ namespace NeoCortexApiSample
 
             // the sequence has prime number set containing value  21, 25, 29 
             sequences.Add("S6", new List<double>(new double[] { 21, 25, 29 }));
+            */
+
+
+            // the sequence has prime number set containing value  2, 3, 5
+            sequences.Add("S1", new List<double>(new double[] { 2, 3, 7 }));
+
+            // the sequence has not prime number set containing value  4, 6, 9 
+            sequences.Add("S2", new List<double>(new double[] { 10, 15, 21 }));
 
 
             /*
