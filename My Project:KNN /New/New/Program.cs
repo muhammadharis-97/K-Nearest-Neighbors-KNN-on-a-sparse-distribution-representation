@@ -36,12 +36,13 @@ namespace NeoCortexApiSample
             int numofclass = 9;
 
             int K = 1;
-            Console.WriteLine(" Value of K is equal to 1");
-            KNNClassifier kNN = new KNNClassifier();
+
+            KNNClassifier kNN = new KNNClassifier(trainData);
+
 
             int sequence = kNN.Classifier(testData, trainData, numofclass, K);
 
-
+            Console.WriteLine(" Value of K is equal to 1");
             Console.WriteLine("Predicted class ");
             Console.WriteLine(sequence);
 

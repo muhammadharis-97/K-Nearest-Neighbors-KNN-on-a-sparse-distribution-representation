@@ -16,6 +16,26 @@ namespace KNNImplementation
     public class KNNClassifier : IClassifier
     {
 
+        //Constructor for Unit Test
+        public KNNClassifier(double[][] trainData)
+        {
+
+
+            //double[] testData = new double[] { 140, 142, 158, 166, 173, 211, 221, 235, 238, 242, 264, 286, 281, 295, 298, 311, 327, 330, 337, 344 };
+            double[] testData = new double[] { 240, 242, 257, 266, 273, 313, 321, 335, 338, 344, 364, 386, 389, 395, 398, 411, 427, 430, 437, 444 };
+
+            int numofclass = 9;
+
+            int K = 7;
+            int sequence = Classifier(testData, trainData, numofclass, K);
+            Console.WriteLine(" Value of K is equal to ",K);
+            Console.WriteLine("Predicted class ");
+            Console.WriteLine(sequence);
+
+
+        }
+
+
 
         /// <summary>
         /// Distance Calculation between Known SDR with unknown SDR to see weather the SDR point is nearest to unknown SDR 
