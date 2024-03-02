@@ -17,20 +17,41 @@ namespace KNNImplementation
     {
 
         //Constructor for Unit Test
-        public KNNClassifier(double[][] trainData)
+        public KNNClassifier(double[][] sdrdata)
         {
-
-
-            //double[] testData = new double[] { 140, 142, 158, 166, 173, 211, 221, 235, 238, 242, 264, 286, 281, 295, 298, 311, 327, 330, 337, 344 };
-            double[] testData = new double[] { 240, 242, 257, 266, 273, 313, 321, 335, 338, 344, 364, 386, 389, 395, 398, 411, 427, 430, 437, 444 };
-
+            Console.WriteLine("Unit Test started") ;
+            double[] unknownSDR = new double[] { 579, 587, 595, 607, 617, 633, 635, 637, 641, 654, 661, 664, 677, 701, 711, 725, 735, 755, 788, 814 };
             int numofclass = 9;
 
-            int K = 7;
-            int sequence = Classifier(testData, trainData, numofclass, K);
-            Console.WriteLine(" Value of K is equal to ",K);
+
+            //Distance
+            int n = sdrdata.Length;
+            IndexAndDistance[] info = new IndexAndDistance[n];
+            for (int i = 0; i < n; i++)
+            {
+                IndexAndDistance curr = new IndexAndDistance();
+
+                double dist = Distance(unknownSDR, sdrdata[i]);
+
+                curr.idx = i;
+                curr.dist = dist;
+                info[i] = curr;
+
+                Console.WriteLine(dist);
+            }
+            Array.Sort(info);
+
+
+
+
+
+            //Classifier
+            int K = 1;
+            int sequence = Classifier(unknownSDR, sdrdata, numofclass, K);
+            Console.WriteLine(" Value of K is equal to 1");
             Console.WriteLine("Predicted class ");
             Console.WriteLine(sequence);
+            Console.WriteLine("Unit Test Ended");
 
 
         }
