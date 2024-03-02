@@ -76,13 +76,13 @@ namespace NeoCortexApiSample
 
             //
             // Starts experiment that demonstrates how to learn spatial patterns.
-            //SequenceLearning experiment = new SequenceLearning();
-            //experiment.Run();
+            SequenceLearning experiment = new SequenceLearning();
+            experiment.Run();
 
             //GridCellSamples gridCells = new GridCellSamples();
             //gridCells.Run();
 
-            RunMultiSimpleSequenceLearningExperiment();
+           // RunMultiSimpleSequenceLearningExperiment();
 
 
             //RunMultiSequenceLearningExperiment();
