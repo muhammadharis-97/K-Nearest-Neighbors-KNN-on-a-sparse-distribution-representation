@@ -26,15 +26,17 @@ namespace NeoCortexApiSample
         {
             //Console.WriteLine("Begin with KNN Classification");
 
- /*           
+          
             
             /// loading dataset SDR value and Sequence list reference name
             /// 
             double[][] trainData = SDRdataset();
             double[] testData = new double[] { 7816, 8229, 8674, 8707, 8946, 9400, 9493, 9543, 9562, 9658, 9695, 9752, 9821, 9912, 9978, 10209, 10300, 10607, 10658, 11084 };
             double[] testData1 = new double[] { 8673, 8700, 9814, 9998, 10129, 10193, 10315, 10487, 10618, 10661, 10732, 10772, 10936, 10955, 11079, 11285, 11392, 11458, 11475, 11532 };
+            double[] testData2 = new double[] { 8624, 8915, 9491, 10222, 10399, 10580, 10631, 10711, 10821, 10863, 10888, 10916, 10962, 11004, 11074, 11129, 11233, 11257, 11689, 11703, };
 
-            int numofclass = 2;
+
+            int numofclass = 3;
             int K = 1;
             
             
@@ -44,23 +46,36 @@ namespace NeoCortexApiSample
 
             int sequence = kNN.Classifier(testData, trainData, numofclass, K);
             int sequence1 = kNN.Classifier(testData1, trainData, numofclass, K);
+            int sequence2 = kNN.Classifier(testData2, trainData, numofclass, K);
 
 
             Console.WriteLine("Predicted class for first test data ");
             if (sequence == 0)
                 Console.WriteLine("Even");
-            else
+            else if (sequence == 1)
                 Console.WriteLine("Odd");
+            else
+                Console.WriteLine("Neither Odd or Even");
 
 
             Console.WriteLine("Predicted class for second test data ");
             if (sequence1 == 0)
                 Console.WriteLine("Even");
-            else
+            else if (sequence == 1)
                 Console.WriteLine("Odd");
+            else
+                Console.WriteLine("Neither Odd or Even");
 
 
-*/
+            Console.WriteLine("Predicted class for third test data ");
+            if (sequence2 == 0)
+                Console.WriteLine("Even");
+            else if (sequence == 1)
+                Console.WriteLine("Odd");
+            else
+                Console.WriteLine("Neither Odd or Even");
+
+
             //K = 2;
             //Console.WriteLine(" Value of K is equal to 2");
             //sequence = kNN.Classifier(testData, trainData, numofclass, K);
@@ -99,7 +114,7 @@ namespace NeoCortexApiSample
             // RunMultiSimpleSequenceLearningExperiment();
 
 
-            RunMultiSequenceLearningExperiment();
+            //RunMultiSequenceLearningExperiment();
         }
 
         /// <summary>
@@ -110,8 +125,10 @@ namespace NeoCortexApiSample
         static double[][] SDRdataset()
         {
             double[][] data = new double[2][];
-            data[0] = new double[] { 7676, 8328, 8437, 9266, 9318, 9354, 9393, 9470, 9501, 9827, 9941, 10087, 10109, 10273, 10409, 10441, 10496, 10767, 10860, 10998, 0 };
-            data[1] = new double[] { 8985, 9354, 9501, 9941, 10109, 10131, 10239, 10273, 10409, 10441, 10496, 10674, 10692, 10710, 10767, 10860, 10998, 11281, 11349, 11453, 1 };
+            data[0] = new double[] { 8004, 8398, 8435, 8605, 9834, 10016, 10052, 10148, 10319, 10351, 10393, 10423, 10428, 10471, 10546, 10593, 10788, 10816, 10895, 10984, 0 };
+            data[1] = new double[] { 9825, 10003, 10027, 10126, 10204, 10304, 10364, 10398, 10473, 10502, 10534, 10578, 10787, 10813, 10896, 10988, 11064, 11234, 11255, 11406, 1 };
+            data[1] = new double[] { 10012, 10028, 10203, 10323, 10354, 10392, 10455, 10516, 10582, 10796, 10812, 10854, 10887, 11007, 11026, 11057, 11228, 11267, 11414, 11541, 2 };
+
 
             return data;
         }
