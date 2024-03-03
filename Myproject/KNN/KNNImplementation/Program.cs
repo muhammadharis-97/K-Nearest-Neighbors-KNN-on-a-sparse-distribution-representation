@@ -196,7 +196,7 @@ namespace NeoCortexApiSample
             // sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
 
             // This sequence is even number First Number starting from 2
-
+/*
             sequences.Add("S1", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14 }));
 
             // This sequence is odd number First Number starting from 3
@@ -204,18 +204,21 @@ namespace NeoCortexApiSample
             sequences.Add("S2", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
 
             // this sequence is neither odd or nor even
-            sequences.Add("S2", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
+            sequences.Add("S3", new List<double>(new double[] { 1.5, 3.4, 5.8, 9.1, 12.5, 14.6, 15.8 }));
+*/
 
-/*
             // unclassified SDR
 
-            // The sequence is even number  
+            //The sequence is even number  
             sequences.Add("S1", new List<double>(new double[] { 2, 6, 12, 14}));
 
             // The sequence is even number  
             sequences.Add("S2", new List<double>(new double[] { 3, 9, 13, 15}));
 
-*/
+            // The Sequence is neither even nor odd
+            sequences.Add("S3", new List<double>(new double[] { 1.7, 3.2, 9.4, 15.6 }));
+
+
             //
             // Prototype for building the prediction engine.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
