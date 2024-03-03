@@ -29,6 +29,9 @@ namespace NeoCortexApiSample
 
 
 
+
+
+
             /// loading dataset SDR value and Sequence list reference name
             /// 
             double[][] trainData = SDRdataset();
@@ -93,10 +96,65 @@ namespace NeoCortexApiSample
         /// </summary>
         /// <returns></returns>
 
+
+        static int[] tointarray(string value, char sep)
+        {
+            string[] sa = value.Split(sep);
+            int[] ia = new int[sa.Length];
+            for (int i = 0; i < ia.Length; ++i)
+            {
+                int j;
+                string s = sa[i];
+                if (int.TryParse(s, out j))
+                {
+                    ia[i] = j;
+                }
+            }
+            return ia;
+        }
+
+
         static double[][] SDRdataset()
         {
 
             double[][] data = new double[10][];
+
+            string filePath = @"/Users/zakaahmedchishti/Projects/New/New/train_data.txt";
+
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine("File does not exist :{0} ", filePath);
+            }
+            else
+            {
+                string[] textFromFile = File.ReadAllLines(filePath);
+                int i= 0;
+                foreach (string line in textFromFile)
+                {
+                   
+                    string[] words = line.Split(',');
+
+
+
+                    foreach (var word in words)
+                    {
+                        double temp = Convert.ToDouble(word);
+                        double temp1 = temp;
+                        System.Console.WriteLine($"<{temp1}>");
+                        data[i] = new double[] { temp1 };
+                    }
+                    System.Console.WriteLine($"<{data[i]}>");
+
+
+
+
+
+                }
+            }
+
+
+
+
             data[0] = new double[] { 7, 18, 24, 29, 43, 46, 59, 62, 65, 70, 95, 102, 118, 146, 148, 155, 953, 960, 982, 1012, 0 };
             data[1] = new double[] { 25, 31, 44, 48, 49, 52, 65, 71, 87, 88, 90, 95, 100, 110, 111, 115, 128, 137, 176, 188, 1 };
             data[2] = new double[] { 118, 123, 127, 156, 160, 201, 212, 218, 219, 225, 229, 232, 235, 236, 242, 243, 253, 286, 310, 340, 2 };
@@ -107,6 +165,8 @@ namespace NeoCortexApiSample
             data[7] = new double[] { 579, 587, 595, 607, 617, 633, 635, 637, 641, 654, 661, 664, 677, 701, 711, 725, 735, 755, 788, 814, 7 };
             data[8] = new double[] { 676, 691, 700, 707, 723, 732, 738, 748, 753, 758, 762, 767, 778, 786, 799, 806, 825, 848, 854, 916, 8 };
             data[9] = new double[] { 772, 779, 780, 800, 810, 811, 812, 826, 830, 853, 861, 878, 886, 889, 891, 897, 954, 957, 960, 1007, 9 };
+
+
             return data;
         }
 
