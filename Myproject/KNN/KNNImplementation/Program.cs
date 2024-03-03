@@ -26,7 +26,7 @@ namespace NeoCortexApiSample
         {
             //Console.WriteLine("Begin with KNN Classification");
 
-            
+ /*           
             
             /// loading dataset SDR value and Sequence list reference name
             /// 
@@ -42,16 +42,16 @@ namespace NeoCortexApiSample
             Console.WriteLine(" Value of K is equal to 1");
             KNNClassifier kNN = new KNNClassifier(); 
 
-            //int sequence = kNN.Classifier(testData, trainData, numofclass, K);
+            int sequence = kNN.Classifier(testData, trainData, numofclass, K);
             int sequence1 = kNN.Classifier(testData1, trainData, numofclass, K);
 
-/*
+
             Console.WriteLine("Predicted class for first test data ");
             if (sequence == 0)
                 Console.WriteLine("Even");
             else
                 Console.WriteLine("Odd");
-*/
+
 
             Console.WriteLine("Predicted class for second test data ");
             if (sequence1 == 0)
@@ -60,6 +60,7 @@ namespace NeoCortexApiSample
                 Console.WriteLine("Odd");
 
 
+*/
             //K = 2;
             //Console.WriteLine(" Value of K is equal to 2");
             //sequence = kNN.Classifier(testData, trainData, numofclass, K);
@@ -98,7 +99,7 @@ namespace NeoCortexApiSample
             // RunMultiSimpleSequenceLearningExperiment();
 
 
-           // RunMultiSequenceLearningExperiment();
+            RunMultiSequenceLearningExperiment();
         }
 
         /// <summary>
@@ -196,12 +197,16 @@ namespace NeoCortexApiSample
 
             // This sequence is even number First Number starting from 2
 
-            //sequences.Add("S1", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14 }));
+            sequences.Add("S1", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14 }));
 
             // This sequence is odd number First Number starting from 3
 
-            //sequences.Add("S2", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
-            
+            sequences.Add("S2", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
+
+            // this sequence is neither odd or nor even
+            sequences.Add("S2", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
+
+/*
             // unclassified SDR
 
             // The sequence is even number  
@@ -210,6 +215,7 @@ namespace NeoCortexApiSample
             // The sequence is even number  
             sequences.Add("S2", new List<double>(new double[] { 3, 9, 13, 15}));
 
+*/
             //
             // Prototype for building the prediction engine.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
