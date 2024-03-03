@@ -114,7 +114,7 @@ namespace NeoCortexApiSample
             // RunMultiSimpleSequenceLearningExperiment();
 
 
-            //RunMultiSequenceLearningExperiment();
+            RunMultiSequenceLearningExperiment();
         }
 
         /// <summary>
