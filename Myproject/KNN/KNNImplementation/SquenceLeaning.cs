@@ -52,7 +52,7 @@ namespace NeoCortexApiSample
                 PredictedSegmentDecrement = 0.1,
             };
 
-            double max = 20;
+            double max = 10;
 
             Dictionary<string, object> settings = new Dictionary<string, object>()
             {
@@ -71,7 +71,7 @@ namespace NeoCortexApiSample
             // not stable with 2048 cols 25 cells per column and 0.02 * numColumns synapses on segment.
             // Stable with permanence decrement 0.25/ increment 0.15 and ActivationThreshold 25.
             // With increment=0.2 and decrement 0.3 has taken 15 min and didn't entered the stable state.
-            List<double> inputValues = new List<double>(new double[] { 7.0, 11.0, 13.0});
+            List<double> inputValues = new List<double>(new double[] { 1.0, 2.0, 4.0});
             //List<double> inputValues = new List<double>(new double[] { 6.0, 7.0, 8.0, 9.0, 10.0 });
 
             RunExperiment(inputBits, cfg, encoder, inputValues);
