@@ -32,7 +32,7 @@ namespace NeoCortexApiSample
             /// 
             double[][] trainData = SDRdataset();
             double[] testData = new double[] { 7816, 8229, 8674, 8707, 8946, 9400, 9493, 9543, 9562, 9658, 9695, 9752, 9821, 9912, 9978, 10209, 10300, 10607, 10658, 11084 };
-            double[] testData1 = new double[] { 8673, 8700, 9814, 9998, 10129, 10193, 10315, 10487, 10618, 10661, 10732, 10772, 10936, 10955, 11079, 11285, 11392, 11458, 11475 };
+            double[] testData1 = new double[] { 8673, 8700, 9814, 9998, 10129, 10193, 10315, 10487, 10618, 10661, 10732, 10772, 10936, 10955, 11079, 11285, 11392, 11458, 11475, 11532 };
 
             int numofclass = 2;
             int K = 1;
@@ -42,15 +42,16 @@ namespace NeoCortexApiSample
             Console.WriteLine(" Value of K is equal to 1");
             KNNClassifier kNN = new KNNClassifier(); 
 
-            int sequence = kNN.Classifier(testData, trainData, numofclass, K);
+            //int sequence = kNN.Classifier(testData, trainData, numofclass, K);
             int sequence1 = kNN.Classifier(testData1, trainData, numofclass, K);
 
-
+/*
             Console.WriteLine("Predicted class for first test data ");
             if (sequence == 0)
                 Console.WriteLine("Even");
             else
                 Console.WriteLine("Odd");
+*/
 
             Console.WriteLine("Predicted class for second test data ");
             if (sequence1 == 0)
@@ -97,7 +98,7 @@ namespace NeoCortexApiSample
             // RunMultiSimpleSequenceLearningExperiment();
 
 
-            RunMultiSequenceLearningExperiment();
+           // RunMultiSequenceLearningExperiment();
         }
 
         /// <summary>
@@ -109,7 +110,7 @@ namespace NeoCortexApiSample
         {
             double[][] data = new double[2][];
             data[0] = new double[] { 7676, 8328, 8437, 9266, 9318, 9354, 9393, 9470, 9501, 9827, 9941, 10087, 10109, 10273, 10409, 10441, 10496, 10767, 10860, 10998, 0 };
-            data[1] = new double[] { 8985, 9354, 9501, 9941, 10109, 10131, 10239, 10273, 10409, 10441, 10496, 10674, 10692, 10710, 10767, 10860, 10998, 11281, 11349, 1 };
+            data[1] = new double[] { 8985, 9354, 9501, 9941, 10109, 10131, 10239, 10273, 10409, 10441, 10496, 10674, 10692, 10710, 10767, 10860, 10998, 11281, 11349, 11453, 1 };
 
             return data;
         }
