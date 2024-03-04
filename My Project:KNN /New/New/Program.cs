@@ -11,263 +11,193 @@ using System.Security.Cryptography.X509Certificates;
 using static NeoCortexApiSample.MultiSequenceLearning;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-
 namespace NeoCortexApiSample
 {
     class Program
     {
-        /// <summary>
-        /// This sample shows a typical experiment code for SP and TM.
-        /// You must start this code in debugger to follow the trace.
-        /// and TM.
-        /// </summary>
-        /// <param name="args"></param>
 
+        // Main method to start the program
         static void Main(string[] args)
         {
-            Console.WriteLine("Begin with KNN Classification");
-
-
-
-
-
-
-            /// loading dataset SDR value and Sequence list reference name
-            /// 
-            double[][] trainData = SDRdataset();
-            double[] testData = new double[] { 240, 242, 257, 266, 273, 313, 321, 335, 338, 344, 364, 386, 389, 395, 398, 411, 427, 430, 437, 444 };
-            int numofclass = 9;
-
-            int K = 1;
-
-            KNNClassifier kNN = new KNNClassifier(trainData);
-
-
-            int sequence = kNN.Classifier(testData, trainData, numofclass, K);
-
-            Console.WriteLine(" Value of K is equal to 1");
-            Console.WriteLine("Predicted class ");
-            Console.WriteLine(sequence);
-
-
-            K = 2;
-            Console.WriteLine(" Value of K is equal to 2");
-            sequence = kNN.Classifier(testData, trainData, numofclass, K);
-
-            Console.WriteLine("Predicted class ");
-            Console.WriteLine(sequence);
-
-
-
-            K = 3;
-            Console.WriteLine(" Value of K is equal to 3");
-
-            sequence = kNN.Classifier(testData, trainData, numofclass, K);
-
-
-            Console.WriteLine("Predicted class ");
-            Console.WriteLine(sequence);
-
-
-
-
-
-            //
-            // Starts experiment that demonstrates how to learn spatial patterns.
-            //SpatialPatternLearning experiment = new SpatialPatternLearning();
-            //experiment.Run();
-
-            //
-            // Starts experiment that demonstrates how to learn spatial patterns.
-            //SequenceLearning experiment = new SequenceLearning();
-            //experiment.Run();
-
-            //GridCellSamples gridCells = new GridCellSamples();
-            //gridCells.Run();
-
-            //RunMultiSimpleSequenceLearningExperiment();
-
-
-            //RunMultiSequenceLearningExperiment();
-        }
-
-        /// <summary>
-        ///  Dataset of SDR values extracted from the sequence of even and odd set of numbers
-        /// </summary>
-        /// <returns></returns>
-
-
-        static int[] tointarray(string value, char sep)
-        {
-            string[] sa = value.Split(sep);
-            int[] ia = new int[sa.Length];
-            for (int i = 0; i < ia.Length; ++i)
+            // Loading training data
+            double[][] sdrData = ReadSDRDataFromFile("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/sdr_data.txt");
+            foreach (var dataset in sdrData)
             {
-                int j;
-                string s = sa[i];
-                if (int.TryParse(s, out j))
+                string.Join(", ", dataset);
+            }
+
+            // Getting test datasets
+            double[][] testDatasets = GetTestDatasets("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/test_data.txt");
+            foreach (var dataset in testDatasets)
+            {
+                string.Join(", ", dataset);
+            }
+
+            // Number of classes in the dataset
+            int numofclass = 3;
+
+            // Looping through different values of K
+            for (int k = 1; k <= 3; k++)
+            {
+                Console.WriteLine($"Value of K is equal to {k}");
+                KNNClassifier kNN = new KNNClassifier();
+
+                // Looping through each test dataset
+                foreach (var testData in testDatasets)
                 {
-                    ia[i] = j;
+                    // Classifying the test data using KNN algorithm
+                    int sequence = kNN.Classifier(testData, sdrData, numofclass, k);
+
+                    // Displaying the predicted class for the test data
+                    Console.WriteLine($"Predicted class for test data: {(sequence == 0 ? "Even" : (sequence == 1 ? "Odd" : "Neither Odd nor Even"))}");
                 }
+
+                Console.WriteLine();
             }
-            return ia;
         }
 
-
-        static double[][] SDRdataset()
+        // Method to get test datasets
+        static double[][] GetTestDatasets(string filePath)
         {
+            string[] lines = File.ReadAllLines(filePath);
 
-            double[][] data = new double[10][];
+            double[][] datasets = new double[lines.Length][];
 
-            string filePath = @"/Users/zakaahmedchishti/Projects/New/New/train_data.txt";
-
-            if (!File.Exists(filePath))
+            for (int i = 0; i < lines.Length; i++)
             {
-                Console.WriteLine("File does not exist :{0} ", filePath);
-            }
-            else
-            {
-                string[] textFromFile = File.ReadAllLines(filePath);
-                int i= 0;
-                foreach (string line in textFromFile)
+                string[] values = lines[i].Split(',');
+                datasets[i] = new double[values.Length];
+
+                for (int j = 0; j < values.Length; j++)
                 {
-                   
-                    string[] words = line.Split(',');
-
-
-
-                    foreach (var word in words)
+                    if (!double.TryParse(values[j], out datasets[i][j]))
                     {
-                        double temp = Convert.ToDouble(word);
-                        double temp1 = temp;
-                        System.Console.WriteLine($"<{temp1}>");
-                        data[i] = new double[] { temp1 };
+                        // Handle parsing error
+                        throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
                     }
-                    System.Console.WriteLine($"<{data[i]}>");
-
-
-
-
-
                 }
             }
 
-
-
-
-            data[0] = new double[] { 7, 18, 24, 29, 43, 46, 59, 62, 65, 70, 95, 102, 118, 146, 148, 155, 953, 960, 982, 1012, 0 };
-            data[1] = new double[] { 25, 31, 44, 48, 49, 52, 65, 71, 87, 88, 90, 95, 100, 110, 111, 115, 128, 137, 176, 188, 1 };
-            data[2] = new double[] { 118, 123, 127, 156, 160, 201, 212, 218, 219, 225, 229, 232, 235, 236, 242, 243, 253, 286, 310, 340, 2 };
-            data[3] = new double[] { 240, 242, 257, 266, 273, 313, 321, 335, 338, 344, 364, 386, 389, 395, 398, 411, 427, 430, 437, 444, 3 };
-            data[4] = new double[] { 302, 314, 324, 327, 340, 345, 350, 362, 390, 400, 425, 431, 435, 442, 446, 466, 498, 499, 506, 518, 4 };
-            data[5] = new double[] { 393, 405, 428, 429, 433, 434, 436, 445, 454, 457, 460, 471, 504, 540, 568, 585, 586, 615, 616, 624, 5 };
-            data[6] = new double[] { 483, 487, 500, 509, 510, 515, 519, 529, 533, 556, 577, 594, 597, 601, 651, 657, 665, 667, 668, 726, 6 };
-            data[7] = new double[] { 579, 587, 595, 607, 617, 633, 635, 637, 641, 654, 661, 664, 677, 701, 711, 725, 735, 755, 788, 814, 7 };
-            data[8] = new double[] { 676, 691, 700, 707, 723, 732, 738, 748, 753, 758, 762, 767, 778, 786, 799, 806, 825, 848, 854, 916, 8 };
-            data[9] = new double[] { 772, 779, 780, 800, 810, 811, 812, 826, 830, 853, 861, 878, 886, 889, 891, 897, 954, 957, 960, 1007, 9 };
-
-
-            return data;
+            return datasets;
         }
 
 
+        // Method to get SDR datasets
+        static double[][] ReadSDRDataFromFile(string filePath)
+        {
+            string[] lines = File.ReadAllLines(filePath);
+
+            double[][] sdrData = new double[lines.Length][];
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string[] values = lines[i].Split(',');
+                sdrData[i] = new double[values.Length];
+
+                for (int j = 0; j < values.Length; j++)
+                {
+                    if (!double.TryParse(values[j], out sdrData[i][j]))
+                    {
+                        // Handle parsing error
+                        throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
+                    }
+                }
+            }
+
+            return sdrData;
+        }
+
+
+        /// Runs a multi-sequence learning experiment using simple sequences.
         private static void RunMultiSimpleSequenceLearningExperiment()
         {
+            // Initialize a dictionary to store sequences, where each sequence is represented by a list of doubles.
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
-            // This sequence has a difference of 3 between each number. First Number starting from 1
-            sequences.Add("S1", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14 }));
-            // This sequence has a difference of 5 between each number. First Number starting from 3
-            sequences.Add("S2", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15 }));
-            //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
-            //sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7}));
-            //The sequence is even Number. First Number Starting from 0
-            // sequences.Add("S4", new List<double>(new double[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18}));
-            //The sequence is odd Number. First Number Starting from 0
-            // sequences.Add("S5", new List<double>(new double[] { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19}));
-            //This Sequence is of Triangular Number, generated from a pattern of dots that form a triangle.
-            // sequences.Add("S6", new List<double>(new double[] { 1, 3, 6, 10, 15, 21, 28, 36, 45, 55}));
-            //They are the squares of whole numbers
-            // sequences.Add("S7", new List<double>(new double[] { 0, 1, 4, 9, 16, 25, 36, 49, 64, 81}));
-            // The sequence is Fibonacci Sequence, found by adding the two numbers before it together.
-            // sequences.Add("S8", new List<double>(new double[] { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34}));
 
+            // Define the first sequence (S1) with prime numbers: 2, 3, 7.
+            sequences.Add("S1", new List<double>(new double[] { 2, 3, 7 }));
 
-            // Prototype for building the prediction engine.
+            // Define the second sequence (S2) with non-prime numbers: 10, 15, 21.
+            sequences.Add("S2", new List<double>(new double[] { 10, 15, 21 }));
+
+            // Initialize the multi-sequence learning experiment.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
+
+            // Run the experiment to build the prediction engine.
             var predictor = experiment.Run(sequences);
         }
 
 
         /// <summary>
-        /// This example demonstrates how to learn two sequences and how to use the prediction mechanism.
-        /// First, two sequences are learned.
-        /// Second, three short sequences with three elements each are created und used for prediction. The predictor used by experiment privides to the HTM every element of every predicting sequence.
-        /// The predictor tries to predict the next element.
+        /// Runs a multi-sequence learning experiment using various types of sequences.
         /// </summary>
         private static void RunMultiSequenceLearningExperiment()
         {
+            // Initialize a dictionary to store sequences, where each sequence is represented by a list of doubles.
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
 
-            //sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 0.0, 2.0, 3.0, 4.0, 5.0, 6.0, 5.0, 4.0, 3.0, 7.0, 1.0, 9.0, 12.0, 11.0, 12.0, 13.0, 14.0, 11.0, 12.0, 14.0, 5.0, 7.0, 6.0, 9.0, 3.0, 4.0, 3.0, 4.0, 3.0, 4.0 }));
-            //sequences.Add("S2", new List<double>(new double[] { 0.8, 2.0, 0.0, 3.0, 3.0, 4.0, 5.0, 6.0, 5.0, 7.0, 2.0, 7.0, 1.0, 9.0, 11.0, 11.0, 10.0, 13.0, 14.0, 11.0, 7.0, 6.0, 5.0, 7.0, 6.0, 5.0, 3.0, 2.0, 3.0, 4.0, 3.0, 4.0 }));
+            // Define the first sequence (S1) with even numbers: 2, 4, 6, 8, 10, 12, 14.
+            sequences.Add("S1", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14 }));
 
-            // sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 2.0, 3.0, 4.0, 2.0, 5.0, }));
-            // sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
+            // Define the second sequence (S2) with even numbers: 2, 6, 12, 14.
+            sequences.Add("S2", new List<double>(new double[] { 2, 6, 12, 14 }));
 
-            sequences.Add("S1", new List<double>(new double[] { 2, 4, 7, 10, 13, 16, 19, 22, 25, 28 }));
-            // This sequence has a difference of 5 between each number. First Number starting from 3
-            sequences.Add("S2", new List<double>(new double[] { 3, 8, 13, 18, 23, 28, 33, 38, 43, 48 }));
-            //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
-            // sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7 }));
+            // Define the third sequence (S3) with odd numbers starting from 3: 3, 5, 7, 9, 11, 13, 15.
+            sequences.Add("S3", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
 
-            //
-            // Prototype for building the prediction engine.
+            // Define the fourth sequence (S4) with odd numbers: 3, 9, 13, 15.
+            sequences.Add("S4", new List<double>(new double[] { 3, 9, 13, 15 }));
+
+            // Define the fifth sequence (S5) with numbers that are neither odd nor even: 4.5, 11.4, 12.8, 15.5, 16.6, 17.7.
+            sequences.Add("S5", new List<double>(new double[] { 4.5, 11.4, 12.8, 15.5, 16.6, 17.7 }));
+
+            // Define the sixth sequence (S6) with numbers that are neither odd nor even: 4.5, 11.4, 12.8, 16.6.
+            sequences.Add("S6", new List<double>(new double[] { 4.5, 11.4, 12.8, 16.6 }));
+
+            // Initialize the multi-sequence learning experiment.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
+
+            // Run the experiment to build the prediction engine.
             var predictor = experiment.Run(sequences);
-
-            //
-            // These list are used to see how the prediction works.
-            // Predictor is traversing the list element by element. 
-            // By providing more elements to the prediction, the predictor delivers more precise result.
-            // var list1 = new double[] { 1.0, 2.0, 3.0, 4.0, 2.0, 5.0 };
-            // var list2 = new double[] { 2.0, 3.0, 4.0 };
-            // var list3 = new double[] { 8.0, 1.0, 2.0 };
-
-            //predictor.Reset();
-            //PredictNextElement(predictor, list1);
-
-            //predictor.Reset();
-            //PredictNextElement(predictor, list2);
-
-            // predictor.Reset();
-            // PredictNextElement(predictor, list3);
         }
+
 
         private static void PredictNextElement(Predictor predictor, double[] list)
         {
+            // Output a separator for better readability in debug output.
             Debug.WriteLine("------------------------------");
 
+            // Iterate through each element in the provided list.
             foreach (var item in list)
             {
+                // Predict the next element based on the current item in the sequence.
                 var res = predictor.Predict(item);
 
+                // Check if predictions are available.
                 if (res.Count > 0)
                 {
+                    // Output each prediction along with its similarity score.
                     foreach (var pred in res)
                     {
                         Debug.WriteLine($"{pred.PredictedInput} - {pred.Similarity}");
                     }
 
+                    // Extract the predicted sequence and the next predicted element.
                     var tokens = res.First().PredictedInput.Split('_');
                     var tokens2 = res.First().PredictedInput.Split('-');
+
+                    // Output the predicted sequence and the next predicted element.
                     Debug.WriteLine($"Predicted Sequence: {tokens[0]}, predicted next element {tokens2.Last()}");
                 }
                 else
+                {
+                    // Output a message if no predictions are available.
                     Debug.WriteLine("Nothing predicted :(");
+                }
             }
 
+            // Output a separator for better readability in debug output.
             Debug.WriteLine("------------------------------");
         }
     }
 }
-
