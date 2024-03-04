@@ -37,7 +37,7 @@ namespace NeoCortexApiSample
 
 
             int numofclass = 3;
-            int K = 3;
+            int K = 4;
             
             
             
