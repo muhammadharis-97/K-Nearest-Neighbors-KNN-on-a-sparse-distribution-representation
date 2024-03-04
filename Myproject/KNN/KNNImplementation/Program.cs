@@ -37,7 +37,7 @@ namespace NeoCortexApiSample
 
 
             int numofclass = 3;
-            int K = 1;
+            int K = 3;
             
             
             
@@ -54,25 +54,25 @@ namespace NeoCortexApiSample
                 Console.WriteLine("Even");
             else if (sequence == 1)
                 Console.WriteLine("Odd");
-            else
+            else if (sequence == 2)
                 Console.WriteLine("Neither Odd or Even");
 
 
             Console.WriteLine("Predicted class for second test data ");
             if (sequence1 == 0)
                 Console.WriteLine("Even");
-            else if (sequence == 1)
+            else if (sequence1 == 1)
                 Console.WriteLine("Odd");
-            else
+            else if (sequence1 == 2)
                 Console.WriteLine("Neither Odd or Even");
 
 
             Console.WriteLine("Predicted class for third test data ");
             if (sequence2 == 0)
                 Console.WriteLine("Even");
-            else if (sequence == 1)
+            else if (sequence2 == 1)
                 Console.WriteLine("Odd");
-            else
+            else if (sequence2 == 2)
                 Console.WriteLine("Neither Odd or Even");
 
 
@@ -127,7 +127,7 @@ namespace NeoCortexApiSample
             double[][] data = new double[3][];
             data[0] = new double[] { 9277, 9425, 9474, 9630, 9685, 9701, 9752, 9835, 9900, 10025, 10080, 10162, 10188, 10261, 10289, 10309, 10357, 10400, 10496, 10728, 0 };
             data[1] = new double[] { 8887, 9463, 9770, 9912, 9956, 10015, 10034, 10090, 10168, 10270, 10288, 10307, 10355, 10424, 10721, 10741, 10813, 10887, 11281, 11507, 1 };
-            data[2] = new double[] { 9529, 9553, 10716, 10721, 10875, 10887, 10983, 11023, 11054, 11270, 11281, 11295, 11371, 11441, 11505, 11507, 11527, 11599, 11659, 11870, 11928, 12094, 12144, 12299, 2 };
+            data[2] = new double[] { 9529, 9553, 10716, 10721, 10875, 10887, 10983, 11023, 11054, 11270, 11281, 11295, 11371, 11441, 11505, 11507, 11527, 11599, 11659, 11870, 2 };
            
 
             return data;
