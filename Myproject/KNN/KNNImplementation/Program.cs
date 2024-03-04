@@ -38,7 +38,7 @@ namespace NeoCortexApiSample
 
                         int numofclass = 3;
 
-
+            Console.WriteLine();
             // For Value of K equal to 1
                         int K = 1;
                         Console.WriteLine(" Value of K is equal to 1");
@@ -74,7 +74,8 @@ namespace NeoCortexApiSample
                             Console.WriteLine("Odd");
                         else if (sequence2 == 2)
                             Console.WriteLine("Neither Odd or Even");
-
+            
+            Console.WriteLine();
             // For Value of K equal to 2
             K = 2;
             Console.WriteLine(" Value of K is equal to 2");
@@ -111,6 +112,7 @@ namespace NeoCortexApiSample
             else if (sequence2 == 2)
                 Console.WriteLine("Neither Odd or Even");
 
+            Console.WriteLine();
             // For Value of K equal to 3
             K = 3;
             Console.WriteLine(" Value of K is equal to 3");
