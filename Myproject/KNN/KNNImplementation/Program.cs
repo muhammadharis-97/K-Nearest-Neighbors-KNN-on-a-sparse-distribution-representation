@@ -26,18 +26,18 @@ namespace NeoCortexApiSample
         {
             //Console.WriteLine("Begin with KNN Classification");
 
- /*         
+          
             
             /// loading dataset SDR value and Sequence list reference name
             /// 
             double[][] trainData = SDRdataset();
-            double[] testData = new double[] { 8240, 8274, 8322, 9249, 9484, 9503, 9813, 9893, 9983, 10045, 10146, 10172, 10263, 10311, 10421, 10470, 10560, 10597, 10762, 10840 };
-            double[] testData1 = new double[] { 8500, 9049, 9229, 9730, 9807, 9877, 10032, 10072, 10141, 10171, 10260, 10307, 10403, 10555, 10587, 10615, 10774, 10844, 11195, 11281 };
-            double[] testData2 = new double[] { 8521, 9033, 9744, 9812, 10027, 10061, 10127, 10154, 10250, 10300, 10505, 10551, 10582, 10612, 10759, 10833, 10869, 11192, 11286, 11685 };
+            double[] testData = new double[] { 9276, 9447, 9456, 9625, 9696, 9718, 9761, 9825, 9901, 10043, 10084, 10173, 10198, 10271, 10298, 10303, 10351, 10415, 10498, 10727, };
+            double[] testData1 = new double[] { 8895, 9455, 9757, 9906, 9958, 10011, 10036, 10099, 10153, 10269, 10279, 10300, 10372, 10422, 10724, 10731, 10801, 10895, 11286, 11501 };
+            double[] testData2 = new double[] { 9668, 9706, 9768, 9833, 9917, 10024, 10042, 10094, 10166, 10195, 10272, 10280, 10321, 10353, 10412, 10431, 10491, 10705, 10725, 11506, };
 
 
             int numofclass = 3;
-            int K = 4;
+            int K = 1;
             
             
             
@@ -75,7 +75,7 @@ namespace NeoCortexApiSample
             else
                 Console.WriteLine("Neither Odd or Even");
 
-*/
+
             //K = 2;
             //Console.WriteLine(" Value of K is equal to 2");
             //sequence = kNN.Classifier(testData, trainData, numofclass, K);
@@ -114,7 +114,7 @@ namespace NeoCortexApiSample
             // RunMultiSimpleSequenceLearningExperiment();
 
 
-            RunMultiSequenceLearningExperiment();
+         //   RunMultiSequenceLearningExperiment();
         }
 
         /// <summary>
@@ -125,9 +125,9 @@ namespace NeoCortexApiSample
         static double[][] SDRdataset()
         {
             double[][] data = new double[3][];
-            data[0] = new double[] { 8229, 8259, 8318, 9232, 9489, 9519, 9822, 9879, 9975, 10028, 10139, 10165, 10270, 10308, 10412, 10460, 10574, 10598, 10755, 10843, 0 };
-            data[1] = new double[] { 8520, 9047, 9232, 9741, 9822, 9879, 10028, 10072, 10139, 10165, 10270, 10308, 10412, 10574, 10598, 10606, 10755, 10843, 11178, 11283, 1 };
-            data[2] = new double[] { 8515, 9037, 9725, 9810, 10042, 10059, 10132, 10168, 10251, 10315, 10513, 10562, 10576, 10608, 10766, 10839, 10864, 11175, 11289, 11682, 2 };
+            data[0] = new double[] { 9277, 9425, 9474, 9630, 9685, 9701, 9752, 9835, 9900, 10025, 10080, 10162, 10188, 10261, 10289, 10309, 10357, 10400, 10496, 10728, 0 };
+            data[1] = new double[] { 8887, 9463, 9770, 9912, 9956, 10015, 10034, 10090, 10168, 10270, 10288, 10307, 10355, 10424, 10721, 10741, 10813, 10887, 11281, 11507, 1 };
+            data[2] = new double[] { 9529, 9553, 10716, 10721, 10875, 10887, 10983, 11023, 11054, 11270, 11281, 11295, 11371, 11441, 11505, 11507, 11527, 11599, 11659, 11870, 11928, 12094, 12144, 12299, 2 };
            
 
             return data;
