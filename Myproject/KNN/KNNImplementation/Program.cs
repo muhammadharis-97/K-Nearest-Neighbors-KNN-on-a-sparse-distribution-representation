@@ -31,9 +31,9 @@ namespace NeoCortexApiSample
             /// loading dataset SDR value and Sequence list reference name
             /// 
             double[][] trainData = SDRdataset();
-            double[] testData = new double[] { 7816, 8229, 8674, 8707, 8946, 9400, 9493, 9543, 9562, 9658, 9695, 9752, 9821, 9912, 9978, 10209, 10300, 10607, 10658, 11084 };
-            double[] testData1 = new double[] { 8673, 8700, 9814, 9998, 10129, 10193, 10315, 10487, 10618, 10661, 10732, 10772, 10936, 10955, 11079, 11285, 11392, 11458, 11475, 11532 };
-            double[] testData2 = new double[] { 8624, 8915, 9491, 10222, 10399, 10580, 10631, 10711, 10821, 10863, 10888, 10916, 10962, 11004, 11074, 11129, 11233, 11257, 11689, 11703 };
+            double[] testData = new double[] { 8240, 8274, 8322, 9249, 9484, 9503, 9813, 9893, 9983, 10045, 10146, 10172, 10263, 10311, 10421, 10470, 10560, 10597, 10762, 10840 };
+            double[] testData1 = new double[] { 8500, 9049, 9229, 9730, 9807, 9877, 10032, 10072, 10141, 10171, 10260, 10307, 10403, 10555, 10587, 10615, 10774, 10844, 11195, 11281 };
+            double[] testData2 = new double[] { 8521, 9033, 9744, 9812, 10027, 10061, 10127, 10154, 10250, 10300, 10505, 10551, 10582, 10612, 10759, 10833, 10869, 11192, 11286, 11685 };
 
 
             int numofclass = 3;
@@ -41,7 +41,7 @@ namespace NeoCortexApiSample
             
             
             
-            Console.WriteLine(" Value of K is equal to 2");
+            Console.WriteLine(" Value of K is equal to 1");
             KNNClassifier kNN = new KNNClassifier(); 
 
             int sequence = kNN.Classifier(testData, trainData, numofclass, K);
@@ -125,10 +125,10 @@ namespace NeoCortexApiSample
         static double[][] SDRdataset()
         {
             double[][] data = new double[3][];
-            data[0] = new double[] { 8004, 8398, 8435, 8605, 9834, 10016, 10052, 10148, 10319, 10351, 10393, 10423, 10428, 10471, 10546, 10593, 10788, 10816, 10895, 10984, 0 };
-            data[1] = new double[] { 9825, 10003, 10027, 10126, 10204, 10304, 10364, 10398, 10473, 10502, 10534, 10578, 10787, 10813, 10896, 10988, 11064, 11234, 11255, 11406, 1 };
-            data[2] = new double[] { 10012, 10028, 10203, 10323, 10354, 10392, 10455, 10516, 10582, 10796, 10812, 10854, 10887, 11007, 11026, 11057, 11228, 11267, 11414, 11541, 2 };
-
+            data[0] = new double[] { 8229, 8259, 8318, 9232, 9489, 9519, 9822, 9879, 9975, 10028, 10139, 10165, 10270, 10308, 10412, 10460, 10574, 10598, 10755, 10843, 0 };
+            data[1] = new double[] { 8520, 9047, 9232, 9741, 9822, 9879, 10028, 10072, 10139, 10165, 10270, 10308, 10412, 10574, 10598, 10606, 10755, 10843, 11178, 11283, 1 };
+            data[2] = new double[] { 8515, 9037, 9725, 9810, 10042, 10059, 10132, 10168, 10251, 10315, 10513, 10562, 10576, 10608, 10766, 10839, 10864, 11175, 11289, 11682, 2 };
+           
 
             return data;
         }
@@ -216,24 +216,32 @@ namespace NeoCortexApiSample
 
             sequences.Add("S1", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14 }));
 
+            //The sequence is even number  
+            sequences.Add("S2", new List<double>(new double[] { 2, 6, 12, 14 }));
+
+           
+
             // This sequence is odd number First Number starting from 3
 
-            sequences.Add("S2", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
+            sequences.Add("S3", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
+
+            // The sequence is even number  
+            sequences.Add("S4", new List<double>(new double[] { 3, 9, 13, 15 }));
 
             // this sequence is neither odd or nor even
-            sequences.Add("S3", new List<double>(new double[] { 1.5, 3.4, 5.8, 9.1, 12.5, 14.6, 15.8 }));
+            sequences.Add("S5", new List<double>(new double[] { 4.5, 5.4, 8.8, 12.5, 14.6, 16.7}));
+
+            // The Sequence is neither even nor odd
+            sequences.Add("S6", new List<double>(new double[] { 4.4, 5.3, 8.6, 14.6 }));
 
 
             // unclassified SDR
 
-            //The sequence is even number  
-            sequences.Add("S4", new List<double>(new double[] { 2, 6, 12, 14}));
 
-            // The sequence is even number  
-            sequences.Add("S5", new List<double>(new double[] { 3, 9, 13, 15}));
 
-            // The Sequence is neither even nor odd
-            sequences.Add("S6", new List<double>(new double[] { 1.7, 3.2, 9.4, 15.6 }));
+            
+
+
 
 
             //
