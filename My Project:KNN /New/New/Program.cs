@@ -20,19 +20,11 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
             // Loading training data
-            double[][] sdrData = ReadSDRDataFromFile("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/sdr_data.txt");
-            foreach (var dataset in sdrData)
-            {
-                string.Join(", ", dataset);
-            }
-
+            double[][] sdrData = KNNClassifier.ReadSDRDataFromFile();
+           
             // Getting test datasets
-            double[][] testDatasets = GetTestDatasets("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/test_data.txt");
-            foreach (var dataset in testDatasets)
-            {
-                string.Join(", ", dataset);
-            }
-
+            double[][] testDatasets = KNNClassifier.GetTestDatasets();
+           
             // Number of classes in the dataset
             int numofclass = 3;
 
@@ -53,62 +45,17 @@ namespace NeoCortexApiSample
                 }
 
                 Console.WriteLine();
+
             }
-        }
+            
+           //  RunMultiSequenceLearningExperiment();
 
-        // Method to get test datasets
-        static double[][] GetTestDatasets(string filePath)
-        {
-            string[] lines = File.ReadAllLines(filePath);
-
-            double[][] datasets = new double[lines.Length][];
-
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string[] values = lines[i].Split(',');
-                datasets[i] = new double[values.Length];
-
-                for (int j = 0; j < values.Length; j++)
-                {
-                    if (!double.TryParse(values[j], out datasets[i][j]))
-                    {
-                        // Handle parsing error
-                        throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
-                    }
-                }
-            }
-
-            return datasets;
         }
 
 
-        // Method to get SDR datasets
-        static double[][] ReadSDRDataFromFile(string filePath)
-        {
-            string[] lines = File.ReadAllLines(filePath);
-
-            double[][] sdrData = new double[lines.Length][];
-
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string[] values = lines[i].Split(',');
-                sdrData[i] = new double[values.Length];
-
-                for (int j = 0; j < values.Length; j++)
-                {
-                    if (!double.TryParse(values[j], out sdrData[i][j]))
-                    {
-                        // Handle parsing error
-                        throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
-                    }
-                }
-            }
-
-            return sdrData;
-        }
-
-
+        /// <summary>
         /// Runs a multi-sequence learning experiment using simple sequences.
+        /// </summary>
         private static void RunMultiSimpleSequenceLearningExperiment()
         {
             // Initialize a dictionary to store sequences, where each sequence is represented by a list of doubles.
@@ -161,7 +108,11 @@ namespace NeoCortexApiSample
             var predictor = experiment.Run(sequences);
         }
 
-
+        /// <summary>
+        /// Predicts the next element in the sequence using the provided predictor.
+        /// </summary>
+        /// <param name="predictor">The predictor used for making predictions.</param>
+        /// <param name="list">The list of elements for which predictions need to be made.</param>
         private static void PredictNextElement(Predictor predictor, double[] list)
         {
             // Output a separator for better readability in debug output.

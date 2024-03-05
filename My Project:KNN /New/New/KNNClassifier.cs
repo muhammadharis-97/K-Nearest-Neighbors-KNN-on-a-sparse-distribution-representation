@@ -12,9 +12,19 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace KNNImplementation
 {
 
-    /// KNN Algorithm 
+
+    //// <summary>
+    /// 
+    /// </summary>
+
     public class KNNClassifier : IClassifier
     {
+        /// <summary>
+        /// Calculates the Euclidean distance between two vectors.
+        /// </summary>
+        /// <param name="vector1">The first vector.</param>
+        /// <param name="vector2">The second vector.</param>
+        /// <returns>The Euclidean distance between the two vectors.</returns>
         private double Distance(double[] vector1, double[] vector2)
         {
             double sum = 0.0;
@@ -30,6 +40,14 @@ namespace KNNImplementation
             return Math.Sqrt(sum);
         }
 
+        /// <summary>
+        /// Determines the class label by majority voting among the k nearest neighbors.
+        /// </summary>
+        /// <param name="info">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
+        /// <param name="trainData">The training data containing class labels.</param>
+        /// <param name="numClasses">The total number of classes.</param>
+        /// <param name="k">The number of nearest neighbors to consider.</param>
+        /// <returns>The class label with the most votes among the nearest neighbors.</returns>
 
         static int Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)
         {
@@ -75,6 +93,14 @@ namespace KNNImplementation
             return classWithMostVotes;
         }
 
+        /// <summary>
+        /// Classifies the unknown SDR based on the k-nearest neighbors in the training data using the KNN algorithm.
+        /// </summary>
+        /// <param name="unknownSDR">The unknown SDR to be classified.</param>
+        /// <param name="Sdrdata">The training data containing known SDRs.</param>
+        /// <param name="numofclass">The total number of classes.</param>
+        /// <param name="k">The number of nearest neighbors to consider in the classification.</param>
+        /// <returns>The predicted class label for the unknown SDR.</returns>
 
         public int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k)
         {
@@ -105,8 +131,135 @@ namespace KNNImplementation
             return result;
         }
 
+        // GetTestDatasets method to load test datasets from a file
+        public static double[][] GetTestDatasets()
+        {
+            // Call the GetTestDataset method to read datasets from the file
+            double[][] testdataset = GetTestDataset("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/sdr_data.txt");
+
+            // Print each dataset to the console
+            foreach (var dataset in testdataset)
+            {
+                // Join the elements of the dataset array with commas and print to the console
+                string.Join(", ", dataset);
+            }
+            // Return the loaded test datasets
+            return testdataset;
+        }
 
 
+        // GetTestDataset method to read datasets from a file
+        public static double[][] GetTestDataset(string filePath)
+        {
+            try
+            {
+                // Read all lines from the file
+                string[] lines = File.ReadAllLines(filePath);
+
+                // Create a 2D array to store the datasets
+                double[][] datasets = new double[lines.Length][];
+
+                // Iterate through each line in the file
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    // Split the line by commas to get individual values
+                    string[] values = lines[i].Split(',');
+
+                    // Create an array to store the values for the current dataset
+                    datasets[i] = new double[values.Length];
+
+                    // Iterate through each value in the line
+                    for (int j = 0; j < values.Length; j++)
+                    {
+                        // Parse the value to double and store it in the dataset array
+                        if (!double.TryParse(values[j], out datasets[i][j]))
+                        {
+                            // Throw a format exception if parsing fails
+                            throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
+                        }
+                    }
+                }
+                // Return the loaded datasets
+                return datasets;
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during file reading or parsing
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return null; // Return null to indicate failure
+            }
+
+        }
+
+        // ReadSDRDataFromFile method to load SDR data from a file
+        public static double[][] ReadSDRDataFromFile()
+        {
+            // Call the ReadSDRDataFromFileMethod to read SDR data from the file
+            double[][] sdrData = ReadSDRDataFromFileMethod("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/sdr_data.txt");
+
+            // Print each dataset to the console
+            foreach (var dataset in sdrData)
+            {
+                // Join the elements of the dataset array with commas and print to the console
+                string.Join(", ", dataset);
+            }
+            // Return the loaded SDR data
+            return sdrData;
+        }
+
+
+        // ReadSDRDataFromFileMethod to read SDR data from a file
+        public static double[][] ReadSDRDataFromFileMethod(string filePath)
+        {
+            try
+            {
+                // Read all lines from the file
+                string[] lines = File.ReadAllLines(filePath);
+
+                // Create a 2D array to store the SDR data
+                double[][] sdrData = new double[lines.Length][];
+
+                // Iterate through each line in the file
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    // Split the line by commas to get individual values
+                    string[] values = lines[i].Split(',');
+
+                    // Create an array to store the values for the current dataset
+                    sdrData[i] = new double[values.Length];
+
+                    // Iterate through each value in the line
+                    for (int j = 0; j < values.Length; j++)
+                    {
+                        // Parse the value to double and store it in the SDR data array
+                        if (!double.TryParse(values[j], out sdrData[i][j]))
+                        {
+                            // Throw a format exception if parsing fails
+                            throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
+                        }
+                    }
+                }
+                return sdrData;
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during file reading or parsing
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return null; // Return null to indicate failure
+            }
+            // Return the loaded SDR data
+        }
+
+
+        /// <summary>
+        /// Compares this instance to another based on distance.
+        /// </summary>
+        /// <param name="other">The other IndexAndDistance instance to compare with.</param>
+        /// <returns>
+        /// A negative value if this instance has a smaller distance,
+        /// a positive value if this instance has a larger distance,
+        /// or zero if both instances have the same distance.
+        /// </returns>
         public class IndexAndDistance : IComparable<IndexAndDistance>
         {
             /// Represents an index and its distance to an unknown point in a dataset, used for sorting.
