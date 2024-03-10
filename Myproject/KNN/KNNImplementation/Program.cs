@@ -37,12 +37,14 @@ namespace NeoCortexApiSample
                 // Looping through each test dataset
                 foreach (var testData in testDatasets)
                 {
+                    
                     // Classifying the test data using KNN algorithm
-                    int sequence = kNN.Classifier(testData, sdrData, numofclass, k);
+                    int prediction = kNN.Classifier(testData, sdrData, numofclass, k);
 
                     // Displaying the predicted class for the test data
-                    Console.WriteLine($"Predicted class for test data: {(sequence == 0 ? "Even" : (sequence == 1 ? "Odd" : "Neither Odd nor Even"))}");
+                    Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : "Neither Odd nor Even"))}");
                 }
+
 
                 Console.WriteLine();
 
@@ -51,6 +53,7 @@ namespace NeoCortexApiSample
             //  RunMultiSequenceLearningExperiment();
 
         }
+
 
 
         /// <summary>
