@@ -131,11 +131,15 @@ namespace KNNImplementation
             return result;
         }
 
-        // GetTestDatasets method to load test datasets from a file
+        /// <summary>
+        /// GetTestDataset method to read datasets from a file
+        /// </summary>
+        /// <returns></returns>
+
         public static double[][] GetTestDatasets()
         {
             // Call the GetTestDataset method to read datasets from the file
-            double[][] testdataset = GetTestDataset("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/sdr_data.txt");
+            double[][] testdataset = GetTestDataset("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\train_dataset.txt");
 
             // Print each dataset to the console
             foreach (var dataset in testdataset)
@@ -148,7 +152,11 @@ namespace KNNImplementation
         }
 
 
-        // GetTestDataset method to read datasets from a file
+        
+        /// <summary>
+        /// GetTestDataset method to read datasets from a file
+        /// </summary>
+        /// <returns></returns>
         public static double[][] GetTestDataset(string filePath)
         {
             try
@@ -191,11 +199,14 @@ namespace KNNImplementation
 
         }
 
-        // ReadSDRDataFromFile method to load SDR data from a file
+        /// <summary>
+        /// ReadSDRDataFromFile method to load SDR data from a file
+        /// </summary>
+        /// <returns></returns>
         public static double[][] ReadSDRDataFromFile()
         {
             // Call the ReadSDRDataFromFileMethod to read SDR data from the file
-            double[][] sdrData = ReadSDRDataFromFileMethod("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/sdr_data.txt");
+            double[][] sdrData = ReadSDRDataFromFileMethod("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
 
             // Print each dataset to the console
             foreach (var dataset in sdrData)
@@ -208,7 +219,11 @@ namespace KNNImplementation
         }
 
 
-        // ReadSDRDataFromFileMethod to read SDR data from a file
+        /// <summary>
+        /// ReadSDRDataFromFileMethod to read SDR data from a file
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static double[][] ReadSDRDataFromFileMethod(string filePath)
         {
             try
