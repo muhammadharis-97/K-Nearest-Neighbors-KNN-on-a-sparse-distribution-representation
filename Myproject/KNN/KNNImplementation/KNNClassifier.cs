@@ -220,7 +220,7 @@ namespace KNNImplementation
 
 
         /// <summary>
-        /// ReadSDRDataFromFileMethod to read SDR data from a file
+        /// ReadSDRDataFromFile Method to read SDR data from a file
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
@@ -265,9 +265,58 @@ namespace KNNImplementation
             // Return the loaded SDR data
         }
 
+        /// <summary>
+        /// Calculation of Accuracy of the KNN classifier
+        /// </summary>
+        /// <param name="groundTruth"></param>
+        /// <param name="predictedLabels"></param>
+        /// <returns></returns>
+        public static  double CalculateAccuracy(int[] actuallabel, int[] predictedLabels)
+        {
+            int correctPredictions = 0;
+
+            for (int i = 0; i < actuallabel.Length; i++)
+            {
+                if (actuallabel[i] == predictedLabels[i])
+                    correctPredictions++;
+            }
+
+            return (double)correctPredictions / actuallabel.Length;
+        }
 
         /// <summary>
-        /// Compares this instance to another based on distance.
+        /// Calculation of Precision of the KNN classifier
+        /// </summary>
+        /// <param name="actuallabel"></param>
+        /// <param name="predictedLabels"></param>
+        /// <returns></returns>
+
+        public static double CalculatePrecision(int[] actuallabel, int[] predictedLabels)
+        {
+            int truePositives = 0;
+            int falsePositives = 0;
+
+            for (int i = 0; i < actuallabel.Length; i++)
+            {
+                if ((predictedLabels[i] == 0 && actuallabel[i] == 0) || (predictedLabels[i] == 2 && actuallabel[i] == 2) || (predictedLabels[i] == 1 && actuallabel[i] == 1))
+                    truePositives++;
+                else if ((predictedLabels[i] == 1 && actuallabel[i] == 0) || (predictedLabels[i] == 2 && actuallabel[i] == 0) || (predictedLabels[i] == 0 && actuallabel[i] == 1) || (predictedLabels[i] == 2 && actuallabel[i] == 1) || (predictedLabels[i] == 0 && actuallabel[i] == 2) || (predictedLabels[i] == 1 && actuallabel[i] == 2))
+                    falsePositives++;
+
+            }
+
+            if (truePositives + falsePositives == 0)
+                return 0;
+
+            return (double)truePositives / (truePositives + falsePositives);
+        }
+
+
+
+
+
+        /// <summary>
+        /// Compares the instance to another based on distance.
         /// </summary>
         /// <param name="other">The other IndexAndDistance instance to compare with.</param>
         /// <returns>

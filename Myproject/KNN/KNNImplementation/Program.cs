@@ -19,47 +19,60 @@ namespace NeoCortexApiSample
         // Main method to start the program
         static void Main(string[] args)
         {
+            
             // Loading training data
             double[][] sdrData = KNNClassifier.ReadSDRDataFromFile();
 
-            // Getting test datasets
+            // Getting test datasets 
             double[][] testDatasets = KNNClassifier.GetTestDatasets();
-
-            // Number of classes in the dataset
             int numofclass = 3;
 
-            // Looping through different values of K
-            for (int k = 1; k <= 3; k++)
+            int[] acutuallabel = new int[numofclass];
+            acutuallabel = [ 0, 1, 2 ];
+
+            Console.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
+            Console.WriteLine();
+
+            // Number of classes in the dataset
+            for (int k = 1; k < 4; k++)
             {
+                Console.WriteLine();
                 Console.WriteLine($"Value of K is equal to {k}");
                 KNNClassifier kNN = new KNNClassifier();
-
+                int[] predicted = new int[numofclass];
+                int i = 0;
                 // Looping through each test dataset
                 foreach (var testData in testDatasets)
                 {
                     
                     // Classifying the test data using KNN algorithm
                     int prediction = kNN.Classifier(testData, sdrData, numofclass, k);
-
+                    predicted[i] = prediction;
+                    i = i + 1;
                     // Displaying the predicted class for the test data
                     Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : "Neither Odd nor Even"))}");
                 }
 
 
-                Console.WriteLine();
+                double precision = KNNClassifier.CalculatePrecision(acutuallabel, predicted);
+                double Accuracy = KNNClassifier.CalculateAccuracy(acutuallabel, predicted);
 
-            }
+                Console.WriteLine();
+                Console.WriteLine($"Precision :  {precision}");
+                Console.WriteLine($"Accuracy : {Accuracy}");
+
+             }
+            
 
             //  RunMultiSequenceLearningExperiment();
 
         }
+       
 
-
-
-        /// <summary>
-        /// Runs a multi-sequence learning experiment using simple sequences.
-        /// </summary>
-        private static void RunMultiSimpleSequenceLearningExperiment()
+    /// <summary>
+    /// Runs a multi-sequence learning experiment using simple sequences.
+    /// </summary>
+    private static void RunMultiSimpleSequenceLearningExperiment()
         {
             // Initialize a dictionary to store sequences, where each sequence is represented by a list of doubles.
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
