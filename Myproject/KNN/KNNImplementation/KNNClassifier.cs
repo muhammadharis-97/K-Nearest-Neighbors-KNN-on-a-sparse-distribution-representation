@@ -14,7 +14,7 @@ namespace KNNImplementation
 
 
     //// <summary>
-    /// 
+    ///  KNN classifier to Classifiy the sequence from SDR dataset
     /// </summary>
 
     public class KNNClassifier : IClassifier
