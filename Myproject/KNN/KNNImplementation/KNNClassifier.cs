@@ -20,19 +20,19 @@ namespace KNNImplementation
     public class KNNClassifier : IClassifier
     {
         /// <summary>
-        /// Calculates the Euclidean distance between two vectors.
+        /// Calculates the Euclidean distance between unknownSDR and SDRdata.
         /// </summary>
-        /// <param name="vector1">The first vector.</param>
-        /// <param name="vector2">The second vector.</param>
+        /// <param name="unknownSDR">The first vector.</param>
+        /// <param name="SdrData">The second vector.</param>
         /// <returns>The Euclidean distance between the two vectors.</returns>
-        private double Distance(double[] vector1, double[] vector2)
+        private double Distance(double[] unknownSDR, double[] SdrData)
         {
             double sum = 0.0;
 
             // Calculate the sum of squared differences for each dimension
-            for (int i = 0; i < vector1.Length; ++i)
+            for (int i = 0; i < unknownSDR.Length; ++i)
             {
-                double difference = vector1[i] - vector2[i];
+                double difference = unknownSDR[i] - SdrData[i];
                 sum += difference * difference;
             }
 
@@ -44,12 +44,12 @@ namespace KNNImplementation
         /// Determines the class label by majority voting among the k nearest neighbors.
         /// </summary>
         /// <param name="info">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
-        /// <param name="trainData">The training data containing class labels.</param>
+        /// <param name="SDRData">The training data containing class labels.</param>
         /// <param name="numClasses">The total number of classes.</param>
         /// <param name="k">The number of nearest neighbors to consider.</param>
         /// <returns>The class label with the most votes among the nearest neighbors.</returns>
 
-        static int Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)
+        static int Vote(IndexAndDistance[] info, double[][] SDRData, int numClasses, int k)
         {
             // Array to store the number of votes for each class
             int[] votes = new int[numClasses];
@@ -67,7 +67,7 @@ namespace KNNImplementation
                 int idx = info[i].idx;
 
                 // Determine the class label of the i-th neighbor
-                int c = (int)trainData[idx][20];
+                int c = (int)SDRData[idx][20];
 
                 // Increment the vote count for the corresponding class
                 ++votes[c];
@@ -122,8 +122,21 @@ namespace KNNImplementation
                 info[i] = curr;
             }
 
-            // Sort the SDRs in the training data by distance to the unknown SDR
+            // sorting the training index-distance items that are stored
             Array.Sort(info);
+
+            // Information for the k-nearest items is displayed
+            Console.WriteLine("Nearest / Distance / Class");
+            Console.WriteLine("==========================");
+            for (int i = 0; i < k; ++i)
+            {
+                int c = (int)Sdrdata[info[i].idx][2];
+                string dist = info[i].dist.ToString("F3");
+                Console.WriteLine("( " + Sdrdata[info[i].idx][0] +
+                  "," + Sdrdata[info[i].idx][1] + " )  :  " +
+                  dist + "        " + c);
+                Console.WriteLine();
+            }
 
             // Determine the class label for the unknown SDR based on the k-nearest neighbors
             int result = Vote(info, Sdrdata, numofclass, k);
@@ -136,28 +149,7 @@ namespace KNNImplementation
         /// </summary>
         /// <returns></returns>
 
-        public static double[][] GetTestDatasets()
-        {
-            // Call the GetTestDataset method to read datasets from the file
-            double[][] testdataset = GetTestDataset("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\train_dataset.txt");
-
-            // Print each dataset to the console
-            foreach (var dataset in testdataset)
-            {
-                // Join the elements of the dataset array with commas and print to the console
-                string.Join(", ", dataset);
-            }
-            // Return the loaded test datasets
-            return testdataset;
-        }
-
-
-        
-        /// <summary>
-        /// GetTestDataset method to read datasets from a file
-        /// </summary>
-        /// <returns></returns>
-        public static double[][] GetTestDataset(string filePath)
+        public static double[][] LoadDatafromthefile(string filePath)
         {
             try
             {
@@ -187,6 +179,7 @@ namespace KNNImplementation
                         }
                     }
                 }
+
                 // Return the loaded datasets
                 return datasets;
             }
@@ -196,135 +189,22 @@ namespace KNNImplementation
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return null; // Return null to indicate failure
             }
-
-        }
-
-        /// <summary>
-        /// ReadSDRDataFromFile method to load SDR data from a file
-        /// </summary>
-        /// <returns></returns>
-        public static double[][] ReadSDRDataFromFile()
-        {
-            // Call the ReadSDRDataFromFileMethod to read SDR data from the file
-            double[][] sdrData = ReadSDRDataFromFileMethod("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
-
-            // Print each dataset to the console
-            foreach (var dataset in sdrData)
-            {
-                // Join the elements of the dataset array with commas and print to the console
-                string.Join(", ", dataset);
-            }
-            // Return the loaded SDR data
-            return sdrData;
         }
 
 
-        /// <summary>
-        /// ReadSDRDataFromFile Method to read SDR data from a file
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        public static double[][] ReadSDRDataFromFileMethod(string filePath)
-        {
-            try
-            {
-                // Read all lines from the file
-                string[] lines = File.ReadAllLines(filePath);
-
-                // Create a 2D array to store the SDR data
-                double[][] sdrData = new double[lines.Length][];
-
-                // Iterate through each line in the file
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    // Split the line by commas to get individual values
-                    string[] values = lines[i].Split(',');
-
-                    // Create an array to store the values for the current dataset
-                    sdrData[i] = new double[values.Length];
-
-                    // Iterate through each value in the line
-                    for (int j = 0; j < values.Length; j++)
-                    {
-                        // Parse the value to double and store it in the SDR data array
-                        if (!double.TryParse(values[j], out sdrData[i][j]))
-                        {
-                            // Throw a format exception if parsing fails
-                            throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
-                        }
-                    }
-                }
-                return sdrData;
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that occur during file reading or parsing
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return null; // Return null to indicate failure
-            }
-            // Return the loaded SDR data
-        }
-
-        /// <summary>
-        /// Calculation of Accuracy of the KNN classifier
-        /// </summary>
-        /// <param name="groundTruth"></param>
-        /// <param name="predictedLabels"></param>
-        /// <returns></returns>
-        public static  double CalculateAccuracy(int[] actuallabel, int[] predictedLabels)
-        {
-            int correctPredictions = 0;
-
-            for (int i = 0; i < actuallabel.Length; i++)
-            {
-                if (actuallabel[i] == predictedLabels[i])
-                    correctPredictions++;
-            }
-
-            return (double)correctPredictions / actuallabel.Length;
-        }
-
-        /// <summary>
-        /// Calculation of Precision of the KNN classifier
-        /// </summary>
-        /// <param name="actuallabel"></param>
-        /// <param name="predictedLabels"></param>
-        /// <returns></returns>
-
-        public static double CalculatePrecision(int[] actuallabel, int[] predictedLabels)
-        {
-            int truePositives = 0;
-            int falsePositives = 0;
-
-            for (int i = 0; i < actuallabel.Length; i++)
-            {
-                if ((predictedLabels[i] == 0 && actuallabel[i] == 0) || (predictedLabels[i] == 2 && actuallabel[i] == 2) || (predictedLabels[i] == 1 && actuallabel[i] == 1))
-                    truePositives++;
-                else if ((predictedLabels[i] == 1 && actuallabel[i] == 0) || (predictedLabels[i] == 2 && actuallabel[i] == 0) || (predictedLabels[i] == 0 && actuallabel[i] == 1) || (predictedLabels[i] == 2 && actuallabel[i] == 1) || (predictedLabels[i] == 0 && actuallabel[i] == 2) || (predictedLabels[i] == 1 && actuallabel[i] == 2))
-                    falsePositives++;
-
-            }
-
-            if (truePositives + falsePositives == 0)
-                return 0;
-
-            return (double)truePositives / (truePositives + falsePositives);
-        }
+    }
 
 
-
-
-
-        /// <summary>
-        /// Compares the instance to another based on distance.
-        /// </summary>
-        /// <param name="other">The other IndexAndDistance instance to compare with.</param>
-        /// <returns>
-        /// A negative value if this instance has a smaller distance,
-        /// a positive value if this instance has a larger distance,
-        /// or zero if both instances have the same distance.
-        /// </returns>
-        public class IndexAndDistance : IComparable<IndexAndDistance>
+    /// <summary>
+    /// Compares the instance to another based on distance.
+    /// </summary>
+    /// <param name="other">The other IndexAndDistance instance to compare with.</param>
+    /// <returns>
+    /// A negative value if this instance has a smaller distance,
+    /// a positive value if this instance has a larger distance,
+    /// or zero if both instances have the same distance.
+    /// </returns>
+    public class IndexAndDistance : IComparable<IndexAndDistance>
         {
             /// Represents an index and its distance to an unknown point in a dataset, used for sorting.
             /// Index of a training item.
@@ -346,8 +226,8 @@ namespace KNNImplementation
                 else
                     return 0;
             }
-        }
+     }
 
 
-    }
+    
 }

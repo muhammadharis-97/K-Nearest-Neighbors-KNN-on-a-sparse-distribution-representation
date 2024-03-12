@@ -19,60 +19,87 @@ namespace NeoCortexApiSample
         // Main method to start the program
         static void Main(string[] args)
         {
-            
+
+
             // Loading training data
-            double[][] sdrData = KNNClassifier.ReadSDRDataFromFile();
+            double[][] sdrData = KNNClassifier.LoadDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
 
             // Getting test datasets 
-            double[][] testDatasets = KNNClassifier.GetTestDatasets();
+            double[][] testDataset = KNNClassifier.LoadDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\test_dataset.txt");
             int numofclass = 3;
 
+
             int[] acutuallabel = new int[numofclass];
-            acutuallabel = [ 0, 1, 2 ];
+            acutuallabel = [0, 1, 2];
 
             Console.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
             Console.WriteLine();
 
             // Number of classes in the dataset
-            for (int k = 1; k < 4; k++)
+            int k = 1;
+            int features = 20;
+            Console.WriteLine();
+            Console.WriteLine($"Value of K is equal to {k}");
+            KNNClassifier kNN = new KNNClassifier();
+            int[] predicted = new int[numofclass - 1];
+            int i = 0;
+            // Looping through each test dataset
+            foreach (var testData in testDataset)
             {
-                Console.WriteLine();
-                Console.WriteLine($"Value of K is equal to {k}");
-                KNNClassifier kNN = new KNNClassifier();
-                int[] predicted = new int[numofclass];
-                int i = 0;
-                // Looping through each test dataset
-                foreach (var testData in testDatasets)
-                {
-                    
-                    // Classifying the test data using KNN algorithm
-                    int prediction = kNN.Classifier(testData, sdrData, numofclass, k);
-                    predicted[i] = prediction;
-                    i = i + 1;
-                    // Displaying the predicted class for the test data
-                    Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : "Neither Odd nor Even"))}");
-                }
+                // Classifying the test data using KNN algorithm
+                int prediction = kNN.Classifier(testData, sdrData, numofclass, k);
+                predicted[i] = prediction;
+                i = i + 1;
+                // Displaying the predicted class for the test data
+                Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown"))) }");
+            }
+
+            Console.WriteLine();
+
+            // Calculate accuracy
+            double accuracy = CalculateAccuracy(testDataset, numofclass, k, sdrData);
+            Console.WriteLine("Accuracy: " + accuracy * 100 + "%");
 
 
-                double precision = KNNClassifier.CalculatePrecision(acutuallabel, predicted);
-                double Accuracy = KNNClassifier.CalculateAccuracy(acutuallabel, predicted);
-
-                Console.WriteLine();
-                Console.WriteLine($"Precision :  {precision}");
-                Console.WriteLine($"Accuracy : {Accuracy}");
-
-             }
-            
-
-             //RunMultiSequenceLearningExperiment();
+            //RunMultiSequenceLearningExperiment();
 
         }
-       
 
-    /// <summary>
-    /// Runs a multi-sequence learning experiment using simple sequences.
-    /// </summary>
-    private static void RunMultiSimpleSequenceLearningExperiment()
+
+
+        /// <summary>ta
+        /// Calculating the Accuracy of testData 
+        /// </summary>
+        /// <param name="testData"></param>
+        /// <param name="numClasses"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        static double CalculateAccuracy(double[][] testData, int numClasses, int k, double[][] sdrData)
+        {
+            KNNClassifier kNN = new KNNClassifier();
+            // Assume testData is a separate dataset with known labels
+            int correctPredictions = 0;
+            foreach (double[] data in testData)
+            {
+                double[] features = new double[data.Length - 1];
+
+                Array.Copy(data, features, data.Length - 1);
+                int actualClass = (int)data[data.Length - 1];
+                int predictedClass = kNN.Classifier(features, sdrData, numClasses, k);
+                if (predictedClass == actualClass)
+                {
+                    correctPredictions++;
+                }
+            }
+            return (double)correctPredictions / testData.Length;
+        }
+
+
+
+        /// <summary>
+        /// Runs a multi-sequence learning experiment using simple sequences.
+        /// </summary>
+        private static void RunMultiSimpleSequenceLearningExperiment()
         {
             // Initialize a dictionary to store sequences, where each sequence is represented by a list of doubles.
             Dictionary<string, List<double>> sequences = new Dictionary<string, List<double>>();
