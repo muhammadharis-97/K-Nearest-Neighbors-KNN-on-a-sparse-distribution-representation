@@ -19,7 +19,7 @@ namespace NeoCortexApiSample
         // Main method to start the program
         static void Main(string[] args)
         {
- /*           
+            
             // Loading training data
             double[][] sdrData = KNNClassifier.ReadSDRDataFromFile();
 
@@ -62,9 +62,9 @@ namespace NeoCortexApiSample
                 Console.WriteLine($"Accuracy : {Accuracy}");
 
              }
- */           
+            
 
-             RunMultiSequenceLearningExperiment();
+             //RunMultiSequenceLearningExperiment();
 
         }
        
