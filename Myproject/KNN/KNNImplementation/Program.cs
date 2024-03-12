@@ -19,7 +19,7 @@ namespace NeoCortexApiSample
         // Main method to start the program
         static void Main(string[] args)
         {
-            
+ /*           
             // Loading training data
             double[][] sdrData = KNNClassifier.ReadSDRDataFromFile();
 
@@ -62,9 +62,9 @@ namespace NeoCortexApiSample
                 Console.WriteLine($"Accuracy : {Accuracy}");
 
              }
-            
+ */           
 
-            //  RunMultiSequenceLearningExperiment();
+             RunMultiSequenceLearningExperiment();
 
         }
        
@@ -103,19 +103,19 @@ namespace NeoCortexApiSample
             sequences.Add("S1", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14 }));
 
             // Define the second sequence (S2) with even numbers: 2, 6, 12, 14.
-            sequences.Add("S2", new List<double>(new double[] { 2, 6, 12, 14 }));
+            //sequences.Add("S2", new List<double>(new double[] { 2, 6, 12, 14 }));
 
             // Define the third sequence (S3) with odd numbers starting from 3: 3, 5, 7, 9, 11, 13, 15.
             sequences.Add("S3", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
 
             // Define the fourth sequence (S4) with odd numbers: 3, 9, 13, 15.
-            sequences.Add("S4", new List<double>(new double[] { 3, 9, 13, 15 }));
+            //sequences.Add("S4", new List<double>(new double[] { 3, 9, 13, 15 }));
 
             // Define the fifth sequence (S5) with numbers that are neither odd nor even: 4.5, 11.4, 12.8, 15.5, 16.6, 17.7.
             sequences.Add("S5", new List<double>(new double[] { 4.5, 11.4, 12.8, 15.5, 16.6, 17.7 }));
 
             // Define the sixth sequence (S6) with numbers that are neither odd nor even: 4.5, 11.4, 12.8, 16.6.
-            sequences.Add("S6", new List<double>(new double[] { 4.5, 11.4, 12.8, 16.6 }));
+            //sequences.Add("S6", new List<double>(new double[] { 4.5, 11.4, 12.8, 16.6 }));
 
             // Initialize the multi-sequence learning experiment.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
