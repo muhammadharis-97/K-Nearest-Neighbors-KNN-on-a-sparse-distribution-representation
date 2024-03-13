@@ -124,6 +124,7 @@ namespace KNNImplementation
 
             // sorting the training index-distance items that are stored
             Array.Sort(info);
+            
 
             // Information for the k-nearest items is displayed
             Console.WriteLine("Nearest / Distance / Class");
