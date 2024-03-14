@@ -32,7 +32,7 @@ namespace KNNUnitTest
         [TestMethod]
         public void TestClassifier()
         {
-            if (k < numofclass)
+            if (k < sdrdata.Length)
             {
                 //KNNClassifier kNN = new KNNClassifier();
                 int sequence = kNN.Classifier(unknownSDR, sdrdata, numofclass, k);
