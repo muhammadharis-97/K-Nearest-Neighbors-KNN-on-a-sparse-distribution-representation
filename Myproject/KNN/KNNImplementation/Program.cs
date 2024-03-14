@@ -26,20 +26,25 @@ namespace NeoCortexApiSample
             double[][] sdrData = KNNClassifier.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
 
             // Getting test datasets 
-            double[][] testDataset = KNNClassifier.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\test1_dataset.txt");
+            // double[][] testDataset = KNNClassifier.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\test1_dataset.txt");
             int numofclass = 3;
 
-           
+            // Set the ratio for splitting (e.g., 80% training, 20% testing)
+            double trainRatio = 0.8;
+
+            // Call the method to split the data
+            var (trainData, testDataset) = SplitData(sdrData, trainRatio);
 
 
-            int[] acutuallabel = new int[5];
-            acutuallabel = [0, 1, 1, 2, 2];
+            int[] actualLabels = ExtractActualLabelsFromDataset(testDataset);
+            
+
 
             Console.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
             Console.WriteLine();
 
             // Number of classes in the dataset
-            int k = 1;
+            int k = 18;
             //int features = 20;
             Console.WriteLine();
             Console.WriteLine($"Value of K is equal to {k}");
@@ -51,31 +56,130 @@ namespace NeoCortexApiSample
             double[] features = new double[20];
             foreach (var testData in testDataset)
             {
-               
+
                 //Console.WriteLine();
                 // Classifying the test data using KNN algorithm
-                int prediction = kNN.Classifier(testData, sdrData, numofclass, k);
+                int prediction = kNN.Classifier(testData, trainData, numofclass, k);
                 predicted[i] = prediction;
-                if (predicted[i] == acutuallabel[i])
+                if (predicted[i] == actualLabels[i])
                 {
                     correctPredictions++;
                 }
                 i = i + 1;
-                
+
                 // Displaying the predicted class for the test data
-                Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown"))) }");
+                Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
             }
 
             // Calculating Accuracy of the Classifier
-            double accuracy = ((double)correctPredictions / 5) * 100;
-            Console.WriteLine("Calculated Accuracy   =   " + accuracy );
+            double accuracy = ((double)correctPredictions / actualLabels.Length) * 100;
+            Console.WriteLine("Calculated Accuracy   =   " + accuracy);
             Console.WriteLine();
 
-           
 
 
-           // RunMultiSequenceLearningExperiment();
 
+            // RunMultiSequenceLearningExperiment();
+
+        }
+
+
+        /// <summary>
+        /// Extracting AcutualLabels from training Dataset
+        /// </summary>
+        /// <param name="testData"></param>
+        /// <returns></returns>
+
+        static int[] ExtractActualLabelsFromDataset(double[][] testData)
+        {
+            // Extract actual labels from the dataset
+            // Assuming labels are stored in the last column of each row
+            int[] actualLabels = new int[testData.Length];
+            for (int i = 0; i < testData.Length; i++)
+            {
+                actualLabels[i] = (int)testData[i].Last();
+            }
+            return actualLabels;
+        }
+
+        /// <summary>
+        /// Finding Accuracy of KNN CLassifue
+        /// </summary>
+        /// <param name="predictedLabels"></param>
+        /// <param name="actualLabels"></param>
+        /// <returns></returns>
+
+        static double CalculateAccuracy(int[] predictedLabels, int[] actualLabels)
+        {
+            int correctPredictions = 0;
+            int totalPredictions = predictedLabels.Length;
+
+            for (int i = 0; i < totalPredictions; i++)
+            {
+                if (predictedLabels[i] == actualLabels[i])
+                {
+                    correctPredictions++;
+                }
+            }
+
+            double accuracy = (double)correctPredictions / totalPredictions * 100;
+            return accuracy;
+        }
+    
+
+
+
+
+    /// <summary>
+    /// Spliting the dataset in training dataset and testing dataset
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="trainRatio"></param>
+    /// <returns></returns>
+
+    static (double[][], double[][]) SplitData(double[][] data, double trainRatio)
+        {
+            // Calculate the sizes of training and testing data
+            int totalRows = data.Length;
+            int trainRows = (int)(totalRows * trainRatio);
+            int testRows = totalRows - trainRows;
+
+            // Shuffle the indices to randomly select rows for training and testing
+            int[] indices = Enumerable.Range(0, totalRows).ToArray();
+            Shuffle(indices);
+
+            // Create arrays to hold training and testing data
+            double[][] trainData = new double[trainRows][];
+            double[][] testData = new double[testRows][];
+
+            // Split the data based on the shuffled indices
+            for (int i = 0; i < totalRows; i++)
+            {
+                double[] row = data[indices[i]];
+                if (i < trainRows)
+                {
+                    trainData[i] = row.ToArray();
+                }
+                else
+                {
+                    testData[i - trainRows] = row.ToArray();
+                }
+            }
+
+            return (trainData, testData);
+        }
+
+        // Method to shuffle an array of integers (Fisher-Yates shuffle algorithm)
+        static void Shuffle(int[] array)
+        {
+            Random rnd = new Random();
+            for (int i = array.Length - 1; i > 0; i--)
+            {
+                int index = rnd.Next(i + 1);
+                int temp = array[index];
+                array[index] = array[i];
+                array[i] = temp;
+            }
         }
 
         /// <summary>
