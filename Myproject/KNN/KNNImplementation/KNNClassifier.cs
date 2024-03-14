@@ -150,7 +150,7 @@ namespace KNNImplementation
         /// </summary>
         /// <returns></returns>
 
-        public static double[][] LoadDatafromthefile(string filePath)
+        public static double[][] LearnDatafromthefile(string filePath)
         {
             try
             {

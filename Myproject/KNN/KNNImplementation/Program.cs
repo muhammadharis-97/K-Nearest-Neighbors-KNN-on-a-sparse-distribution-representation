@@ -23,10 +23,10 @@ namespace NeoCortexApiSample
 
 
             // Loading training data
-            double[][] sdrData = KNNClassifier.LoadDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
+            double[][] sdrData = KNNClassifier.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
 
             // Getting test datasets 
-            double[][] testDataset = KNNClassifier.LoadDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\test1_dataset.txt");
+            double[][] testDataset = KNNClassifier.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\test1_dataset.txt");
             int numofclass = 3;
 
            
@@ -54,7 +54,7 @@ namespace NeoCortexApiSample
                
                 //Console.WriteLine();
                 // Classifying the test data using KNN algorithm
-                int prediction = kNN.Classifier(testDataset, sdrData, numofclass, k);
+                int prediction = kNN.Classifier(testData, sdrData, numofclass, k);
                 predicted[i] = prediction;
                 if (predicted[i] == acutuallabel[i])
                 {
@@ -71,13 +71,12 @@ namespace NeoCortexApiSample
             Console.WriteLine("Calculated Accuracy   =   " + accuracy );
             Console.WriteLine();
 
-            
+           
 
 
-            //RunMultiSequenceLearningExperiment();
+           // RunMultiSequenceLearningExperiment();
 
         }
-
 
         /// <summary>
         /// Runs a multi-sequence learning experiment using simple sequences.
