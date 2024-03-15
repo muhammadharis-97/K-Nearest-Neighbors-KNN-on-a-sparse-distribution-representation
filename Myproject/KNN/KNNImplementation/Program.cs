@@ -23,12 +23,12 @@ namespace NeoCortexApiSample
         {
 
             int numofclass = 3;
-            int k = 1;
+            //int k = 1;
             double[] features = new double[20];
 
             // Set the ratio for splitting (e.g., 80% training, 20% testing)
-            double trainRatio = 0.6;
-            int i = 0;
+            double trainRatio = 0.7;
+            //int i = 0;
 
 
             KNNClassifier kNN = new KNNClassifier();
@@ -37,34 +37,38 @@ namespace NeoCortexApiSample
             double[][] sdrData = kNN.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
 
             // Call the method to split the data
-            var (trainData, testDataset) = SplitData(sdrData, trainRatio);
+            var (trainDataset, testDataset) = SplitData(sdrData, trainRatio);
 
             int[] actualLabels = ExtractActualLabelsFromDataset(testDataset);
             int[] predicted = new int[testDataset.Length];
 
             Console.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
             Console.WriteLine();
-            Console.WriteLine($"Value of K is equal to {k}");
             
 
-            // Looping through each test dataset
-            foreach (var testData in testDataset)
+            for (int k = 1; k <= 12; k++)
             {
+                int i = 0;
+                Console.WriteLine($"Value of K is equal to {k}");
+                // Looping through each test dataset
+                foreach (var testData in testDataset)
+                {
 
-                Console.WriteLine();
-                // Classifying the test data using KNN algorithm
-                int prediction = kNN.Classifier(testData, trainData, numofclass, k);
-               
-                predicted[i] = prediction;
+                    Console.WriteLine();
+                    // Classifying the test data using KNN algorithm
+                    int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
 
-                i = i + 1;
+                    predicted[i] = prediction;
 
-                // Displaying the predicted class for the test data
-                Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
+                    i = i + 1;
+
+                    // Displaying the predicted class for the test data
+                    Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
+                }
+                double accuracy = KNNClassifier.CalculateAccuracy(predicted, actualLabels);
+                Console.WriteLine("Calculated Accuracy   =   " + accuracy);
             }
-
-            double accuracy = KNNClassifier.CalculateAccuracy(predicted, actualLabels);
-            Console.WriteLine("Calculated Accuracy   =   " + accuracy);
+            
 
 
             // Calculating Accuracy of the Classifier

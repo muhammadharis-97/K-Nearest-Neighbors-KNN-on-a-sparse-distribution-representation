@@ -20,19 +20,19 @@ namespace KNNImplementation
     public class KNNClassifier : IClassifier
     {
         /// <summary>
-        /// Calculates the Euclidean distance between unknownSDR and SDRdata.
+        /// Calculates the Euclidean distance between training Data and testing Data features.
         /// </summary>
-        /// <param name="unknownSDR">The first vector.</param>
-        /// <param name="SdrData">The second vector.</param>
+        /// <param name="testData">The featuers of testing Data.</param>
+        /// <param name="trainData">The featuers of testing Data.</param>
         /// <returns>The Euclidean distance between the two vectors.</returns>
-        public double Distance(double[] unknownSDR, double[] SdrData)
+        public double Distance(double[] testData, double[] trainData)
         {
             double sum = 0.0;
 
             // Calculate the sum of squared differences for each dimension
-            for (int i = 0; i < unknownSDR.Length; ++i)
+            for (int i = 0; i < testData.Length; ++i)
             {
-                double difference = unknownSDR[i] - SdrData[i];
+                double difference = testData[i] - trainData[i];
                 sum += difference * difference;
             }
 
@@ -44,12 +44,12 @@ namespace KNNImplementation
         /// Determines the class label by majority voting among the k nearest neighbors.
         /// </summary>
         /// <param name="info">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
-        /// <param name="SDRData">The training data containing class labels.</param>
+        /// <param name="trainData">The training data containing class labels.</param>
         /// <param name="numClasses">The total number of classes.</param>
         /// <param name="k">The number of nearest neighbors to consider.</param>
         /// <returns>The class label with the most votes among the nearest neighbors.</returns>
 
-        static int Vote(IndexAndDistance[] info, double[][] SDRData, int numClasses, int k)
+        static int Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)
         {
             // Array to store the number of votes for each class
             int[] votes = new int[numClasses];
@@ -67,7 +67,7 @@ namespace KNNImplementation
                 int idx = info[i].idx;
 
                 // Determine the class label of the i-th neighbor
-                int c = (int)SDRData[idx][20];
+                int c = (int)trainData[idx][20];
 
                 // Increment the vote count for the corresponding class
                 ++votes[c];
@@ -96,15 +96,15 @@ namespace KNNImplementation
         /// <summary>
         /// Classifies the unknown SDR based on the k-nearest neighbors in the training data using the KNN algorithm.
         /// </summary>
-        /// <param name="unknownSDR">The unknown SDR to be classified.</param>
-        /// <param name="Sdrdata">The training data containing known SDRs.</param>
+        /// <param name="testData">The testing data containing unknown SDR to be classified.</param>
+        /// <param name="trainData">The training data containing known SDRs.</param>
         /// <param name="numofclass">The total number of classes.</param>
         /// <param name="k">The number of nearest neighbors to consider in the classification.</param>
         /// <returns>The predicted class label for the unknown SDR.</returns>
 
-        public  int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k)
+        public  int Classifier(double[] testData, double[][] trainData, int numofclass, int k)
         {
-            int n = Sdrdata.Length;
+            int n = trainData.Length;
 
             // Array to store the index and distance of each SDR in the training data
             IndexAndDistance[] info = new IndexAndDistance[n];
@@ -114,7 +114,7 @@ namespace KNNImplementation
             {
                 IndexAndDistance curr = new IndexAndDistance();
 
-                double dist = Distance(unknownSDR, Sdrdata[i]);
+                double dist = Distance(testData, trainData[i]);
 
                 curr.idx = i;
                 curr.dist = dist;
@@ -127,20 +127,20 @@ namespace KNNImplementation
             
 
             // Information for the k-nearest items is displayed
-            Console.WriteLine("Nearest / Distance / Class");
-            Console.WriteLine("==========================");
+           // Console.WriteLine("Nearest / Distance / Class");
+           // Console.WriteLine("==========================");
             for (int i = 0; i < k; ++i)
             {
-                int c = (int)Sdrdata[info[i].idx][2];
+                int c = (int)trainData[info[i].idx][2];
                 string dist = info[i].dist.ToString("F3");
-                Console.WriteLine("( " + Sdrdata[info[i].idx][0] +
-                  "," + Sdrdata[info[i].idx][1] + " )  :  " +
-                  dist + "        " + c);
-                Console.WriteLine();
+              ///  Console.WriteLine("( " + trainData[info[i].idx][0] +
+               //   "," + trainData[info[i].idx][1] + " )  :  " +
+                ///  dist + "        " + c);
+             //   Console.WriteLine();
             }
 
             // Determine the class label for the unknown SDR based on the k-nearest neighbors
-            int result = Vote(info, Sdrdata, numofclass, k);
+            int result = Vote(info, trainData, numofclass, k);
 
             return result;
         }

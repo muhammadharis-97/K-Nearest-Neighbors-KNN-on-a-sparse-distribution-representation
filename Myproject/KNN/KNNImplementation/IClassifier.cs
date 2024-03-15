@@ -12,9 +12,9 @@ namespace KNNImplementation
     public interface IClassifier
     {
 
-        public int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k);
+        public int Classifier(double[] testData, double[][] trainData, int numofclass, int k);
 
-        public double Distance(double[] unknownSDR, double[] SdrData);
+        public double Distance(double[] testData, double[] trainData);
 
         public double[][] LearnDatafromthefile(string filePath);
        
