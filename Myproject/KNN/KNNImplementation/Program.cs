@@ -17,6 +17,7 @@ namespace NeoCortexApiSample
     class Program
     {
 
+        
         // Main method to start the program
         static void Main(string[] args)
         {
@@ -45,6 +46,7 @@ namespace NeoCortexApiSample
             Console.WriteLine();
             Console.WriteLine($"Value of K is equal to {k}");
             
+
             // Looping through each test dataset
             foreach (var testData in testDataset)
             {
@@ -73,7 +75,7 @@ namespace NeoCortexApiSample
 
 
 
-            // RunMultiSequenceLearningExperiment();
+            //RunMultiSequenceLearningExperiment();
 
         }
 
