@@ -21,60 +21,54 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
 
-
-            // Loading training data
-            double[][] sdrData = KNNClassifier.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
-
-            // Getting test datasets 
-            // double[][] testDataset = KNNClassifier.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\test1_dataset.txt");
             int numofclass = 3;
+            int k = 1;
+            double[] features = new double[20];
 
             // Set the ratio for splitting (e.g., 80% training, 20% testing)
-            double trainRatio = 0.8;
+            double trainRatio = 0.6;
+            int i = 0;
+
+
+            KNNClassifier kNN = new KNNClassifier();
+
+            // Loading training data
+            double[][] sdrData = kNN.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
 
             // Call the method to split the data
             var (trainData, testDataset) = SplitData(sdrData, trainRatio);
 
-
             int[] actualLabels = ExtractActualLabelsFromDataset(testDataset);
-            
-
+            int[] predicted = new int[testDataset.Length];
 
             Console.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
             Console.WriteLine();
-
-            // Number of classes in the dataset
-            int k = 18;
-            //int features = 20;
-            Console.WriteLine();
             Console.WriteLine($"Value of K is equal to {k}");
-            KNNClassifier kNN = new KNNClassifier();
-            int[] predicted = new int[5];
-            int i = 0;
-            int correctPredictions = 0;
+            
             // Looping through each test dataset
-            double[] features = new double[20];
             foreach (var testData in testDataset)
             {
 
-                //Console.WriteLine();
+                Console.WriteLine();
                 // Classifying the test data using KNN algorithm
                 int prediction = kNN.Classifier(testData, trainData, numofclass, k);
+               
                 predicted[i] = prediction;
-                if (predicted[i] == actualLabels[i])
-                {
-                    correctPredictions++;
-                }
+
                 i = i + 1;
 
                 // Displaying the predicted class for the test data
                 Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
             }
 
-            // Calculating Accuracy of the Classifier
-            double accuracy = ((double)correctPredictions / actualLabels.Length) * 100;
+            double accuracy = KNNClassifier.CalculateAccuracy(predicted, actualLabels);
             Console.WriteLine("Calculated Accuracy   =   " + accuracy);
-            Console.WriteLine();
+
+
+            // Calculating Accuracy of the Classifier
+            //double accuracy = ((double)correctPredictions / actualLabels.Length) * 100;
+
+            //Console.WriteLine();
 
 
 
@@ -102,42 +96,15 @@ namespace NeoCortexApiSample
             return actualLabels;
         }
 
+
         /// <summary>
-        /// Finding Accuracy of KNN CLassifue
+        /// Spliting the dataset in training dataset and testing dataset
         /// </summary>
-        /// <param name="predictedLabels"></param>
-        /// <param name="actualLabels"></param>
+        /// <param name="data"></param>
+        /// <param name="trainRatio"></param>
         /// <returns></returns>
 
-        static double CalculateAccuracy(int[] predictedLabels, int[] actualLabels)
-        {
-            int correctPredictions = 0;
-            int totalPredictions = predictedLabels.Length;
-
-            for (int i = 0; i < totalPredictions; i++)
-            {
-                if (predictedLabels[i] == actualLabels[i])
-                {
-                    correctPredictions++;
-                }
-            }
-
-            double accuracy = (double)correctPredictions / totalPredictions * 100;
-            return accuracy;
-        }
-    
-
-
-
-
-    /// <summary>
-    /// Spliting the dataset in training dataset and testing dataset
-    /// </summary>
-    /// <param name="data"></param>
-    /// <param name="trainRatio"></param>
-    /// <returns></returns>
-
-    static (double[][], double[][]) SplitData(double[][] data, double trainRatio)
+        static (double[][], double[][]) SplitData(double[][] data, double trainRatio)
         {
             // Calculate the sizes of training and testing data
             int totalRows = data.Length;

@@ -25,7 +25,7 @@ namespace KNNImplementation
         /// <param name="unknownSDR">The first vector.</param>
         /// <param name="SdrData">The second vector.</param>
         /// <returns>The Euclidean distance between the two vectors.</returns>
-        private double Distance(double[] unknownSDR, double[] SdrData)
+        public double Distance(double[] unknownSDR, double[] SdrData)
         {
             double sum = 0.0;
 
@@ -102,7 +102,7 @@ namespace KNNImplementation
         /// <param name="k">The number of nearest neighbors to consider in the classification.</param>
         /// <returns>The predicted class label for the unknown SDR.</returns>
 
-        public int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k)
+        public  int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k)
         {
             int n = Sdrdata.Length;
 
@@ -148,9 +148,10 @@ namespace KNNImplementation
         /// <summary>
         /// GetTestDataset method to read datasets from a file
         /// </summary>
+        /// <param name="filePath"></param>
         /// <returns></returns>
 
-        public static double[][] LearnDatafromthefile(string filePath)
+        public double[][] LearnDatafromthefile(string filePath)
         {
             try
             {
@@ -193,7 +194,34 @@ namespace KNNImplementation
         }
 
 
+        /// <summary>
+        /// Finding Accuracy of KNN CLassifue
+        /// </summary>
+        /// <param name="predictedLabels"></param>
+        /// <param name="actualLabels"></param>
+        /// <returns></returns>
+
+        public static double CalculateAccuracy(int[] predictedLabels, int[] actualLabels)
+        {
+            int correctPredictions = 0;
+            int totalPredictions = predictedLabels.Length;
+
+            for (int i = 0; i < totalPredictions; i++)
+            {
+                if (predictedLabels[i] == actualLabels[i])
+                {
+                    correctPredictions++;
+                }
+            }
+
+            double accuracy = (double)correctPredictions / totalPredictions * 100;
+            return accuracy;
+        }
+
+
     }
+
+ 
 
 
     /// <summary>
