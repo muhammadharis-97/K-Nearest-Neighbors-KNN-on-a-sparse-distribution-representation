@@ -16,76 +16,68 @@ namespace NeoCortexApiSample
 {
     class Program
     {
-
         
         // Main method to start the program
         static void Main(string[] args)
         {
 
+            // Intailizing the number of classes 
             int numofclass = 3;
-            //int k = 1;
             double[] features = new double[20];
 
-            // Set the ratio for splitting (e.g., 80% training, 20% testing)
+            // Set the ratio for splitting (70% training, 30% testing)
             double trainRatio = 0.7;
-            //int i = 0;
 
-
+            /// creating an Instance of the class KNN
             KNNClassifier kNN = new KNNClassifier();
 
-            // Loading training data
+            // Learning data from the dataset file
             double[][] sdrData = kNN.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
 
             // Call the method to split the data
             var (trainDataset, testDataset) = SplitData(sdrData, trainRatio);
 
+            // Extracting the Actual labels from test dataset
             int[] actualLabels = ExtractActualLabelsFromDataset(testDataset);
-            int[] predicted = new int[testDataset.Length];
+            int[] predictedlabels = new int[testDataset.Length];
 
+
+            // Starting the KNN Classifier
             Console.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
             Console.WriteLine();
             
 
-            for (int k = 1; k <= 12; k++)
+            for (int k = 1; k <= 10; k++)
             {
                 int i = 0;
                 Console.WriteLine($"Value of K is equal to {k}");
+                
                 // Looping through each test dataset
                 foreach (var testData in testDataset)
                 {
 
                     Console.WriteLine();
-                    // Classifying the test data using KNN algorithm
+                    // Classifying the test data using KNN Classifier 
                     int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
 
-                    predicted[i] = prediction;
+                    predictedlabels[i] = prediction;
 
                     i = i + 1;
 
                     // Displaying the predicted class for the test data
                     Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
                 }
-                double accuracy = KNNClassifier.CalculateAccuracy(predicted, actualLabels);
+                double accuracy = KNNClassifier.CalculateAccuracy(predictedlabels, actualLabels);
                 Console.WriteLine("Calculated Accuracy   =   " + accuracy);
             }
             
-
-
-            // Calculating Accuracy of the Classifier
-            //double accuracy = ((double)correctPredictions / actualLabels.Length) * 100;
-
-            //Console.WriteLine();
-
-
-
-
             //RunMultiSequenceLearningExperiment();
 
         }
 
 
         /// <summary>
-        /// Extracting AcutualLabels from training Dataset
+        /// Method for Extracting AcutualLabels from test Dataset
         /// </summary>
         /// <param name="testData"></param>
         /// <returns></returns>
@@ -112,20 +104,16 @@ namespace NeoCortexApiSample
 
         static (double[][], double[][]) SplitData(double[][] data, double trainRatio)
         {
-            // Calculate the sizes of training and testing data
             int totalRows = data.Length;
             int trainRows = (int)(totalRows * trainRatio);
             int testRows = totalRows - trainRows;
 
-            // Shuffle the indices to randomly select rows for training and testing
             int[] indices = Enumerable.Range(0, totalRows).ToArray();
             Shuffle(indices);
 
-            // Create arrays to hold training and testing data
             double[][] trainData = new double[trainRows][];
             double[][] testData = new double[testRows][];
 
-            // Split the data based on the shuffled indices
             for (int i = 0; i < totalRows; i++)
             {
                 double[] row = data[indices[i]];
@@ -142,7 +130,10 @@ namespace NeoCortexApiSample
             return (trainData, testData);
         }
 
-        // Method to shuffle an array of integers (Fisher-Yates shuffle algorithm)
+        /// <summary>
+        /// Method to shuffle an array of integers (Fisher-Yates shuffle algorithm)
+        /// </summary>
+        /// <param name="array"></param>
         static void Shuffle(int[] array)
         {
             Random rnd = new Random();
