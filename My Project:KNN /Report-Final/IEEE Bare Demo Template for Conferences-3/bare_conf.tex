@@ -207,6 +207,19 @@ This section includes multiple subsections including description of KNN in detai
 
 
 \subsection{Literature Review}
+The K-Nearest Neighbors (KNN) algorithm is a widely-used non-parametric classification method in machine learning. KNN depend on instance based learning where prediction is made based on the similarity of new data points to existing labeled data points. In finance, KNN is used for credit scoring, stock analysis and fraud detection. In healthcare sector, KNN is used for patient health monitoring and drug suggestions. If, I will talk about marketing professionally KNN is used as product suggestion, market trend analysis and customer ads suggestions. In most cases KNN is used for determining the specific patterns and tasks like face recognition or image classification. 
+
+Researchers have proposed various enhancements to the traditional KNN algorithm which can improve the scalability and performance. The weight adjustment algorithm is proposed by Han EH., proposed assigning weights to the nearest neighbors based on their distance from the respective point.[11][8]. The assigned weights desgunish, how much the weights influence the classification method. In this way, high weights will be assigned to the one who are closer neigbors, so it give more priority to the similar instances while performing classification.  This technique is usefull where the dataset has many feature, some of which can be considered as unneccessary but it has high cost in context of computational cost.
+
+Zhang et al. has proposed to adjust the value of K based on the local density of data points [3]. This adaptive KNN algorithm dynamically selects the optimal value of K for each query point, leading to more robust predictions. And shows that the adaptive algorithm outperforms many other traditional KNN algorithms. The other approach can be locally adoptive KNN algorithm. It choices the optimal value of K for classifying an input by analyzing the outcomes of cross-validation computations within the local neighborhood of the unlabeled data point.[12]  The approach defined by Song Yang, is to introduce two input parameters. As we know determining the correct value of K depends on the characteristics of the dataset, the selection of correct parmeter for various applications is a challenge. Song Yang suggest to introduce a novel metric that assesses the informativeness of objects to be classified, with informativeness quantifying the significance of data points. 
+Two parameter will be K and I as a input. The class is determined based on the majority class of the most informative training examples.[10]
+
+Whereas on the some has proposed to integrated KNN with dimensionality reduction methods such as principal component analysis (PCA) to improve computational efficiency [5]. This a combination is a example of hybrid approach. Whereas other have combined KNN with ensemble methods such as random forests to enhance predictive accuracy [6]. These hybrid approaches enhance the performance as compared to standalone KNN. 
+
+
+
+
+
 
 
 
@@ -220,12 +233,36 @@ The K-nearest was first used by US Air force to execute characteristics analysis
 If we try to recap, the main objective of the k-nearest neighbor algorithm is the identification of the nearest neighbors of a given input point. So, What we can do is assign a class label to that specific point. The first thing is determining the distance matrics. In order to find which class(data point) is nearest to the input data, to do so we will calculate the distance between the data points and query point. We get assistance to decide in which regions the input point belongs. The distance metrics can be either Manhattan distance or any other approach. The first thing is to indentify the k-nearest neighbors and then amount of its k-neatest neighbors.The most famous techniques are discussed below:  
 
 
-\paragraph{Euclidean distance (p=2)}
-In the early 300 B.C.E, the Greek mathematician introduced Euclid while finding the difference between distance and angle. Still Euclid is most commonly used for From that early, till yet Euclid is widely and applies in two or three dimensions space. 
+\paragraph{\textbf{Euclidean distance (p=2)}}
+In the early 300 B.C.E, the Greek mathematician introduced Euclid while finding the difference between distance and angle. Still Euclid is most common used of distance. From that early, till yet Euclid is widely and applies in two or three dimensions space. The main method, is the root of square distances between two coordinates of a pair of objects. Then there is a square root of the sum of squares of the differences between the corresponding values. 
 
-
-Euclidean geometry is still widely used and taught even today and applies to spaces of two or three dimensions, but it can be generalized to higher-order dimensions. At this point, the Euclidean distance is pretty much the most common use of distance. In most situations in which people are talking about distance, they are referring to the Euclidean distance. It examines the root of square distances between the co-ordinates of a pair of objects. To derive the Euclidean distance, you would have to compute the square root of the sum of the squares of the differences between corresponding values.
-
+As from the fig.1 we have the 
+\begin{math}
+(x_1,y_1), and (x_2,y_2)
+\end{math}
+from we can see that 
+\begin{math}
+(x_1,x_2), and (y_1,y_2)
+\end{math}
+are allocated into the two dimensional space. And If we try to build a right angled triangle and draw a hypotenuse straight line between two points(d). The other two sides of a right angle triangle are base and altitude which will be
+\begin{math}
+|x_1 - y_1|, and |x_1 - y_1|
+\end{math}
+. So there the hypotenuse(d) is our Euclidean distance which is the between (x1, x2) and (y1, y2). As this is only a straight line so we will use Pythagorean theorem. The distance between 
+\begin{math}
+(x_1,x_2), and (y_1,y_2)
+\end{math}
+would be \begin{math}
+(x_1,y_1)^2, and (x_2,y_2)^2
+\end{math}.
+Taking this further, to calculate the Euclidean distance between,
+\begin{math}
+x_n,  and y_n 
+\end{math}
+the Euclidean distance is
+\begin{math}
+(x_n - y_n)^2
+\end{math} in n-dimensional space. 
 
 
 
@@ -253,41 +290,69 @@ d is the distance between
 
 \end{itemize}
 
-
+Euclidean is limited to real-valued vectors and is most commonly used for distance measures. The above expression is used to determine the straight line between the input point and the other point being measured. 
 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{EDistance.jpg}
+    \includegraphics[width=0.7\linewidth]{EDistance.jpg}
     \caption{Euclidean Distance}
     \label{fig:enter-label}
 \end{figure}
 
-Euclidean is limited to real-valued vectors and is most commonly used for distance measures. The below expression is used to determine the straight line between the input point and the other point being measured.  Euclidean Distance is largely used in machine learning learning algorithms such as K-Nearest(KNN) where it is used to measure the similarity between two data points.Spatial Analysis for measuring distance between geographical locations. As well as, in robotics for obstacle avoidance and path planning. It is also used in image process for comparing images based on pixel values. 
+
+Euclidean distance is the shortest distance between two points means the straight line between source and destination whereas the Manhattan distance is the sum of all the real distances between the source and destination. And each always be a straight line. The reason behind Euclidean distance used in KNN is that it provides a simple and intuitive measure of similarity between data points in a multi-dimensional space. One of the main reason is that Euclidean distance in KNN, is its computational efficiency and simplicity. Euclidean distance metric works well for contious features and 
+
+
+
+Euclidean Distance is largely used in machine learning learning algorithms such as K-Nearest(KNN) where it is used to measure the similarity between two data points.Spatial Analysis for measuring distance between geographical locations. As well as, in robotics for obstacle avoidance and path planning. It is also used in image process for comparing images based on pixel values. 
 
 
 
 
-\paragraph{Manhattan distance (p=1)}
-In Manhattan distance, the absolute value is measured between two points. Manhattan distance is also one of the popular and dominant distance metrics. The most common example is Uber app visualization with a grid and navigation via streets from one address to another illustration.   
+ It is easy to compute and widely understood, making it a popular choice for measuring distances between points in machine learning algorithms.
+
+Additionally, the Euclidean distance metric works well for continuous features and is suitable for data represented in a high-dimensional space. It captures the straight-line distance between points in space, which aligns with the intuitive notion of distance.
+
+Furthermore, the Euclidean distance metric is invariant to the scale and orientation of the coordinate system, making it robust to transformations of the data.
+
+Overall, the Euclidean distance metric is a versatile and effective choice for measuring distances between data points in KNN, making it a widely adopted approach in machine learning applications.
+
+
+
+
+
+\
+
+
+
+\paragraph{\textbf{Manhattan distance (p=1)}}
+In Manhattan distance, the absolute value is measured between two points. Manhattan is widely used as for resloving the problems related to geometry. We can say it as a ordinary distance between two points. Manhattan distance is also one of the popular and dominant distance metrics. The most common example is Uber app visualization with a grid and navigation via streets from one address to another illustration. Manhattan is widely used in cluster analysis. K-Means clustering algorithm is the common example where Manhattan distance is used. The second name of Manhattan Distance is city Block Distance. The simplest way to calculate the distance is to go horizontally and then vertically until you get from one point to the other between two points and go vertically instead of going in a straight line. 
+
+The Manhattan Distance or City Block Distance determines the absolute difference among the pair of the coordinates. It might be surprising, but the simplest way of calculating the distance between two points is to go horizontally and then vertically until you get from one point to the other, instead of just going in a straight line. It is a simpler technique since it only needs you to subtract instead of performing more complicated calculations.
 
 \begin{math}
  Manhattan distance = d(x,y)=\sqrt{(\sum_{i=1}^{m} |X_{i} - Y_{i})|)}
  \newline
 \end{math}
+As shown, it is the root of squared difference between the coordinates of two objects. We only need to subtract two points instead of performing complex tasks. 
+
+
+
+
+
+
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{a.png}
+    \includegraphics[width=0.8\linewidth]{a.png}
     \caption{Manhattan Distance}
     \label{fig:enter-label}
 \end{figure}
 
+\
 
-
-
-
-\paragraph{Minkowski distance}
+\paragraph{\textbf{Minkowski distance}}
 It is the generalized form of Manhattan and Euclidean distance matrics. Manhattan distance is denoted by p equal to one whereas the Euclidean distance is represented by p equal to two. Parameter p allows the creation of other distance metrics as shown below.
 
 \begin{math}
@@ -302,7 +367,7 @@ It is the generalized form of Manhattan and Euclidean distance matrics. Manhatta
     \label{fig:enter-label}
 \end{figure}
 
-\paragraph{Hamming distance}
+\paragraph{\textbf{Hamming distance}}
 This technique used with string vectors or boolean identifying the points where the vectors do not match. Overlap metrics are also referred as represented below:
 
 \begin{math}
@@ -571,7 +636,40 @@ The authors would like to thank...
 Cover, T., \& Hart, P. (1967). Nearest neighbor pattern classification. IEEE transactions on information theory, 13(1), 21-27.
 
 \bibitem{2}
-Cover, T., \& Hart, P. (1967). Nearest neighbor pattern classification. IEEE transactions on information theory, 13(1), 21-27.
+J. Z. A. L. J. W. Q. and L. S. Zhang, "An adaptive KNN algorithm based on data point density," IEEE Access, 7, 80876-80883. doi: 10.1109/ACCESS.2019.2926611, 2019.
+
+
+\bibitem{4}
+S. A. a. J. H. Y. Cui, "Continuous Online Sequence Learning with an Unsupervised Neural Network Model," Neural Comut.,, vol. 28, pp. 2474-2504, 2016.
+
+
+
+
+
+%corrected
+
+\bibitem{8}
+X. L. Y. and C. Z. Yu, "Weighted K-nearest neighbor algorithm based on Gaussian kernel function," Journal of Ambient Intelligence and Humanized Computing, 11(5), 1985-1993. doi: 10.1007/s12652-019-01633-9, 2020.
+
+\bibitem{9}
+Taunk, Kashvi and De, Sanjukta and Verma, Srishti and Swetapadma, Aleena. (2019). A Brief Review of Nearest Neighbor Algorithm for Learning and Classification. 1255-1260. 10.1109/ICCS45141.2019.9065747. 
+
+
+\bibitem{10}
+Song Yang, Jian Huang, Ding Zhou, Hongyuan Zha, and C. Lee Giles, “Iknn:
+Informative k-nearest neighbour pattern classification,” in Knowledge Discovery in Databases, (2007), pg. 248– 264.
+
+
+\bibitem{11}
+Han EH.., Karypis G., Kumar V.(2001) “Text Categorization Using Weight Adjusted k-Nearest Neighbour Classification”. In: Cheung D., Williams G.J., Li Q. (eds) Advances in Knowledge Discovery and Data Mining. PAKDD 2001. Lecture Notes in Computer Science, vol 2035. Springer, Berlin, Heidelberg.
+
+
+
+\bibitem{12}
+D. Wettschereck and D. Thomas G., “Locally adaptive nearest neighbour algorithms,” Adv. Neural Inf. Process. Syst., pg. 184–186, 1994.
+
+
+
 
 
 \end{thebibliography}
