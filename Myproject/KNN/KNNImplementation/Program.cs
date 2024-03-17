@@ -35,10 +35,10 @@ namespace NeoCortexApiSample
             double[][] sdrData = kNN.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
 
             // Call the method to split the data
-            var (trainDataset, testDataset) = SplitData(sdrData, trainRatio);
+            var (trainDataset, testDataset) = kNN.SplitData(sdrData, trainRatio);
 
             // Extracting the Actual labels from test dataset
-            int[] actualLabels = ExtractActualLabelsFromDataset(testDataset);
+            int[] actualLabels = kNN.ExtractActualLabelsFromDataset(testDataset);
             int[] predictedlabels = new int[testDataset.Length];
 
 
@@ -67,7 +67,7 @@ namespace NeoCortexApiSample
                     // Displaying the predicted class for the test data
                     Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
                 }
-                double accuracy = KNNClassifier.CalculateAccuracy(predictedlabels, actualLabels);
+                double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
                 Console.WriteLine("Calculated Accuracy   =   " + accuracy);
             }
             
@@ -76,75 +76,7 @@ namespace NeoCortexApiSample
         }
 
 
-        /// <summary>
-        /// Method for Extracting AcutualLabels from test Dataset
-        /// </summary>
-        /// <param name="testData"></param>
-        /// <returns></returns>
-
-        static int[] ExtractActualLabelsFromDataset(double[][] testData)
-        {
-            // Extract actual labels from the dataset
-            // Assuming labels are stored in the last column of each row
-            int[] actualLabels = new int[testData.Length];
-            for (int i = 0; i < testData.Length; i++)
-            {
-                actualLabels[i] = (int)testData[i].Last();
-            }
-            return actualLabels;
-        }
-
-
-        /// <summary>
-        /// Spliting the dataset in training dataset and testing dataset
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="trainRatio"></param>
-        /// <returns></returns>
-
-        static (double[][], double[][]) SplitData(double[][] data, double trainRatio)
-        {
-            int totalRows = data.Length;
-            int trainRows = (int)(totalRows * trainRatio);
-            int testRows = totalRows - trainRows;
-
-            int[] indices = Enumerable.Range(0, totalRows).ToArray();
-            Shuffle(indices);
-
-            double[][] trainData = new double[trainRows][];
-            double[][] testData = new double[testRows][];
-
-            for (int i = 0; i < totalRows; i++)
-            {
-                double[] row = data[indices[i]];
-                if (i < trainRows)
-                {
-                    trainData[i] = row.ToArray();
-                }
-                else
-                {
-                    testData[i - trainRows] = row.ToArray();
-                }
-            }
-
-            return (trainData, testData);
-        }
-
-        /// <summary>
-        /// Method to shuffle an array of integers (Fisher-Yates shuffle algorithm)
-        /// </summary>
-        /// <param name="array"></param>
-        static void Shuffle(int[] array)
-        {
-            Random rnd = new Random();
-            for (int i = array.Length - 1; i > 0; i--)
-            {
-                int index = rnd.Next(i + 1);
-                int temp = array[index];
-                array[index] = array[i];
-                array[i] = temp;
-            }
-        }
+        
 
         /// <summary>
         /// Runs a multi-sequence learning experiment using simple sequences.
