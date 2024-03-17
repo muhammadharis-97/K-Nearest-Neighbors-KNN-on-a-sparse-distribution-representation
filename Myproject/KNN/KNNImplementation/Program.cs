@@ -21,6 +21,8 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
 
+            // Defining the value of K
+            int k = 1;
 
             // Intailizing the number of classes 
             int numofclass = 3;
@@ -48,29 +50,30 @@ namespace NeoCortexApiSample
             Console.WriteLine();
             
 
-            for (int k = 1; k <= 6 ; k++)
-            {
-                int i = 0;
-                Console.WriteLine($"Value of K is equal to {k}");
+            
+            int i = 0;
+            Console.WriteLine($"  Value of K is equal to {k}");
                 
-                // Looping through each test dataset
-                foreach (var testData in testDataset)
-                {
+            // Looping through each test dataset
+            foreach (var testData in testDataset)
+            {
 
-                    Console.WriteLine();
-                    // Classifying the test data using KNN Classifier 
-                    int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
+               // Classifying the test data using KNN Classifier 
+                int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
 
-                    predictedlabels[i] = prediction;
+                predictedlabels[i] = prediction;
 
-                    i = i + 1;
+                i = i + 1;
 
-                    // Displaying the predicted class for the test data
-                    Console.WriteLine($"Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
-                }
-                double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
-                Console.WriteLine("Calculated Accuracy   =   " + accuracy);
+                 // Displaying the predicted class for the test data
+                 Console.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
             }
+
+             Console.WriteLine();
+             double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
+             Console.WriteLine("  Calculated Accuracy   =   " + accuracy);
+             Console.WriteLine();
+            
             
            // RunMultiSequenceLearningExperiment();
 
