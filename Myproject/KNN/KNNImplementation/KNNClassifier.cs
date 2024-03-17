@@ -11,8 +11,6 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KNNImplementation
 {
-
-
     /// <summary>
     /// KNN class is designed to perform classification tasks on sequences derived from the SDR (Sparse Distributed Representation) dataset
     /// </summary>
@@ -111,8 +109,8 @@ namespace KNNImplementation
 
             Console.WriteLine();
             // Information for the k-nearest items is displayed
-            Console.WriteLine("Nearest / Distance / Class");
-            Console.WriteLine("==========================");
+            Console.WriteLine("Nearest     /    Distance      /     Class");
+            Console.WriteLine("=================================");
             for (int i = 0; i < k; ++i)
             {
                 int c = (int)trainData[info[i].idx][20];

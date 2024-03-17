@@ -21,12 +21,13 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
 
+
             // Intailizing the number of classes 
             int numofclass = 3;
             double[] features = new double[20];
 
             // Set the ratio for splitting (70% training, 30% testing)
-            double trainRatio = 0.8;
+            double trainRatio = 0.7;
 
             /// creating an Instance of the class KNN
             KNNClassifier kNN = new KNNClassifier();
@@ -71,7 +72,7 @@ namespace NeoCortexApiSample
                 Console.WriteLine("Calculated Accuracy   =   " + accuracy);
             }
             
-            //RunMultiSequenceLearningExperiment();
+           // RunMultiSequenceLearningExperiment();
 
         }
 
