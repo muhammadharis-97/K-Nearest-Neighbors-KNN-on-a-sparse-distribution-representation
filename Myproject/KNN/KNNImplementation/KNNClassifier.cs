@@ -59,7 +59,7 @@ namespace KNNImplementation
             for (int i = 0; i < k; ++i)
             {
                 int idx = info[i].idx;
-                int c = (int)trainData[idx][trainData.Length -1];
+                int c = (int)trainData[idx][20];
                 ++votes[c];
             }
 
@@ -108,14 +108,14 @@ namespace KNNImplementation
             }
 
             Array.Sort(info);
-            
 
+            Console.WriteLine();
             // Information for the k-nearest items is displayed
-            // Console.WriteLine("Nearest / Distance / Class");
-            // Console.WriteLine("==========================");
+            Console.WriteLine("Nearest / Distance / Class");
+            Console.WriteLine("==========================");
             for (int i = 0; i < k; ++i)
             {
-                int c = (int)trainData[info[i].idx][2];
+                int c = (int)trainData[info[i].idx][20];
                 string dist = info[i].dist.ToString("F3");
                 Console.WriteLine("( " + trainData[info[i].idx][0] +
                   "," + trainData[info[i].idx][1] + " )  :  " +

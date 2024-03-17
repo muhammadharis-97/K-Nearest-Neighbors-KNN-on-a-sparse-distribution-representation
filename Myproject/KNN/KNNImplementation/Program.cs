@@ -26,7 +26,7 @@ namespace NeoCortexApiSample
             double[] features = new double[20];
 
             // Set the ratio for splitting (70% training, 30% testing)
-            double trainRatio = 0.7;
+            double trainRatio = 0.8;
 
             /// creating an Instance of the class KNN
             KNNClassifier kNN = new KNNClassifier();
@@ -47,7 +47,7 @@ namespace NeoCortexApiSample
             Console.WriteLine();
             
 
-            for (int k = 1; k <= 10; k++)
+            for (int k = 1; k <= 6 ; k++)
             {
                 int i = 0;
                 Console.WriteLine($"Value of K is equal to {k}");
