@@ -34,6 +34,7 @@
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 
+\usepackage{multirow}
 
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -138,11 +139,11 @@
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
-\author{\IEEEauthorblockN{Dr.Muhammad Haris}
+\author{\IEEEauthorblockN{Muhammad Haris}
 \IEEEauthorblockA{Information Technology (M.Eng.)\\Computer Science and Engineering\\
 Frankfurt University of Applied Sciences\\
 Frankfurt am Main, Germany\\
-Email: here}
+Email: Muhammad.Haris@fra-uas.de}
 \and
 \IEEEauthorblockN{Zaka Ahmed}
 \IEEEauthorblockA{Information Technology (M.Eng.)\\Computer Science and Engineering\\
@@ -159,14 +160,7 @@ zaka.ahmed@stud.fra-uas.de}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-Machine Learning (ML) has become ubiquitous in various industries and evolving in our daily life. The sectors in which machine learning is involved include education, Telecommunication, retail, research and development, finance, healthcare and transportation. As, the development is going on various algorithms are used for prediction of text, images, videos and pictures. 
-
-There are various classifier aviliable including support vector machines, decision trees, naive Bayes, and K-Nearest Neighbours for data analysis. In this paper, our main focus is on KNN Implementation for sequence prediction with Hierarchical Temporal Memory (HTM). Supervised learning enables the prediction of output variables based on the input. Hierarchical Temporal Memory offers capabilities to learn complex temporal patterns, making it well-suited for processing sequential data. The Neocortex API helps in the integration of KNN model with HTM, which enables efficient classification of the sequences. 
-
-We are using three inputs odd numbers, even numbers or neither odd or even. These sequences are encoded and mapped on the cells which gives us SDR values. These SDR active cells are our data inputs. Which are further disguinsh by 0.3 in testing data and 0.7 in training data. Meaning splitting the dataset into two parts. Where 80\% belongs to training data and other 20\% to test data. Remember Training and testing data is labeled but while testing last index is not considered. In the further steps, using the Input SDR we will find the distance matrix between the training and test data. And then using K and voting method. We decide whether the unlabed data is belongs to that specific class. In KNN classification, the object is classified based on the votes of its nearest neighbors. If k=1, then the object will be in the class of that single nearest neighbor.The simple function of the kNN model is to predict the target class
-label. This is further explained in the paper. 
-
-The results achieved has shown a 80\% accuracy rate in classifying the input sequences. In this paper we covers the introduction and important parameters of K-Nearest, Distance Matrics, KNN impelementation, and the challenges regarding KNN.  
+Machine learning comes out as an advanced and significant technology, evolving in our daily life. The focus of Machine Learning is to enable computers to learn from the data and make predictions or decisions based on that data, enabling informed decision making without the need of extra instruction or explicit programming for the system to perform task better. The sectors in which machine learning is involved include education, telecommunication, retail, research and development, finance, healthcare, and transportation through data-driven insights. Machine leaning has three basic types: Supervised Leaning, Unsupervised Learning and Reinforcement leaning. In the domain of supervised machine learning, a variety of classifiers abound, including decision trees, support vector machines, Naive Bayes, and K-nearest neighbors (KNN), each tailored to address specific data analysis challenges. Among the numerous machines leaning algorithms, K-Nearest Neighbors (KNN) classifier is simplest and most effective for classification problem. This paper presents the implementation of the k-nearest neighbor (KNN) machine learning algorithm for predicting outcome variables based on input variables. Leveraging the capabilities of Hierarchical Temporal Memory (HTM) for learning complex temporal patterns, our study focuses on predicting types of sequences: even number sequences, odd number sequences, and decimal number sequences. We integrate the KNN model with the Neocortex API to efficiently classify sequences. The KNN model receives input data in the form of Sparse Distributed Representations (SDR) from HTM. We construct a dataset comprising multiple sequence SDRs, each with varying values within a defined threshold. The KNN model processes a stream of sequence SDRs, with the dataset split into 70\% training data and 30\% testing data. During testing, the model accurately classifies sequences, achieving a 90.9\% accuracy rate with some SDR testing data, and consistently predicts matches with 100\% accuracy in most cases. The paper discusses the KNN design procedure, challenges encountered, and potential enhancements to further improve model accuracy.
 
 
 
@@ -188,13 +182,13 @@ The results achieved has shown a 80\% accuracy rate in classifying the input seq
 \section{Introduction}
 
 \subsection{Background}
-KNN was first developed by Joseph Hodges and Evelyn Fix in the year 1951[1], in statistics the concept of k-nearest neighbors algorithm(k-NN) is involved in the non-parametric supervised learning method. Further developments in KNN are proceeded by Thomas Cover.[2]  KNN is commonly used for regression and classification. Both in regression and classification the input consists of k-closest training examples in the data set. Remember the output depends on whether the use case is either regression or classification of K-NN. 
+KNN was first developed by Joseph Hodges and Evelyn Fix in the year 1951[1] where the further development and we can say the modification are lead by Thomas Cover[2], in statistics the concept of k-nearest neighbors algorithm(k-NN) is involved in the non-parametric supervised learning method. KNN is commonly used for regression and classification. The input is consist of K-neighbour training example in both regression and classification. Remember the output depends on whether the use case is either regression or classification of K-NN. 
 
 \subsection{Regression}
-The main difference between classification and regression is that in regression, the output is the property value for the object. The value is the total average of the neighbor's nearest values. If k=1, the output is assigned from that particular single nearest neighbor. 
+The main difference between classification and regression is that in regression, the output which we get it will become the the object's property value. The value is the sum of the nearest neighbor's values averaged together. If k=1, the output is assigned from that particular single nearest neighbor. 
 
 \subsection{Classification}
-The main variation in the output of classifier and regression is that in classification, the output is the class membership. In classification, the object is classified based on the votes of its nearest neighbors. If k = 1, then the object will be in the class of that single nearest neighbor. The simple function of the kNN model is to predict the target class label. In other words, the class label is often described as a majority voting. The most common terms are technically considered "plurality voting" and "majority vote" The term "majority voting" means the majority needs to be greater the 50\%  
+The primary difference between the classifier and regression outputs is that in the former case, the output is the class membership. In classification, the object is classified based on the votes of its nearest neighbors. If k = 1, then the object will be in the class of that single nearest neighbor. The simple function of the kNN model is to predict the target class label. In other words, the class label is often described as a majority voting. The most common terms are technically considered "plurality voting" and "majority vote" The term "majority voting" means the majority needs to be greater the 50\%  
 for making decisions. The classification problems with only two classes, like binary predictions, there is always a majority. A majority vote is also automatically a plurality vote. We don't require multi-class settings to make predictions via kNN in multi-class settings. 
 
 
@@ -207,7 +201,7 @@ This section includes multiple subsections including description of KNN in detai
 
 
 \subsection{Literature Review}
-The K-Nearest Neighbors (KNN) algorithm is a widely-used non-parametric classification method in machine learning. KNN depend on instance based learning where prediction is made based on the similarity of new data points to existing labeled data points. In finance, KNN is used for credit scoring, stock analysis and fraud detection. In healthcare sector, KNN is used for patient health monitoring and drug suggestions. If, I will talk about marketing professionally KNN is used as product suggestion, market trend analysis and customer ads suggestions. In most cases KNN is used for determining the specific patterns and tasks like face recognition or image classification. 
+The K-Nearest Neighbors (KNN) algorithm is a widely-used non-parametric classification method in machine learning. KNN rely on instance-based learning, in which the similarity of newly added data points to previously labeled data points is used to make predictions. In finance, KNN is used for credit scoring, stock analysis and fraud detection. In healthcare sector, KNN is used for patient health monitoring and drug suggestions. If, I will talk about marketing professionally KNN is used as product suggestion, market trend analysis and customer ads suggestions. In most cases KNN is used for determining the specific patterns and tasks like face recognition or image classification. 
 
 Researchers have proposed various enhancements to the traditional KNN algorithm which can improve the scalability and performance. The weight adjustment algorithm is proposed by Han EH., proposed assigning weights to the nearest neighbors based on their distance from the respective point.[11][8]. The assigned weights desgunish, how much the weights influence the classification method. In this way, high weights will be assigned to the one who are closer neigbors, so it give more priority to the similar instances while performing classification.  This technique is usefull where the dataset has many feature, some of which can be considered as unneccessary but it has high cost in context of computational cost.
 
@@ -229,12 +223,12 @@ The K-nearest was first used by US Air force to execute characteristics analysis
 
 
 
-\subsubsection{Computing Distance Matrix}
-If we try to recap, the main objective of the k-nearest neighbor algorithm is the identification of the nearest neighbors of a given input point. So, What we can do is assign a class label to that specific point. The first thing is determining the distance metrics. In order to find which class(data point) is nearest to the input data, to do so we will calculate the distance between the data points and query point. We get assistance to decide in which regions the input point belongs. The distance metrics can be either Manhattan distance or any other approach. The first thing is to identify the k-nearest neighbors and then amount of its k-neatest neighbors.The most famous techniques are discussed below:  
+\subsubsection{\textbf{Computing Distance Matrix}}
+If we try to revise, k-nearest neighbor algorithm main objective is the identification of the nearest neighbors around the input. The step will be giving a label or name class to that specific point. The first thing is determining the distance metrics. In order to find which class(data point) is nearest to the input data, to do so we will calculate the distance between the data points and query point. We get assistance to decide in which regions the input point belongs. The distance metrics can be either Manhattan distance or any other approach. The first thing is to identify the k-nearest neighbors and then amount of its k-neatest neighbors.The most famous techniques are discussed below:  
 
 
 \paragraph{\textbf{Euclidean distance (p=2)}}
-In the early 300 B.C.E, the Greek mathematician introduced Euclid while finding the difference between distance and angle. Still Euclid is most common used of distance. From that early, till yet Euclid is widely and applies in two or three dimensions space. The main method, is the root of square distances between two coordinates of a pair of objects. Then there is a square root of the sum of squares of the differences between the corresponding values. 
+In the early 300 Era before, mathematician of Greek introduced Euclid while finding the difference between distance and angle. Still Euclid is most common used of distance. From that early, till yet Euclid is widely and applies in two or three dimensions space. The main method, is the root of square distances between two coordinates of a pair of objects. Then there is a square root of the sum of squares of the differences between the corresponding values. [45]
 
 As from the fig.1 we have the 
 \begin{math}
@@ -255,16 +249,16 @@ are allocated into the two dimensional space. And If we try to build a right ang
 would be \begin{math}
 (x_1,y_1)^2, and (x_2,y_2)^2
 \end{math}.
-Taking this further, to calculate the Euclidean distance between,
+Moreover to find the Euclidean distance between,
 \begin{math}
-x_n,  and y_n 
+y_n ,  and x_n
 \end{math}
 the Euclidean distance is
 \begin{math}
 (x_n - y_n)^2
 \end{math} in n-dimensional space. 
 
-
+\
 
 
 \begin{math}
@@ -290,49 +284,51 @@ d is the distance between
 
 \end{itemize}
 
-Euclidean is limited to real-valued vectors and is most commonly used for distance measures. The above expression is used to determine the straight line between the input point and the other point being measured. 
+Euclidean is limited to real-valued vectors and is most commonly used for distance measures. The straight line between the input point and the other point under measurement is found using the expression above. 
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.7\linewidth]{EDistance.jpg}
-    \caption{Euclidean Distance}
+    \caption{Euclidean Distance[50]}
     \label{fig:enter-label}
 \end{figure}
 
 
-Euclidean distance is the shortest distance between two points means the straight line between source and destination whereas the Manhattan distance is the sum of all the real distances between the source and destination. And each always be a straight line. The reason behind Euclidean distance used in KNN is that it provides a simple and intuitive measure of similarity between data points in a multi-dimensional space. One of the main reason is that Euclidean distance in KNN, is its computational efficiency and simplicity. Euclidean distance metric works well for continues features and is suitable for data represented in a high-dimensional space. 
+Euclidean distance is the shortest distance between two points means the straight line between source and destination whereas the Manhattan distance is the sum of all the real distances between the source and destination. And each always be a straight line. The reason behind Euclidean distance used in KNN is that it provides a simple and intuitive measure of similarity between data points in a multi-dimensional space. One of the main reason is that Euclidean distance in KNN, is its computational efficiency and simplicity.[45] Euclidean distance metric works well for continues features and is suitable for data represented in a high-dimensional space. 
 
 
 
-Euclidean Distance is largely used in machine learning learning algorithms such as K-Nearest(KNN) where it is used to measure the similarity between two data points.Spatial Analysis for measuring distance between geographical locations. As well as, in robotics for obstacle avoidance and path planning. It is also used in image process for comparing images based on pixel values. Due to coordinate system, making it robust to transformations of the data. It is most widely adopted approach in machine learning applications. 
+Euclidean Distance is largely used in machine learning learning algorithms such as K-Nearest(KNN) where it is used to measure the similarity between two data points.Spatial Analysis for measuring distance between geographical locations.[45] As well as, in robotics for obstacle avoidance and path planning. It is also used in image process for comparing images based on pixel values. Due to coordinate system, making it robust to transformations of the data. It is most widely adopted approach in machine learning applications. 
 
 \
 
 
 
 \paragraph{\textbf{Manhattan distance (p=1)}}
-In Manhattan distance, the absolute value is measured between two points. Manhattan is widely used as for resolving the problems related to geometry. We can say it as a ordinary distance between two points. Manhattan distance is also one of the popular and dominant distance metrics. The most common example is Uber app visualization with a grid and navigation via streets from one address to another illustration. Manhattan is widely used in cluster analysis. K-Means clustering algorithm is the common example where Manhattan distance is used. The second name of Manhattan Distance is city Block Distance. The simplest way to calculate the distance is to go horizontally and then vertically until you get from one point to the other between two points and go vertically instead of going in a straight line. 
+In Manhattan distance, the absolute value is measured between two points. Manhattan is widely used as for resolving the problems related to geometry. We can say it as a ordinary distance between two points. Manhattan distance is also one of the popular and dominant distance metrics. The most common example is Uber app visualization with a grid and navigation via streets from one address to another illustration. Manhattan is widely used in cluster analysis. K-Means clustering algorithm is the common example where Manhattan distance is used.[46] The second name of Manhattan Distance is city Block Distance. The easiest method to figure out the distance is to move from one point to the other between two locations by moving horizontally and then vertically, rather than straight forward.[46][56]It only need to subtract instead of performing complicated calculations that why its one of the simplest method of calculating the distance. 
 
-The Manhattan Distance or City Block Distance determines the absolute difference among the pair of the coordinates. It might be surprising, but the simplest way of calculating the distance between two points is to go horizontally and then vertically until you get from one point to the other, instead of just going in a straight line. It is a simpler technique since it only needs you to subtract instead of performing more complicated calculations.
+\
 
 \begin{math}
  Manhattan distance = d(x,y)=\sqrt{(\sum_{i=1}^{m} |X_{i} - Y_{i})|)}
  \newline
 \end{math}
-As shown, it is the root of squared difference between the coordinates of two objects. We only need to subtract two points instead of performing complex tasks. 
+
+\
+As shown[56], it is the root of squared difference between the coordinates of two objects. We only need to subtract two points instead of performing complex tasks. 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{a.png}
-    \caption{Manhattan Distance}
+    \caption{Manhattan Distance[49]}
     \label{fig:enter-label}
 \end{figure}
 
 \
 
 \paragraph{\textbf{Minkowski distance}}
-It is the generalized form of Manhattan and Euclidean distance matrics. Manhattan distance is denoted by p equal to one whereas the Euclidean distance is represented by p equal to two. Parameter p allows the creation of other distance metrics as shown below.
+It is the extrapolate form of Manhattan and Euclidean distance matrices. Manhattan distance is denoted by p equal to one whereas the Euclidean distance is represented by p equal to two[47][56]. Parameter p allows the creation of other distance metrics as shown below.
 
 \begin{math}
  Minkowski distance =\sqrt{(\sum_{i=1}^{n} |X_{i} - Y_{i})|)^1/p}
@@ -342,12 +338,12 @@ It is the generalized form of Manhattan and Euclidean distance matrics. Manhatta
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{b.jpg}
-    \caption{Difference Between Distance Methods}
+    \caption{Difference Between Distance Methods[48]}
     \label{fig:enter-label}
 \end{figure}
 
 \paragraph{\textbf{Hamming distance}}
-This technique used with string vectors or boolean identifying the points where the vectors do not match. Overlap metrics are also referred as represented below:
+This technique used with string vectors or boolean identifying the points where the vectors do not match.[55] Overlap metrics are also referred as represented below:
 
 \begin{math}
  Hamming Distance = D_{H}=(\sum_{i=1}^{k} |X_{i} - Y_{i})|)
@@ -357,11 +353,11 @@ This technique used with string vectors or boolean identifying the points where 
 
 
 \subsubsection{Defining k selection}
-In simple words, k is the number of neighbors used for making prediction. The k value indicates how many neighbors will be compared or we can say checked to determine the resultant class in KNN Algorithm. For-example: By changing the value of k the classification can lead to under-fitting or over-fitting. If k=1, the instance will be assigned to the same class because we have a single neighbor. By using lower value of k can low bias, but high variance. As well as, larger value of k may lead to lower variance and high bias. So, we can define k as the balancing act as different values impact the variance on under-fitting or over-fitting. For avoiding ties in classification, k is recommended to be a odd number. The best approach to get a optimal k for you dataset is cross-validation tactics.  
+In simple words, k is the number of neighbors used for making prediction. The k value indicates how many neighbors will be compared or we can say checked to determine the resultant class in KNN Algorithm. For-example: By changing the value of k the classification can lead to under-fitting or over-fitting. If k=1, the instance will be assigned to the same class because we have a single neighbor. By using lower value of k can low bias, but high variance. As well as, larger value of k may lead to lower variance and high bias.[56] So, we can define k as the balancing act as different values impact the variance on under-fitting or over-fitting. For avoiding ties in classification, k is recommended to be a odd number. The best approach to get a optimal k for you dataset is cross-validation tactics.  
 
 
-\subsubsection{Voting Priniciple}
-In the KNN algorithm, the prediction is based on the number of K nearest neighbours is considered. The predicted or winning class is determined using the majority voting principle, the class which has high numbers of vote is the class from where our element belongs to. The highest frequency among the K nearest neighbors is chosen. However, the important thing that it is essential to recognize that the choice of K can impact the voting outcome. The higher value of K may leads to less confident predictions. The scenarios where we have imbalanced data, where one class is higher or outweighs the other class, the majority voting principle can be biased. To resolve such kind of issue techniques like distance-weighted voting and weighted voting us introduced which can help to balance the influence of each class. 
+\subsubsection{Voting Principle}
+In the KNN algorithm, the prediction is based on the number of K nearest neighbours is considered. The predicted or winning class is determined using the majority voting principle, the class which has high numbers of vote is the class from where our element belongs to. The highest frequency among the K nearest neighbors is chosen. However, the important thing that it is essential to recognize that the choice of K can impact the voting outcome. The higher value of K may leads to less confident predictions.[3][1][2] The scenarios where we have imbalanced data, where one class is higher or outweighs the other class, the majority voting principle can be biased. To resolve such kind of issue techniques like distance-weighted voting and weighted voting us introduced which can help to balance the influence of each class. 
 
 Mathematically, if 
 \begin{math}
@@ -381,7 +377,7 @@ for the new observation is determined by:
 \end{math}
 
 
-Where \begin{math} y\end{math} is the predicted class Label.This voting equation ensures that the predicted class is the one that is most prevalent among the K nearest neighbors.Techniques like normalization, standardization, and scaling play a crucial role in preparing the data for modeling in pre-processing. Normalization involves scaling the features to a similar range, typically between 0 and 1, the main advantage of normalization is that it prevents larger scales from dominating the model. Scaling adjusts the range of features to a desired range, which can enhance the performance of algorithms sensitive to feature magnitudes.
+Where \begin{math} y\end{math} is the predicted class Label.This voting equation ensures that the predicted class is the one that is most prevalent among the K nearest neighbors.Techniques like normalization, standardization, and scaling play a crucial role in preparing the data for modeling in pre-processing.[56] Normalization involves scaling the features to a similar range, typically between 0 and 1, the main advantage of normalization is that it prevents larger scales from dominating the model. Scaling adjusts the range of features to a desired range, which can enhance the performance of algorithms sensitive to feature magnitudes.
 
 As the process diagram (Fig:4) shown the step-by-step procedure, we have adopted in the implementation. In the first step, we feed the input sequences from the text file (3.1) and that specific sequence get encoded. Then after spatial pooler we get sequence SDRs. Then it will be stored in HTM. The next step will be implementation of KNN classifier in which the test data will be mapped, the KNN helps to predict the class from where the sequence blogs to that specific class. The sudo-code of voting is also discussed in the implementation part of paper. 
 
@@ -401,13 +397,13 @@ As the process diagram (Fig:4) shown the step-by-step procedure, we have adopted
 \subsection{Overview of HTM}
 As the objective behind the HTM CLA is to make a progress towards making a program that functions cognitive tasks as like a simple human being brain. The prediction is done by making a system which can memorize as well as learn from the information executions which are fed before. HTM to anticipate and memorize, it requires user Input. 
 
-As the overall HTM have multiple sections which includes data, Encoder, HTM spatial Pooler, HTM temporal Memory, and HTM Classifier. The data or which is also know as input is a scalar value, data or time, or a picture. Then the next element is encoder which is responsible for changing the data into SDR which can further be used with HTM classifier. SDR is in the cluster of binary input either '0' or '1'. As discussed earlier, input of encoder can be anything a scalar value. It includes locations, weeks, months, time or days in a week etc. 
+As the overall HTM have multiple sections which includes data, Encoder, HTM spatial Pooler, HTM temporal Memory, and HTM Classifier[51]. The data or which is also know as input is a scalar value, data or time, or a picture. Then the next element is encoder which is responsible for changing the data into SDR which can further be used with HTM classifier. SDR is in the cluster of binary input either '0' or '1'. As discussed earlier, input of encoder can be anything a scalar value. It includes locations, weeks, months, time or days in a week etc. 
 
-The next part of the HTM is a spatial pooler it, is an algorithm which learns spatial patterns. The spatial pooler gets an input of bits cluster and converts it into SDR. Next Parts is Temporal memory, it a part which learns the arrangements of SDRs shaped by the spatial pooler algorithm. [5]  
+The next part of the HTM is a spatial pooler it, is an algorithm which learns spatial patterns. The spatial pooler gets an input of bits cluster and converts it into SDR. Next Parts is Temporal memory, it a part which learns the arrangements of SDRs shaped by the spatial pooler algorithm. [51]  
 
 
 \subsection{Spatial Pooler}
-Spatial Poolar is the second phase of HTM learning. It uses the output of the encoder to learn the SDR of the given input binary array. The idea for the spatial poolar SDR is to generate SDRs of the input which is the output of the encoder. Once the input SDR are learned, if the same input is given again, it tries to match already learned SDRs and then generates a similar matching SDR.In this method, it will disgunish, is it a same input which is already memorized or a different one.   
+Spatial Poolar is the second phase of HTM learning. It uses the output of the encoder to learn the SDR of the given input binary array. The idea for the spatial poolar SDR is to generate SDRs of the input which is the output of the encoder.[51][52] Once the input SDR are learned, if the same input is given again, it tries to match already learned SDRs and then generates a similar matching SDR.In this method, it will disgunish, is it a same input which is already memorized or a different one.   
 
 
 \begin{figure}[h]
@@ -435,7 +431,7 @@ In the start, we have started with intilizing a array for the data matrix. But l
 10792, 10812, 10880, 11007, 11060,......., 2
 10418, 10662, 10777, 10846, 11008,......., 2
 \end{lstlisting}
-The starting value till the last index of each item are the predictor values and the last index is our class label. As we have there classes: the first one class is even numbers, second class is odd numbers elements and third class is decimal class which is also known as neither odd or even. The even class is represented by 0, odd class is represented by 1 and decimal class dataset is represented by 2. The second way to store class label is to introduce a separate array in which the class label will be stored. In our code we have assumed the class labels are numeric and the number starts from 0. 
+The predictor values of each item are the starting value through the last index, with our class label appearing at the last index. As we have there classes: the first one class is even numbers, second class is odd numbers elements and third class is decimal class which is also known as neither odd or even. The even class is represented by 0, odd class is represented by 1 and decimal class dataset is represented by 2. The second way to store class label is to introduce a separate array in which the class label will be stored. In our code we have assumed the class labels are numeric and the number starts from 0. 
 \begin{lstlisting}
 function ExtractLabels(testData):
     actualLabels = array of size length of testData
@@ -465,7 +461,7 @@ In the high level, If I summerize the pseudo-code, there are only three major st
 These sections try to discuss the methods defined within the KNN classifier Class, these methods are discussed below:
 
 \subsubsection{Distance(double[] vector1, double[] vector2)}
-As we have discussed in section 2(A) regarding the Euclidean distance. The distance function calculates the Euclidean distance between two vectors which in our case are vector1 and vector2. As, the formula of Euclidean distance is to go through each element of a vector and compute the squared difference and then find the accumulative sum. And then finally finding the square root of the whole sum, represents the Euclidean distance between two vectors. 
+As we have discussed in section 2(A) regarding the Euclidean distance. The distance function calculates the Euclidean distance between two vectors which in our case are vector1 and vector2. [57] As, the formula of Euclidean distance is to go through each element of a vector and compute the squared difference and then find the accumulative sum. And then finally finding the square root of the whole sum, represents the Euclidean distance between two vectors. 
 
 \begin{lstlisting}
 function Distance(testData, trainData):
@@ -490,7 +486,7 @@ This is a simple implementation of distance finding by Euclidean. We can also us
 
 
 \subsubsection{Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)}
-This method performs the voting mechanism between the k nearest neighbors. The arguments of this method are IndexAndDistance which represents distance and Indices of nearest neighbors in other we can say the information of nearest neighbors, then our training dataset (trainData), the total number of classes (numClasses), and the value of K. The step of Vote method is to initialize an array whose responsibility is to store the total number of votes against each class means every nearest k-neighbour has a vote. In the starting the array is initialized as zero. Then in the second step, it goes through the first k neighbors and retrieves its class label from the training data, and the respective array index is counted as one positive vote. In our case, the training data have either an odd number or an even number respective voting has been counted for each of them. Then the counted voting with the highest vote returns its label as the predicted class. 
+This method performs the voting mechanism between the k nearest neighbors. The arguments of this method are IndexAndDistance which represents distance and Indices of nearest neighbors in other we can say the information of nearest neighbors, then our training dataset (trainData), the total number of classes (numClasses), and the value of K.[57] The step of Vote method is to initialize an array whose responsibility is to store the total number of votes against each class means every nearest k-neighbour has a vote. In the starting the array is initialized as zero. Then in the second step, it goes through the first k neighbors and retrieves its class label from the training data, and the respective array index is counted as one positive vote. In our case, the training data have either an odd number or an even number respective voting has been counted for each of them. Then the counted voting with the highest vote returns its label as the predicted class. 
 
 \begin{lstlisting}
 function Vote(info, trainData, numofclass, k):
@@ -524,7 +520,7 @@ function Vote(info, trainData, numofclass, k):
 \end{lstlisting}
 
 
-As, we know that finding a class label is little bit trickier from the k items. As above code shows every k-nearest training gets one vote for its class label. In the start votes is intilized as zero. Then it add if class is nearest.  As currently we also have to count the votes. So, the class which have higher number of vote is the class from where our test data belongs from that specific class. It can be either odd, even or decimal class. 
+As, we know that finding a class label is little bit trickier from the k items. Every k-nearest training receives one vote for its class label, as demonstrated by the code above. In the start votes is intilized as zero. Then it add if class is nearest.  As currently we also have to count the votes. So, the class which have higher number of vote is the class from where our test data belongs from that specific class. It can be either odd, even or decimal class. 
 
 
 
@@ -541,7 +537,7 @@ This class used to represent the index of a training item and its distance from 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{KNNClassifier.png}
-    \caption{KNN Flow Diagram according to steps}
+    \caption{KNN Flow Diagram according to steps.}
     \label{fig:enter-label}
 \end{figure}
 
@@ -549,81 +545,82 @@ This class used to represent the index of a training item and its distance from 
 
 
 \subsection{Unit Testing and Exception Handling}
-The outcomes of the unit test model are depicted in Figure.7. Unit test is developed to handle various scenarios, including handling exceptions. All the unit test which are designed and implemented for HTM classifier have been integrated into KNN classifier. During conducting the test, we have not noticed any instance failed tests. Indicating the robustness and reliability of the implemented algorithm. But there is one important thing is that the continuous testing and refinement of the model are imperative to ensure its accuracy and performance across diverse scenarios and datasets
-\begin{figure}
-    \centering
-    \includegraphics[width=1.0\linewidth]{Unit Test Result.PNG}
-    \caption{Unit Test}
-    \label{fig:enter-label}
-\end{figure}
+The outcomes of the unit test model are depicted in Figure.10. Unit test is developed to handle various scenarios, including handling exceptions. All the unit test which are designed and implemented for HTM classifier have been integrated into KNN classifier. During conducting the test, we have not noticed any instance failed tests. Indicating the robustness and reliability of the implemented algorithm. But there is one important thing is that the continuous testing and refinement of the model are imperative to ensure its accuracy and performance across diverse scenarios and datasets.[54]
+
 
 
 \section{Results}
-ALL the results should be here. 
-ALL the results should be here. 
-
-ALL the results should be here. 
-
-ALL the results should be here. 
+In our scenario, we utilize a data splitting method that randomly shuffles the dataset's rows, allocating a specified ratio for training and the remainder for testing. Specifically, 70\% of the data is allocated for training, while 30\% is reserved for testing. The method returns the training and testing datasets as separate arrays. 
+The reported accuracy values represent the model's prediction accuracy at various values of k when tested with randomly generated test data. These accuracy percentages provide insights into the performance of our model under different configurations of the k-Nearest Neighbors algorithm.
 
 
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \hline
+       
+        K  & Accuracy & \multicolumn{7}{c}{Random Generated Test Data Accuracy in Percentage}\\
+           \hline
+          & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8)\\
+                     \hline
+        1 & 100 & 90.9 & 90.9  & 90.9 & 90.9 & 90.9 & 90.9 & 100\\
+            \hline
+        2 & 100 & 100 & 90.9 & 90.9 & 90.9 & 90.9 & 90.9 & 100\\
+            \hline
+        3 & 100 & 100 & 100 & 100 & 100 & 90.9 & 90.9 & 100\\
+            \hline
+        4 & 90.9 & 100 & 100 & 90.9 & 90.9 & 90.9 & 90.9 & 100\\
+            \hline
+        5 & 100 & 100 & 100 & 90.9 & 100 & 90.9 & 90.9 & 100\\
+             \hline
+             \
+    \end{tabular}
+    
+    \caption{Accuracy of the KNN Classifier for different value of K for different testing Data}
+    \label{tab:my_label}
+\end{table}
 
 
-ALL the results should be here. 
+The analysis presented in Table 1 suggests that the optimal value of k for the k-Nearest Neighbors (k-NN) classifier, when applied to a dataset with three classes, is k=3. Here's a breakdown of the findings:
+\begin{enumerate}
+    \item \textbf{K=1, 2, and 4:} When the model relies solely on the single nearest neighbor (k=1) or a small number of nearest neighbors (k=2, 4), the accuracy tends to hover around 90.9\%. This indicates that the classifier may be prone to misclassifications or inconsistencies when considering a small number of neighbors, leading to accuracy fluctuations.
+
+\item \textbf{K=3:} At k=3, the accuracy consistently remains around 100\% for most randomly generated testing data splits from the dataset. This suggests that considering three nearest neighbors leads to more stable and reliable predictions, resulting in higher accuracy across various testing scenarios.
+\item \textbf{K=5:} While the accuracy at k=5 is also reported as 100\%, it is noted that there are instances where the accuracy drops to 90.9\%. This indicates some variability in performance compared to k=3, where the accuracy remains consistently high.
+    
+\end{enumerate}
 
 
-ALL the results should be here. 
-
-ALL the results should be here. 
+Based on these observations, it's reasonable to conclude that k=3 appears to be the optimal choice for the k-NN classifier with this dataset.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1.0\linewidth]{K=1.PNG}
-    \caption{K=1}
-    \label{fig:enter-label}
+    \includegraphics[width=1.0\linewidth]{Picture1.png}
+    \caption{Predicted Result displayed on output window(A)}
+    \label{fig :enter-label}
 \end{figure}
 
+Figures 8 \& 9 display the output window presenting the predicted results. They showcase the nearest neighbors for the test data point with a value of k set to 3, along with the calculated distances and the classification of the class for that specific test data. Subsequently, the predicted class for the test data is indicated, determining whether it is even, odd, or neither based on the voting method. This process repeats for each test data point. Finally, the model's predicted accuracy is displayed at the end.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1.0\linewidth]{K=2.PNG}
-    \caption{K=2}
+    \includegraphics[width=1.0\linewidth]{Picture2.png}
+    \caption{Predicted Result displayed on output window(B)}
     \label{fig:enter-label}
 \end{figure}
 
+Figure 10, depicts the unit test conducted on the KNN classifier. A random SDR is selected from the dataset, serving as the test data array to evaluate the classifier's performance. The test ensures that the predicted value by the classifier aligns with the actual class value of the test data. The KNN classifier successfully passes the unit test, as evident from the figure. Additionally, we've incorporated an exception in the unit test to accommodate varying values of K. If the value of K surpasses the length of the SDR data, the test gracefully handles this scenario.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1.0\linewidth]{K=3.PNG}
-    \caption{K=3}
+    \includegraphics[width=1.0\linewidth]{Picture3.png}
+    \caption{Unit Test for KNN Classifier}
     \label{fig:enter-label}
 \end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1.0\linewidth]{K=4.PNG}
-    \caption{K=4}
-    \label{fig:enter-label}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1.0\linewidth]{K=5.PNG}
-    \caption{K=5}
-    \label{fig:enter-label}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1.0\linewidth]{K=6.PNG}
-    \caption{K=6}
-    \label{fig:enter-label}
-\end{figure}
-
 
 
 \section{Application of KNN}
-KNN Algorithm is utilized in different applications across different sectors, mostly in classification. The common cases includes:
+KNN Algorithm is utilized in different applications across different sectors, mostly in classification.[53] The common cases includes:
 
 
 \subsection{Pattern Recognition}
@@ -632,7 +629,7 @@ to identify these patterns.
 
 
 \subsection{Healthcare}
-The common use of KNN is health department is prediction of chances of cancer as well as heart attacks risks. The algorithm try to learn from most likely gene expressions. 
+The common use of KNN is health department is prediction of chances of cancer as well as heart attacks risks.[53] The algorithm try to learn from most likely gene expressions. 
 
 \subsection{Recommendation Engines}
 When we surf on internet, the KNN algorithm can be used by the website to recommend us other additional content. This recommendation is based on user behaviour. But for larger datasets this approach is not optimal. 
@@ -641,12 +638,12 @@ When we surf on internet, the KNN algorithm can be used by the website to recomm
 Mostly we have a missing values in our dataset, KNN algorithm can help to determine those values. Those estimated missing values are also known as missing data imputation. 
 
 \subsection{Finance}
-The banks uses the credit card spending to predict the risk associated with the specific individual loan. As well as knn is used to determine the credit card worthiness of a loan application. So, KNN is used in a variety of economic and finance departments. As well as the other common use case is currency exchange forecasting, stock market as well as trading futures etc.  
+The banks uses the credit card spending to predict the risk associated with the specific individual loan. As well as knn is used to determine the credit card worthiness of a loan application. So, KNN is used in a variety of economic and finance departments. As well as the other common use case is currency exchange forecasting, stock market as well as trading futures etc.  [53]
 
 
 
 \section{Conclusion}
-In the conclusion, the journey began with the implementation of KNN Algorithm, which we have successfully achieved. We have tried to create a robust KNN model that can seamlessly integrate with the Neocortex API. This integration allows to receive a continuous sequences of data for prediction. and effectively classifying the input sequences and predicting the output classes of receptive Input. We have achieved the accuracy rate of 80\% for most of input data sequences. To ensure the robustness and reliablity of the model. In short if I can discribe our step then the first step, we feed the input sequences from the text file and that specific sequence get encoded. Then after spatial pooler we get sequence SDRs. Then it will be stored in HTM. The next step will be implementation of KNN classifier in which the test data will be mapped, the KNN helps to predict the class from where the sequence blogs to that specific class. We have tried to implement the Unit test with exception Handling. Moving forward, continued refinement and enhancement of the model will be essential to address evolving challenges and further elevate its performance across diverse applications and scenarios.
+Firstly, we designed a straightforward KNN prototype algorithm aimed at predicting sequences. One SDR array for each sequence, we tested the model against slightly mismatched sequences, achieving the desired outcomes. To enhance the model's robustness, we compiled a comprehensive dataset consisting of SDR values corresponding to various types of sequences: even numbers, odd numbers, and decimals. This dataset enabled the model to effectively address the classification challenges posed by these sequence categories. Consequently, the model exhibits remarkable predictive accuracy. While the model consistently achieves near-perfect predictions, occasionally reaching 100\% accuracy, there were rare instances where predictions hovered around 90.9\%, still maintaining the highest level of accuracy attainable. Furthermore, we implemented unit tests to handle special cases, drawing upon the HTM Classifier for reference. These tests have yielded satisfactory results, further bolstering the reliability and performance of our model.
 
 
 
@@ -664,7 +661,7 @@ Cover, T., \& Hart, P. (1967). Nearest neighbor pattern classification. IEEE tra
 J. Z. A. L. J. W. Q. and L. S. Zhang, "An adaptive KNN algorithm based on data point density," IEEE Access, 7, 80876-80883. doi: 10.1109/ACCESS.2019.2926611, 2019.
 
 \bibitem{3}
-Guo, Gongde & Wang, Hui & Bell, David & Bi, Yaxin. (2004). KNN Model-Based Approach in Classification. 
+Guo, Gongde \& Wang, Hui \& Bell, David \& Bi, Yaxin. (2004). KNN Model-Based Approach in Classification. 
 
 \bibitem{4}
 S. A. a. J. H. Y. Cui, "Continuous Online Sequence Learning with an Unsupervised Neural Network Model," Neural Comut.,, vol. 28, pp. 2474-2504, 2016.
@@ -744,7 +741,7 @@ Ozturk Kiyak, E.; Ghasemkhani, B.; Birant, D. High-Level K-Nearest Neighbors (HL
 Zhang Z. Introduction to machine learning: k-nearest neighbors. Ann Transl Med. 2016 Jun;4(11):218. doi: 10.21037/atm.2016.03.37. PMID: 27386492; PMCID: PMC4916348.
 
 \bibitem{26}
-Cai, Y.L., Ji, D., & Cai, D. (2010). A KNN Research Paper Classification Method Based on Shared Nearest Neighbor. NTCIR Conference on Evaluation of Information Access Technologies.
+Cai, Y.L., Ji, D., \& Cai, D. (2010). A KNN Research Paper Classification Method Based on Shared Nearest Neighbor. NTCIR Conference on Evaluation of Information Access Technologies.
 
 \bibitem{27}
 Cover, T., Hart, P.: Nearest neighbor pattern classification. IEEE Transactions on Information Theory 13(1), 21–27 (1967)
@@ -799,6 +796,46 @@ Adeniyi, Adedayo and Wai, Zune and Yongquan, Y.. (2014). Automated Web Usage Dat
 
 \bibitem{44}
 M A Mukid, T Widiharih, A Rusgiyono, A Prahutama, Credit scoring analysis using weighted k nearest neighbor, OP Conf. Series: Journal of Physics: Conf. doi:10.1088/1742-6596/1025/1/012114
+
+\bibitem{45}
+Liberti, Leo \& Lavor, Carlile \& Maculan, Nelson \& Mucherino, Antonio. (2012). Euclidean Distance Geometry and Applications. SIAM Review. 56. 10.1137/120875909. 
+
+\bibitem{46}
+Suwanda, R \& Syahputra, Zulfahmi \& Zamzami, Elviawaty. (2020). Analysis of Euclidean Distance and Manhattan Distance in the K-Means Algorithm for Variations Number of Centroid K. Journal of Physics: Conference Series. 1566. 012058. 10.1088/1742-6596/1566/1/012058. 
+
+\bibitem{47}
+Lu, Binbin \& Charlton, Martin \& Brunsdon, Chris \& Harris, Paul. (2015). The Minkowski approach for choosing the distance metric in geographically weighted regression. International Journal of Geographical Information Science. 30. 1-18. 10.1080/13658816.2015.1087001. 
+
+\bibitem{48}
+Bala Priya C, KDnuggets, Distance Metrics: Euclidean, Manhattan, Minkowski, https://www.kdnuggets.com/2023/03/distance-metrics-euclidean-manhattan-minkowski-oh.html
+
+
+\bibitem{49}
+How to Decide the Perfect Distance Metric For Your Machine Learning Model, https://www.turing.com/kb/how-to-decide-perfect-distance-metric-for-machine-learning-model
+
+\bibitem{50}
+Euclidean Distance, https://byjus.com/maths/euclidean-distance/
+
+\bibitem{51}
+Dobric, Pech, Ghita, Wennekers 2020. 2020 International Journal of Artificial Intelligence and Applications. Scaling the HTM Spatial Pooler. doi:10.5121/ijaia .2020.11407
+
+\bibitem{52}
+Dobric, Pech, Ghita, Wennekers 2020. 2020 AIS 2020 - 6th International Conference on Artificial Intelligence and Soft Computing, Helsinki. The Parallel HTM Spatial Pooler with Actor Model. https://aircconline.com/csit/csit1006.pdf, doi:10.5121/csit.2020.100606
+
+\bibitem{53}
+Imandoust, S.B. \& Bolandraftar, Mohammad. (2013). Application of K-nearest neighbor (KNN) approach for predicting economic events theoretical background. Int J Eng Res Appl. 3. 605-610. 
+
+\bibitem{54}
+Sinha, Saurabh \& Harrold, Mary. (2000). Analysis and testing of programs with exception handling constructs. Software Engineering, IEEE Transactions on. 26. 849-871. 10.1109/32.877846. 
+
+\bibitem{55}
+Bookstein, Abraham \& Kulyukin, Vladimir \& Raita, Timo. (2002). Generalized Hamming Distance. Information Retrieval. 5. 10.1023/A:1020499411651. 
+
+\bibitem{56}
+What is the k-nearest neighbors (KNN) algorithm?, https://www.ibm.com/topics/knn
+
+\bibitem{57}
+James McCaffrey, Understanding k-NN Classification Using C\#, https://learn.microsoft.com/en-us/archive/msdn-magazine/2017/december/test-run-understanding-k-nn-classification-using-csharp
 
 
 \end{thebibliography}
