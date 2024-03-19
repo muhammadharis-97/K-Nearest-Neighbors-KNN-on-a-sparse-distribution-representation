@@ -16,13 +16,13 @@ namespace NeoCortexApiSample
 {
     class Program
     {
-        
+
         // Main method to start the program
         static void Main(string[] args)
         {
 
             // Defining the value of K
-            int k = 1;
+            int k = 3;
 
             // Intailizing the number of classes 
             int numofclass = 3;
@@ -46,33 +46,35 @@ namespace NeoCortexApiSample
 
 
             // Starting the KNN Classifier
-            Console.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
-            Console.WriteLine();
-            
+            Debug.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
+            //Debug.WriteLine();
+
 
             
-            int i = 0;
-            Console.WriteLine($"  Value of K is equal to {k}");
-                
-            // Looping through each test dataset
-            foreach (var testData in testDataset)
-            {
+                int i = 0;
+                Debug.WriteLine($"  Value of K is equal to {k}");
 
-               // Classifying the test data using KNN Classifier 
-                int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
+                // Looping through each test dataset
+                foreach (var testData in testDataset)
+                {
 
-                predictedlabels[i] = prediction;
+                    // Classifying the test data using KNN Classifier 
+                    int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
 
-                i = i + 1;
+                    predictedlabels[i] = prediction;
 
-                 // Displaying the predicted class for the test data
-                 Console.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
-            }
+                    i = i + 1;
 
-             Console.WriteLine();
-             double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
-             Console.WriteLine("  Calculated Accuracy   =   " + accuracy);
-             Console.WriteLine();
+                    // Displaying the predicted class for the test data
+                    Debug.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
+                }
+
+
+
+                //Debug.WriteLine();
+                double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
+                Debug.WriteLine("  Calculated Accuracy   =   " + accuracy);
+                //Debug.WriteLine();
             
             
            // RunMultiSequenceLearningExperiment();

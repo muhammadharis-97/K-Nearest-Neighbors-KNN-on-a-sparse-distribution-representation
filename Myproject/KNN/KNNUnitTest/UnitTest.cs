@@ -16,7 +16,7 @@ namespace KNNUnitTest
         public void Initialize()
         {
            
-            k = 1;
+            k = 3;
             numofclass = 3;
             /// Take one sequence SDR from the dataset having Class label as 1
             testdata = [8816, 8865, 8953, 9771, 9784, 10108, 10177, 10205, 10401, 10427, 10561, 10598, 10610, 10629, 10751, 10993, 11306, 11341, 11426, 11500];

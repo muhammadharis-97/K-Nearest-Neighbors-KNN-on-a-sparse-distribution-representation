@@ -3,6 +3,7 @@ using NeoCortexEntities.NeuroVisualizer;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -109,13 +110,13 @@ namespace KNNImplementation
 
             
             // Information for the k-nearest items is displayed
-            Console.WriteLine("   Nearest     /    Distance      /     Class   ");
-            Console.WriteLine("   ==========================================   ");
+            Debug.WriteLine("   Nearest     /    Distance      /     Class   ");
+            Debug.WriteLine("   ==========================================   ");
             for (int i = 0; i < k; ++i)
             {
                 int c = (int)trainData[info[i].idx][20];
                 string dist = info[i].dist.ToString("F3");
-                Console.WriteLine("( " + trainData[info[i].idx][0] +
+                Debug.WriteLine("( " + trainData[info[i].idx][0] +
                    "," + trainData[info[i].idx][1] + " )  :  " +
                   dist + "        " + c);
                 //  Console.WriteLine();
