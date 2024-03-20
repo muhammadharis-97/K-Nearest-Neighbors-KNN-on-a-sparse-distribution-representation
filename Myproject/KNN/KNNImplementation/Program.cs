@@ -21,6 +21,16 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
 
+
+            //RunMultiSequenceLearningExperiment();
+            
+            // start experiement that demonstrates how to predict the squence based on HTM predcited cells.
+            KNNClassificationExperiment("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
+
+        }
+
+        private static void KNNClassificationExperiment(string Datasetfilepath)
+        {
             // Defining the value of K
             int k = 3;
 
@@ -35,7 +45,7 @@ namespace NeoCortexApiSample
             KNNClassifier kNN = new KNNClassifier();
 
             // Learning data from the dataset file
-            double[][] sdrData = kNN.LearnDatafromthefile("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
+            double[][] sdrData = kNN.LearnDatafromthefile(Datasetfilepath);
 
             // Call the method to split the data
             var (trainDataset, testDataset) = kNN.SplitData(sdrData, trainRatio);
@@ -50,39 +60,35 @@ namespace NeoCortexApiSample
             //Debug.WriteLine();
 
 
-            
-                int i = 0;
-                Debug.WriteLine($"  Value of K is equal to {k}");
 
-                // Looping through each test dataset
-                foreach (var testData in testDataset)
-                {
+            int i = 0;
+            Debug.WriteLine($"  Value of K is equal to {k}");
 
-                    // Classifying the test data using KNN Classifier 
-                    int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
+            // Looping through each test dataset
+            foreach (var testData in testDataset)
+            {
 
-                    predictedlabels[i] = prediction;
+                // Classifying the test data using KNN Classifier 
+                int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
 
-                    i = i + 1;
+                predictedlabels[i] = prediction;
 
-                    // Displaying the predicted class for the test data
-                    Debug.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
-                }
+                i = i + 1;
+
+                // Displaying the predicted class for the test data
+                Debug.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
+            }
 
 
 
-                //Debug.WriteLine();
-                double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
-                Debug.WriteLine("  Calculated Accuracy   =   " + accuracy);
-                //Debug.WriteLine();
-            
-            
-           // RunMultiSequenceLearningExperiment();
+            double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
+            Debug.WriteLine("  Calculated Accuracy   =   " + accuracy);
+
+
+
 
         }
 
-
-        
 
         /// <summary>
         /// Runs a multi-sequence learning experiment using simple sequences.
