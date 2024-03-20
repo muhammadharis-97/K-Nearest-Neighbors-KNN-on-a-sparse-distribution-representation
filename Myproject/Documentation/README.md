@@ -66,4 +66,4 @@ Interface: [IClassifier.cs](https://github.com/zakaahmadchishti/Global_Variables
 
 ## Interface
 path to the
-Datset:[sdr_Data.txt] 
+Datset:[sdr_dataset.txt](https://github.com/zakaahmadchishti/Global_Variables/blob/Muhammadharis/Myproject/KNN/Dataset/sdr_dataset.txt) 
