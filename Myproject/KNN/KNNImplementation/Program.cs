@@ -25,7 +25,7 @@ namespace NeoCortexApiSample
             //RunMultiSequenceLearningExperiment();
             
             // start experiement that demonstrates how to predict the squence based on HTM predcited cells.
-            KNNClassificationExperiment("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\KNNImplementation\\Dataset\\sdr_dataset.txt");
+            KNNClassificationExperiment("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\Dataset\\sdr_dataset.txt");
 
         }
 
@@ -83,6 +83,7 @@ namespace NeoCortexApiSample
 
             double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
             Debug.WriteLine("  Calculated Accuracy   =   " + accuracy);
+            
 
 
 
