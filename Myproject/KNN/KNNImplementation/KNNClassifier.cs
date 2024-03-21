@@ -9,6 +9,31 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
+/*
+The Neocortex API generates sequences of numbers categorized as Even, Odd, or Neither, crucial for dataset creation. It learns from a file using 
+LearnDatafromthefile, then splits the data 70-30 for training and testing using SplitData. The Classifier model is trained on 70% of the data to 
+discern patterns, while 30% is reserved for performance evaluation. Testing employs the K-Nearest Neighbors Classifier, predicting labels using
+Classifier method. Accuracy is assessed with CalculateAccuracy, comparing predicted and actual labels.
+    
+
+For an Example:
+
+we have Sample Data in a Dataset which we split in training and testing data
+
+training data = [
+7665, 8260, 8304, 8495, 9285, 9366, 9388, 9603, 9641, 9707, 9774, 9819, 9837, 10020, 10096, 10149, 10263, 10313, 10873, 10914, 0
+8360, 9729, 9769, 9826, 9860, 10039, 10064, 10169, 10338, 10408, 10461, 10609, 10669, 10689, 10792, 10889, 11235, 11339, 11435, 11672, 1
+9460, 9558, 9725, 9883, 10336, 10393, 10896, 10933, 10982, 11113, 11173, 11423, 11719, 11835, 11897, 11902, 12075, 12164, 12415, 12715, 2]
+
+
+testing Data = [8870, 9787, 9970, 10025, 10070, 10085, 10136, 10197, 10208, 10241, 10315, 10352, 10468, 10740, 10906, 11002, 11142, 11159, 11204, 11475, 1]
+
+
+Here's the verdict: The model has predicted the testing data as Class 1, representing the odd number sequence SDR's.
+
+The output includes the label class of the testing data and the accuracy of the model.
+
+*/
 
 namespace KNNImplementation
 {
@@ -119,7 +144,7 @@ namespace KNNImplementation
                 Debug.WriteLine("( " + trainData[info[i].idx][0] +
                    "," + trainData[info[i].idx][1] + " )  :  " +
                   dist + "        " + c);
-                //  Console.WriteLine();
+                
             }
 
             int result = Vote(info, trainData, numofclass, k);
@@ -131,7 +156,7 @@ namespace KNNImplementation
         /// Creating Method to learn data from a datset file
         /// </summary>
         /// <param name="filePath"></param>
-        /// <returns></returns>
+        /// <returns></returns> Returning the dataset and storing it in Two Dimensional Array
 
         public double[][] LearnDatafromthefile(string filePath)
         {
@@ -173,7 +198,7 @@ namespace KNNImplementation
         /// </summary>
         /// <param name="predictedLabels"></param>
         /// <param name="actualLabels"></param>
-        /// <returns></returns>
+        /// <returns></returns> Retyrn the accuracy in Percentage 
 
         public  double CalculateAccuracy(int[] predictedLabels, int[] actualLabels)
         {
@@ -197,7 +222,7 @@ namespace KNNImplementation
         /// Method for Extracting AcutualLabels from test Dataset
         /// </summary>
         /// <param name="testData"></param>
-        /// <returns></returns>
+        /// <returns></returns> Returning the Acutual Labels from test data
 
         public int[] ExtractActualLabelsFromDataset(double[][] testData)
         {
@@ -217,7 +242,7 @@ namespace KNNImplementation
         /// </summary>
         /// <param name="data"></param>
         /// <param name="trainRatio"></param>
-        /// <returns></returns>
+        /// <returns></returns> Returning the split Training data and testing Data in Two dimensional Array 
 
         public (double[][], double[][]) SplitData(double[][] data, double trainRatio)
         {
