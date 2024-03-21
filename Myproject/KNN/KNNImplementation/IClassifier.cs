@@ -14,9 +14,7 @@ namespace KNNImplementation
 
         public int Classifier(double[] testData, double[][] trainData, int numofclass, int k);
 
-        public double Distance(double[] testData, double[] trainData);
-
-        public double[][] LearnDatafromthefile(string filePath);
+        public double[][] LoadDataFromFile(string filePath);
        
 
 

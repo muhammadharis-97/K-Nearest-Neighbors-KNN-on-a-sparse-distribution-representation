@@ -45,7 +45,7 @@ namespace NeoCortexApiSample
             KNNClassifier kNN = new KNNClassifier();
 
             // Learning data from the dataset file
-            double[][] sdrData = kNN.LearnDatafromthefile(Datasetfilepath);
+            double[][] sdrData = kNN.LoadDataFromFile(Datasetfilepath);
 
             // Call the method to split the data
             var (trainDataset, testDataset) = kNN.SplitData(sdrData, trainRatio);
