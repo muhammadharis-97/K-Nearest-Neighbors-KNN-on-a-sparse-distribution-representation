@@ -10,28 +10,28 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 /*
-The Neocortex API generates sequences of numbers categorized as Even, Odd, or Neither, crucial for dataset creation. It learns from a file using 
-LearnDatafromthefile, then splits the data 70-30 for training and testing using SplitData. The Classifier model is trained on 70% of the data to 
-discern patterns, while 30% is reserved for performance evaluation. Testing employs the K-Nearest Neighbors Classifier, predicting labels using
-Classifier method. Accuracy is assessed with CalculateAccuracy, comparing predicted and actual labels.
+ The Neocortex API generates sequences of numbers categorized as 0 as Even,1 as Odd,and 2 as Neither odd nor eveb, crucial for dataset creation. It learns
+ from a file using LearnDatafromthefile, then splits the data 70-30 for training and testing using SplitData. The Classifier model is trained on 70% of 
+ the data to discern patterns, while 30% is reserved for performance evaluation. Testing employs the K-Nearest Neighbors Classifier, predicting labels using
+ Classifier method. Accuracy is assessed with CalculateAccuracy, comparing predicted and actual labels.
     
 
-For an Example:
+ For an Example:
 
-we have Sample Data in a Dataset which we split in training and testing data
+ we have Sample Data in a Dataset which we split in training and testing data
 
-training data = [
-7665, 8260, 8304, 8495, 9285, 9366, 9388, 9603, 9641, 9707, 9774, 9819, 9837, 10020, 10096, 10149, 10263, 10313, 10873, 10914, 0
-8360, 9729, 9769, 9826, 9860, 10039, 10064, 10169, 10338, 10408, 10461, 10609, 10669, 10689, 10792, 10889, 11235, 11339, 11435, 11672, 1
-9460, 9558, 9725, 9883, 10336, 10393, 10896, 10933, 10982, 11113, 11173, 11423, 11719, 11835, 11897, 11902, 12075, 12164, 12415, 12715, 2]
-
-
-testing Data = [8870, 9787, 9970, 10025, 10070, 10085, 10136, 10197, 10208, 10241, 10315, 10352, 10468, 10740, 10906, 11002, 11142, 11159, 11204, 11475, 1]
+ training data = [
+ 7665, 8260, 8304, 8495, 9285, 9366, 9388, 9603, 9641, 9707, 9774, 9819, 9837, 10020, 10096, 10149, 10263, 10313, 10873, 10914, 0
+ 8360, 9729, 9769, 9826, 9860, 10039, 10064, 10169, 10338, 10408, 10461, 10609, 10669, 10689, 10792, 10889, 11235, 11339, 11435, 11672, 1
+ 9460, 9558, 9725, 9883, 10336, 10393, 10896, 10933, 10982, 11113, 11173, 11423, 11719, 11835, 11897, 11902, 12075, 12164, 12415, 12715, 2]
 
 
-Here's the verdict: The model has predicted the testing data as Class 1, representing the odd number sequence SDR's.
+ testing Data = [8870, 9787, 9970, 10025, 10070, 10085, 10136, 10197, 10208, 10241, 10315, 10352, 10468, 10740, 10906, 11002, 11142, 11159, 11204, 11475, 1]
 
-The output includes the label class of the testing data and the accuracy of the model.
+
+ Here's the verdict: The model has predicted the testing data as Class 1, representing the odd number sequence SDR's.
+
+ The output includes the label class of the testing data and the accuracy of the model. 
 
 */
 
