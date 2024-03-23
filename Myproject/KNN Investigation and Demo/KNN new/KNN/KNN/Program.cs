@@ -1,49 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using Newtonsoft.Json;
 
-class Program
+namespace KNNImplementation
 {
-    static void Main(string[] args)
+    class Program
     {
-        List<DataEntry> data = ReadJsonData("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN Investigation and Demo\\KNN new\\KNN\\KNN\\Dataset_KNN.json");
-
-        // Access and print the data
-        foreach (var entry in data)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Sequence:");
-            foreach (var sequence in entry.SequenceData)
+            // Sample trainData
+            Dictionary<List<double>, List<double>> trainData = new Dictionary<List<double>, List<double>>
             {
-                Console.WriteLine($"{sequence.Key}: {string.Join(", ", sequence.Value)}");
-            }
-            //Console.WriteLine("SDR: " + string.Join(", ", entry.SDR));
-            Console.WriteLine();
+                {new List<double> {1.0, 2.0}, new List<double> {0.1, 0.2, 0.3}},  // Features for instance 1
+                {new List<double> {3.0, 4.0}, new List<double> {0.4, 0.5, 0.6}},  // Features for instance 2
+                {new List<double> {5.0, 6.0}, new List<double> {0.7, 0.8, 0.9}}   // Features for instance 3
+                // Add more instances as needed
+            };
+
+            // Sample testData
+            List<double> testData = new List<double> { 0.9, 1.1 }; // Features for the test instance
+
+            // Example usage of KNNClassifier
+            KNNClassifier knnClassifier = new KNNClassifier();
+            int numofclass = 2; // Assuming there are 2 classes
+            int k = 1; // Number of nearest neighbors to consider
+            double predictedLabel = knnClassifier.Classifier(testData, trainData, numofclass, k);
+            Console.WriteLine($"Predicted label for test instance: {predictedLabel}");
         }
     }
-
-    static List<DataEntry> ReadJsonData(string filePath)
-    {
-        try
-        {
-            // Read JSON file
-            string jsonContent = File.ReadAllText(filePath);
-
-            // Deserialize JSON content
-            List<DataEntry> data = JsonConvert.DeserializeObject<List<DataEntry>>(jsonContent);
-
-            return data;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred while reading the JSON file: {ex.Message}");
-            return null;
-        }
-    }
-}
-
-class DataEntry
-{
-    public Dictionary<string, List<double>> SequenceData{ get; set; }
-    public List<int> SDR { get; set; }
 }
