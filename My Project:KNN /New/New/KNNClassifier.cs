@@ -137,41 +137,32 @@ namespace KNNImplementation
 
         public double[][] LoadDataFromFile(string filePath)
         {
-            try
-            {
-                List<double[]> datasets = new List<double[]>();
 
-                using (TextFieldParser parser = new TextFieldParser(filePath))
+            string[] lines = File.ReadAllLines(filePath);
+
+            // Initialize a 2D array to store the dataset
+            double[][] dataset = new double[lines.Length][];
+
+            // Process each line in the CSV file
+            for (int i = 0; i < lines.Length; i++)
+            {
+                // Split the line into individual values
+                string[] values = lines[i].Split(',');
+
+                // Convert the string values to doubles and store them in the dataset array
+                dataset[i] = values.Select(double.Parse).ToArray();
+            }
+
+            // Print the dataset 
+            foreach (var row in dataset)
+            {
+                foreach (var value in row)
                 {
-                    parser.TextFieldType = FieldType.Delimited;
-                    parser.SetDelimiters(",");
-
-                    while (!parser.EndOfData)
-                    {
-                        string[] values = parser.ReadFields();
-
-                        double[] row = new double[values.Length]; // Exclude the last column
-                        for (int i = 0; i < values.Length - 1; i++)
-                        {
-                            if (!double.TryParse(values[i], out row[i]))
-                            {
-                                throw new FormatException($"Failed to parse value at line {parser.LineNumber}, position {i + 1}");
-                            }
-                        }
-
-                        datasets.Add(row);
-                    }
+                    Console.Write(value + " ");
                 }
-
-                return datasets.ToArray();
+                Console.WriteLine();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return null;
-            }
-
-
+            return dataset;
         }
 
 

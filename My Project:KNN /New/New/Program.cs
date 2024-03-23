@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using NeoCortexApi.Encoders;
 using System;
+using Microsoft.VisualBasic;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace NeoCortexApiSample
                 //RunMultiSequenceLearningExperiment();
 
                 // start experiement that demonstrates how to predict the squence based on HTM predcited cells.
-                KNNClassificationExperiment("/Users/zakaahmedchishti/Projects/New/New/sdr_dataset.txt");
+                KNNClassificationExperiment("/Users/zakaahmedchishti/Projects/New/New/sdr_dataset.csv");
 
         }
 
