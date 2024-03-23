@@ -1,6 +1,8 @@
 ﻿//Global Variable
 using KNNImplementation;
 using NeoCortexApi;
+using System.IO;
+using System.Text;
 using NeoCortexApi.Encoders;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 using static NeoCortexApiSample.MultiSequenceLearning;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Data;
 
 namespace NeoCortexApiSample
 {
@@ -19,36 +22,101 @@ namespace NeoCortexApiSample
         // Main method to start the program
         static void Main(string[] args)
         {
-            // Loading training data
-            double[][] sdrData = KNNClassifier.ReadSDRDataFromFile();
-           
-            // Getting test datasets
-            double[][] testDatasets = KNNClassifier.GetTestDatasets();
-           
-            // Number of classes in the dataset
-            int numofclass = 3;
 
-            // Looping through different values of K
-            for (int k = 1; k <= 3; k++)
+
+            string filePath = @"/Users/zakaahmedchishti/Projects/New/New/sdr_dataset.csv";
+            StreamReader reader = null;
+            if (File.Exists(filePath))
             {
-                Console.WriteLine($"Value of K is equal to {k}");
-                KNNClassifier kNN = new KNNClassifier();
-
-                // Looping through each test dataset
-                foreach (var testData in testDatasets)
+                reader = new StreamReader(File.OpenRead(filePath));
+                List<string> listA = new List<string>();
+                while (!reader.EndOfStream)
                 {
-                    // Classifying the test data using KNN algorithm
-                    int sequence = kNN.Classifier(testData, sdrData, numofclass, k);
-
-                    // Displaying the predicted class for the test data
-                    Console.WriteLine($"Predicted class for test data: {(sequence == 0 ? "Even" : (sequence == 1 ? "Odd" : "Neither Odd nor Even"))}");
+                    var line = reader.ReadLine();
+                    var values = line.Split(',');
+                    foreach (var item in values)
+                    {
+                        listA.Add(item);
+                    }
+                    foreach (var coloumn1 in listA)
+                    {
+                        Console.WriteLine(coloumn1);
+                    }
                 }
-
-                Console.WriteLine();
-
             }
-            
-           //  RunMultiSequenceLearningExperiment();
+            else
+            {
+                Console.WriteLine("File doesn't exist");
+            }
+
+
+
+
+            //RunMultiSequenceLearningExperiment();
+
+            // start experiement that demonstrates how to predict the squence based on HTM predcited cells.
+            KNNClassificationExperiment("/Users/zakaahmedchishti/Projects/New/New/sdr_dataset.txt");
+
+        }
+
+        private static void KNNClassificationExperiment(string Datasetfilepath)
+        {
+            // Defining the value of K
+            int k = 3;
+
+            // Intailizing the number of classes 
+            int numofclass = 3;
+            double[] features = new double[20];
+
+            // Set the ratio for splitting (70% training, 30% testing)
+            double trainRatio = 0.7;
+
+            /// creating an Instance of the class KNN
+            KNNClassifier kNN = new KNNClassifier();
+
+            // Learning data from the dataset file
+            double[][] sdrData = kNN.LoadDataFromFile(Datasetfilepath);
+
+            // Call the method to split the data
+            var (trainDataset, testDataset) = kNN.SplitData(sdrData, trainRatio);
+
+            // Extracting the Actual labels from test dataset
+            int[] actualLabels = kNN.ExtractActualLabelsFromDataset(testDataset);
+            int[] predictedlabels = new int[testDataset.Length];
+
+
+            // Starting the KNN Classifier
+            Debug.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
+            //Debug.WriteLine();
+
+
+
+            int i = 0;
+            Debug.WriteLine($"  Value of K is equal to {k}");
+
+            // Looping through each test dataset
+            foreach (var testData in testDataset)
+            {
+
+                // Classifying the test data using KNN Classifier 
+                int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
+
+                predictedlabels[i] = prediction;
+
+                i = i + 1;
+
+                // Displaying the predicted class for the test data
+                Debug.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
+            }
+
+
+
+            double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
+            Debug.WriteLine("  Calculated Accuracy   =   " + accuracy);
+
+
+
+
 
         }
 
@@ -87,19 +155,19 @@ namespace NeoCortexApiSample
             sequences.Add("S1", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14 }));
 
             // Define the second sequence (S2) with even numbers: 2, 6, 12, 14.
-            sequences.Add("S2", new List<double>(new double[] { 2, 6, 12, 14 }));
+            //sequences.Add("S2", new List<double>(new double[] { 2, 6, 12, 14 }));
 
             // Define the third sequence (S3) with odd numbers starting from 3: 3, 5, 7, 9, 11, 13, 15.
             sequences.Add("S3", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
 
             // Define the fourth sequence (S4) with odd numbers: 3, 9, 13, 15.
-            sequences.Add("S4", new List<double>(new double[] { 3, 9, 13, 15 }));
+            //sequences.Add("S4", new List<double>(new double[] { 3, 9, 13, 15 }));
 
             // Define the fifth sequence (S5) with numbers that are neither odd nor even: 4.5, 11.4, 12.8, 15.5, 16.6, 17.7.
             sequences.Add("S5", new List<double>(new double[] { 4.5, 11.4, 12.8, 15.5, 16.6, 17.7 }));
 
             // Define the sixth sequence (S6) with numbers that are neither odd nor even: 4.5, 11.4, 12.8, 16.6.
-            sequences.Add("S6", new List<double>(new double[] { 4.5, 11.4, 12.8, 16.6 }));
+            //sequences.Add("S6", new List<double>(new double[] { 4.5, 11.4, 12.8, 16.6 }));
 
             // Initialize the multi-sequence learning experiment.
             MultiSequenceLearning experiment = new MultiSequenceLearning();

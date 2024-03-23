@@ -3,287 +3,246 @@ using NeoCortexEntities.NeuroVisualizer;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
+/*
+ The Neocortex API generates sequences of numbers categorized as 0 as Even,1 as Odd,and 2 as Neither odd nor eveb, crucial for dataset creation. It learns
+ from a file using LearnDatafromthefile, then splits the data 70-30 for training and testing using SplitData. The Classifier model is trained on 70% of 
+ the data to discern patterns, while 30% is reserved for performance evaluation. Testing employs the K-Nearest Neighbors Classifier, predicting labels using
+ Classifier method. Accuracy is assessed with CalculateAccuracy, comparing predicted and actual labels.
+    
+
+ For an Example:
+
+ we have Sample Data in a Dataset which we split in training and testing data
+
+ training data = [
+ 7665, 8260, 8304, 8495, 9285, 9366, 9388, 9603, 9641, 9707, 9774, 9819, 9837, 10020, 10096, 10149, 10263, 10313, 10873, 10914, 0
+ 8360, 9729, 9769, 9826, 9860, 10039, 10064, 10169, 10338, 10408, 10461, 10609, 10669, 10689, 10792, 10889, 11235, 11339, 11435, 11672, 1
+ 9460, 9558, 9725, 9883, 10336, 10393, 10896, 10933, 10982, 11113, 11173, 11423, 11719, 11835, 11897, 11902, 12075, 12164, 12415, 12715, 2]
+
+
+ testing Data = [8870, 9787, 9970, 10025, 10070, 10085, 10136, 10197, 10208, 10241, 10315, 10352, 10468, 10740, 10906, 11002, 11142, 11159, 11204, 11475, 1]
+
+
+ Here's the verdict: The model has predicted the testing data as Class 1, representing the odd number sequence SDR's.
+
+ The output includes the label class of the testing data and the accuracy of the model. 
+
+*/
 
 namespace KNNImplementation
 {
-
-
-    //// <summary>
-    /// 
+    /// <summary>
+    /// KNN class is designed to perform classification tasks on sequences derived from the SDR (Sparse Distributed Representation) dataset
     /// </summary>
 
     public class KNNClassifier : IClassifier
     {
+
         /// <summary>
         /// Calculates the Euclidean distance between two vectors.
         /// </summary>
-        /// <param name="vector1">The first vector.</param>
-        /// <param name="vector2">The second vector.</param>
+        /// <param name="testData">The test data vector.</param>
+        /// <param name="trainData">The training data vector.</param>
         /// <returns>The Euclidean distance between the two vectors.</returns>
-        private double Distance(double[] vector1, double[] vector2)
+        public double CalculateEuclideanDistance(double[] testData, double[] trainData)
         {
-            double sum = 0.0;
+            if (testData == null || trainData == null)
+                throw new ArgumentNullException("Both testData and trainData must not be null.");
 
-            // Calculate the sum of squared differences for each dimension
-            for (int i = 0; i < vector1.Length; ++i)
+            if (testData.Length != trainData.Length)
+                throw new ArgumentException("testData and trainData must have the same length.");
+
+            double sumOfSquaredDifferences = 0.0;
+
+            for (int i = 0; i < testData.Length; ++i)
             {
-                double difference = vector1[i] - vector2[i];
-                sum += difference * difference;
+                double difference = testData[i] - trainData[i];
+                sumOfSquaredDifferences += difference * difference;
             }
 
-            // Return the square root of the sum to get the Euclidean distance
-            return Math.Sqrt(sum);
+            return Math.Sqrt(sumOfSquaredDifferences);
         }
-
         /// <summary>
         /// Determines the class label by majority voting among the k nearest neighbors.
         /// </summary>
         /// <param name="info">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
         /// <param name="trainData">The training data containing class labels.</param>
-        /// <param name="numClasses">The total number of classes.</param>
+        /// <param name="numofclass">The total number of classes.</param>
         /// <param name="k">The number of nearest neighbors to consider.</param>
         /// <returns>The class label with the most votes among the nearest neighbors.</returns>
 
-        static int Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)
+        public int Vote(IndexAndDistance[] info, double[][] trainData, int numofclass, int k)
         {
-            // Array to store the number of votes for each class
-            int[] votes = new int[numClasses];
+            int[] votes = new int[numofclass];
 
-            // Initialize votes to zero for each class
-            for (int i = 0; i < numClasses; ++i)
-            {
-                votes[i] = 0;
-            }
-
-            // Loop through the first k neighbors
             for (int i = 0; i < k; ++i)
             {
-                // Get the index of the i-th neighbor
                 int idx = info[i].idx;
-
-                // Determine the class label of the i-th neighbor
-                int c = (int)trainData[idx][20];
-
-                // Increment the vote count for the corresponding class
+                int c = (int)trainData[idx].Last();
                 ++votes[c];
             }
 
-            // Variables to keep track of the class with the most votes
-            int mostVotes = 0;
-            int classWithMostVotes = 0;
-
-            // Loop through each class
-            for (int j = 0; j < numClasses; ++j)
-            {
-                // Check if the current class has more votes than the previous maximum
-                if (votes[j] > mostVotes)
-                {
-                    // Update the mostVotes and classWithMostVotes variables
-                    mostVotes = votes[j];
-                    classWithMostVotes = j;
-                }
-            }
-
-            // Return the class label with the most votes
+            int classWithMostVotes = Array.IndexOf(votes, votes.Max());
             return classWithMostVotes;
         }
 
         /// <summary>
         /// Classifies the unknown SDR based on the k-nearest neighbors in the training data using the KNN algorithm.
         /// </summary>
-        /// <param name="unknownSDR">The unknown SDR to be classified.</param>
-        /// <param name="Sdrdata">The training data containing known SDRs.</param>
+        /// <param name="testData">The testing data containing unknown SDR to be classified.</param>
+        /// <param name="trainData">The training data containing known SDRs.</param>
         /// <param name="numofclass">The total number of classes.</param>
         /// <param name="k">The number of nearest neighbors to consider in the classification.</param>
         /// <returns>The predicted class label for the unknown SDR.</returns>
 
-        public int Classifier(double[] unknownSDR, double[][] Sdrdata, int numofclass, int k)
+        public int Classifier(double[] testData, double[][] trainData, int numofclass, int k)
         {
-            int n = Sdrdata.Length;
-
-            // Array to store the index and distance of each SDR in the training data
+            int n = trainData.Length;
             IndexAndDistance[] info = new IndexAndDistance[n];
 
-            // Compute the distance between the unknown SDR and each SDR in the training data
             for (int i = 0; i < n; i++)
             {
-                IndexAndDistance curr = new IndexAndDistance();
-
-                double dist = Distance(unknownSDR, Sdrdata[i]);
-
-                curr.idx = i;
-                curr.dist = dist;
-
-                info[i] = curr;
+                double dist = CalculateEuclideanDistance(testData, trainData[i]);
+                info[i] = new IndexAndDistance { idx = i, dist = dist };
             }
 
-            // Sort the SDRs in the training data by distance to the unknown SDR
             Array.Sort(info);
 
-            // Determine the class label for the unknown SDR based on the k-nearest neighbors
-            int result = Vote(info, Sdrdata, numofclass, k);
+            // Display information for the k-nearest items
+            Debug.WriteLine("   Nearest     /    Distance      /     Class   ");
+            Debug.WriteLine("   ==========================================   ");
+            for (int i = 0; i < k; ++i)
+            {
+                int c = (int)trainData[info[i].idx].Last();
+                string dist = info[i].dist.ToString("F3");
+                Debug.WriteLine($"( {trainData[info[i].idx][0]}, {trainData[info[i].idx][1]} )  :  {dist}        {c}");
+            }
 
+            int result = Vote(info, trainData, numofclass, k);
             return result;
         }
 
-        // GetTestDatasets method to load test datasets from a file
-        public static double[][] GetTestDatasets()
-        {
-            // Call the GetTestDataset method to read datasets from the file
-            double[][] testdataset = GetTestDataset("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/sdr_data.txt");
+        /// <summary>
+        /// Creating Method to learn data from a datset file
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns> Returning the dataset and storing it in Two Dimensional Array
 
-            // Print each dataset to the console
-            foreach (var dataset in testdataset)
-            {
-                // Join the elements of the dataset array with commas and print to the console
-                string.Join(", ", dataset);
-            }
-            // Return the loaded test datasets
-            return testdataset;
-        }
-
-
-        // GetTestDataset method to read datasets from a file
-        public static double[][] GetTestDataset(string filePath)
+        public double[][] LoadDataFromFile(string filePath)
         {
             try
             {
-                // Read all lines from the file
                 string[] lines = File.ReadAllLines(filePath);
-
-                // Create a 2D array to store the datasets
                 double[][] datasets = new double[lines.Length][];
 
-                // Iterate through each line in the file
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    // Split the line by commas to get individual values
                     string[] values = lines[i].Split(',');
 
-                    // Create an array to store the values for the current dataset
                     datasets[i] = new double[values.Length];
-
-                    // Iterate through each value in the line
                     for (int j = 0; j < values.Length; j++)
                     {
-                        // Parse the value to double and store it in the dataset array
                         if (!double.TryParse(values[j], out datasets[i][j]))
                         {
-                            // Throw a format exception if parsing fails
                             throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
                         }
                     }
                 }
-                // Return the loaded datasets
+
                 return datasets;
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that occur during file reading or parsing
                 Console.WriteLine($"An error occurred: {ex.Message}");
-                return null; // Return null to indicate failure
+                return null;
             }
-
-        }
-
-        // ReadSDRDataFromFile method to load SDR data from a file
-        public static double[][] ReadSDRDataFromFile()
-        {
-            // Call the ReadSDRDataFromFileMethod to read SDR data from the file
-            double[][] sdrData = ReadSDRDataFromFileMethod("/Users/zakaahmedchishti/Documents/GitHub/se-cloud-2023-2024/MyWork_Exerices/neocortexapi/My Project:KNN /New/New/sdr_data.txt");
-
-            // Print each dataset to the console
-            foreach (var dataset in sdrData)
-            {
-                // Join the elements of the dataset array with commas and print to the console
-                string.Join(", ", dataset);
-            }
-            // Return the loaded SDR data
-            return sdrData;
         }
 
 
-        // ReadSDRDataFromFileMethod to read SDR data from a file
-        public static double[][] ReadSDRDataFromFileMethod(string filePath)
+
+        /// <summary>
+        /// Finding Accuracy of KNN CLassifue
+        /// </summary>
+        /// <param name="predictedLabels"></param>
+        /// <param name="actualLabels"></param>
+        /// <returns></returns> Retyrn the accuracy in Percentage 
+
+        public double CalculateAccuracy(int[] predictedLabels, int[] actualLabels)
         {
-            try
-            {
-                // Read all lines from the file
-                string[] lines = File.ReadAllLines(filePath);
-
-                // Create a 2D array to store the SDR data
-                double[][] sdrData = new double[lines.Length][];
-
-                // Iterate through each line in the file
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    // Split the line by commas to get individual values
-                    string[] values = lines[i].Split(',');
-
-                    // Create an array to store the values for the current dataset
-                    sdrData[i] = new double[values.Length];
-
-                    // Iterate through each value in the line
-                    for (int j = 0; j < values.Length; j++)
-                    {
-                        // Parse the value to double and store it in the SDR data array
-                        if (!double.TryParse(values[j], out sdrData[i][j]))
-                        {
-                            // Throw a format exception if parsing fails
-                            throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
-                        }
-                    }
-                }
-                return sdrData;
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that occur during file reading or parsing
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return null; // Return null to indicate failure
-            }
-            // Return the loaded SDR data
+            int correctPredictions = predictedLabels.Zip(actualLabels, (p, a) => p == a ? 1 : 0).Sum();
+            double accuracy = (double)correctPredictions / predictedLabels.Length * 100;
+            return accuracy;
         }
 
 
         /// <summary>
-        /// Compares this instance to another based on distance.
+        /// Method for Extracting AcutualLabels from test Dataset
         /// </summary>
-        /// <param name="other">The other IndexAndDistance instance to compare with.</param>
-        /// <returns>
-        /// A negative value if this instance has a smaller distance,
-        /// a positive value if this instance has a larger distance,
-        /// or zero if both instances have the same distance.
-        /// </returns>
-        public class IndexAndDistance : IComparable<IndexAndDistance>
+        /// <param name="testData"></param>
+        /// <returns></returns> Returning the Acutual Labels from test data
+
+        public int[] ExtractActualLabelsFromDataset(double[][] testData)
         {
-            /// Represents an index and its distance to an unknown point in a dataset, used for sorting.
-            /// Index of a training item.
-            public int idx;
+            return testData.Select(row => (int)row.Last()).ToArray();
+        }
 
-            /// Distance to the unknown point.
-            public double dist;
+        /// <summary>
+        /// Spliting the dataset in training dataset and testing dataset
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="trainRatio"></param>
+        /// <returns></returns> Returning the split Training data and testing Data in Two dimensional Array 
 
-            /// Compares this instance to another based on distance.
-            /// A negative value if this instance has a smaller distance,
-            /// a positive value if this instance has a larger distance,
-            /// or zero if both instances have the same distance.
-            public int CompareTo(IndexAndDistance other)
-            {
-                if (this.dist < other.dist)
-                    return -1;
-                else if (this.dist > other.dist)
-                    return 1;
-                else
-                    return 0;
-            }
+        public (double[][], double[][]) SplitData(double[][] data, double trainRatio)
+        {
+            int totalRows = data.Length;
+            int trainRows = (int)(totalRows * trainRatio);
+            int testRows = totalRows - trainRows;
+
+            int[] indices = Enumerable.Range(0, totalRows).OrderBy(x => Guid.NewGuid()).ToArray();
+            double[][] trainData = indices.Take(trainRows).Select(i => data[i]).ToArray();
+            double[][] testData = indices.Skip(trainRows).Select(i => data[i]).ToArray();
+
+            return (trainData, testData);
         }
 
 
     }
+
+
+    /// <summary>
+    /// Compares the instance to another based on distance.
+    /// </summary>
+    /// <param name="other">The other IndexAndDistance instance to compare with.</param>
+    /// <returns>
+
+    public class IndexAndDistance : IComparable<IndexAndDistance>
+    {
+        /// <summary>
+        /// Index of a training item.
+        /// </summary>
+        public int idx;
+
+        /// <summary>
+        /// Distance to the unknown point.
+        /// </summary>
+        public double dist;
+
+        /// <summary>
+        /// Compares this instance to another based on distance.
+        /// </summary>
+        public int CompareTo(IndexAndDistance other)
+        {
+            return dist.CompareTo(other.dist);
+        }
+    }
+
+
+
 }
