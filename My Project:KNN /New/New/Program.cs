@@ -24,38 +24,12 @@ namespace NeoCortexApiSample
         {
 
 
-            string filePath = @"/Users/zakaahmedchishti/Projects/New/New/sdr_dataset.csv";
-            StreamReader reader = null;
-            if (File.Exists(filePath))
-            {
-                reader = new StreamReader(File.OpenRead(filePath));
-                List<string> listA = new List<string>();
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-                    foreach (var item in values)
-                    {
-                        listA.Add(item);
-                    }
-                    foreach (var coloumn1 in listA)
-                    {
-                        Console.WriteLine(coloumn1);
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("File doesn't exist");
-            }
+            
 
+                //RunMultiSequenceLearningExperiment();
 
-
-
-            //RunMultiSequenceLearningExperiment();
-
-            // start experiement that demonstrates how to predict the squence based on HTM predcited cells.
-            KNNClassificationExperiment("/Users/zakaahmedchishti/Projects/New/New/sdr_dataset.txt");
+                // start experiement that demonstrates how to predict the squence based on HTM predcited cells.
+                KNNClassificationExperiment("/Users/zakaahmedchishti/Projects/New/New/sdr_dataset.txt");
 
         }
 

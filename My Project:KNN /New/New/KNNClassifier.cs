@@ -1,4 +1,5 @@
 ﻿//Global Variable
+using Microsoft.VisualBasic.FileIO;
 using NeoCortexEntities.NeuroVisualizer;
 using System;
 using System.Collections.Generic;
@@ -138,30 +139,39 @@ namespace KNNImplementation
         {
             try
             {
-                string[] lines = File.ReadAllLines(filePath);
-                double[][] datasets = new double[lines.Length][];
+                List<double[]> datasets = new List<double[]>();
 
-                for (int i = 0; i < lines.Length; i++)
+                using (TextFieldParser parser = new TextFieldParser(filePath))
                 {
-                    string[] values = lines[i].Split(',');
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
 
-                    datasets[i] = new double[values.Length];
-                    for (int j = 0; j < values.Length; j++)
+                    while (!parser.EndOfData)
                     {
-                        if (!double.TryParse(values[j], out datasets[i][j]))
+                        string[] values = parser.ReadFields();
+
+                        double[] row = new double[values.Length]; // Exclude the last column
+                        for (int i = 0; i < values.Length - 1; i++)
                         {
-                            throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
+                            if (!double.TryParse(values[i], out row[i]))
+                            {
+                                throw new FormatException($"Failed to parse value at line {parser.LineNumber}, position {i + 1}");
+                            }
                         }
+
+                        datasets.Add(row);
                     }
                 }
 
-                return datasets;
+                return datasets.ToArray();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return null;
             }
+
+
         }
 
 
