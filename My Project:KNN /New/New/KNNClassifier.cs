@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,6 @@ namespace KNN
     {
         public double CalculateEuclideanDistance(List<double> testData, List<double> trainData)
         {
-
             if (testData == null || trainData == null)
                 throw new ArgumentNullException("Both testData and trainData must not be null.");
 
@@ -27,6 +27,7 @@ namespace KNN
                 sumOfSquaredDifferences += difference * difference;
             }
 
+            // Return the square root of the sum of squared differences
             return Math.Sqrt(sumOfSquaredDifferences);
         }
 
@@ -36,6 +37,7 @@ namespace KNN
 
             for (int i = 0; i < k; ++i)
             {
+
                 int idx = info[i].idx;
                 string c = trainLabels[idx];
                 int classIndex = trainLabels.IndexOf(c);
@@ -65,14 +67,29 @@ namespace KNN
             {
                 IndexAndDistance[] info = new IndexAndDistance[trainingFeatures.Count];
 
+                // Calculate distances from the current test data point to all training data points
                 for (int i = 0; i < trainingFeatures.Count; i++)
                 {
                     double dist = CalculateEuclideanDistance(testData, trainingFeatures[i]);
                     info[i] = new IndexAndDistance { idx = i, dist = dist };
                 }
 
+                // Sort distances
                 Array.Sort(info);
 
+                Console.WriteLine("   Nearest     /    Distance      /     Class   ");
+                Console.WriteLine("   ==========================================   ");
+
+                // Print Nearest, Distance, and Class for the k nearest neighbors
+                for (int i = 0; i < k; i++)
+                {
+                    int nearestIndex = info[i].idx;
+                    double distance = info[i].dist;
+                    string nearestClass = trainingLabels[nearestIndex];
+                    Console.WriteLine($"( {trainingFeatures[nearestIndex][0]}, {trainingFeatures[nearestIndex][1]} )  :  {distance}        {nearestClass}");
+                }
+
+                // Vote for the class based on the top k nearest neighbors
                 int result = Vote(info, trainingLabels, trainingLabels.Count, k);
                 predictedLabels.Add(trainingLabels[result]);
             }
