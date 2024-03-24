@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KNN
 {
-    
+
 
     public class KNNClassifier
     {
@@ -37,7 +37,7 @@ namespace KNN
             {
                 int idx = info[i].idx;
                 string c = trainLabels[idx];
-                int classIndex = int.Parse(c); // Convert string class label to integer index
+                int classIndex = trainLabels.IndexOf(c);
                 ++votes[classIndex];
             }
 
@@ -102,6 +102,4 @@ namespace KNN
             return dist.CompareTo(other.dist);
         }
     }
-
-
 }

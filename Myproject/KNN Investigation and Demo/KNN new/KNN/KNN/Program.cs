@@ -70,7 +70,7 @@ namespace KNNImplementation
             List<string> predictedLabels = knnClassifier.Test(testingFeatures, trainingFeatures, trainingLabels, 3);
             foreach (var label in predictedLabels)
             {
-                Console.WriteLine("label" + label);
+                Console.WriteLine("S" + label);
             }
             // Calculate and print accuracy
             double accuracy = knnClassifier.CalculateAccuracy(predictedLabels, testingLabels);
