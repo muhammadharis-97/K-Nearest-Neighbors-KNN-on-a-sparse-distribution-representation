@@ -6,16 +6,7 @@ using System.Threading.Tasks;
 
 namespace KNN
 {
-    // Define classes to represent the JSON structure
-    public class SequenceDataEntry
-    {
-        public Dictionary<string, List<double>> SequenceData { get; set; }
-    }
-
-    public class Dataset
-    {
-        public List<SequenceDataEntry> Data { get; set; }
-    }
+    
 
     public class KNNClassifier
     {
@@ -38,15 +29,16 @@ namespace KNN
             return Math.Sqrt(sumOfSquaredDifferences);
         }
 
-        public int Vote(IndexAndDistance[] info, List<int> trainLabels, int numofclass, int k)
+        public int Vote(IndexAndDistance[] info, List<string> trainLabels, int numofclass, int k)
         {
             int[] votes = new int[numofclass];
 
             for (int i = 0; i < k; ++i)
             {
                 int idx = info[i].idx;
-                int c = trainLabels[idx];
-                ++votes[c];
+                string c = trainLabels[idx];
+                int classIndex = int.Parse(c); // Convert string class label to integer index
+                ++votes[classIndex];
             }
 
             int classWithMostVotes = Array.IndexOf(votes, Max(votes));
@@ -64,9 +56,9 @@ namespace KNN
             return max;
         }
 
-        public List<int> Test(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<int> trainingLabels, int k)
+        public List<string> Test(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k)
         {
-            List<int> predictedLabels = new List<int>();
+            List<string> predictedLabels = new List<string>();
 
             foreach (var testData in testingFeatures)
             {
@@ -80,14 +72,14 @@ namespace KNN
 
                 Array.Sort(info);
 
-                int result = Vote(info, trainingLabels, 3, k);
-                predictedLabels.Add(result);
+                int result = Vote(info, trainingLabels, trainingLabels.Count, k);
+                predictedLabels.Add(trainingLabels[result]);
             }
 
             return predictedLabels;
         }
 
-        public double CalculateAccuracy(List<int> predictedLabels, List<int> actualLabels)
+        public double CalculateAccuracy(List<string> predictedLabels, List<string> actualLabels)
         {
             int correctPredictions = 0;
             for (int i = 0; i < predictedLabels.Count; i++)
@@ -110,4 +102,6 @@ namespace KNN
             return dist.CompareTo(other.dist);
         }
     }
+
+
 }
