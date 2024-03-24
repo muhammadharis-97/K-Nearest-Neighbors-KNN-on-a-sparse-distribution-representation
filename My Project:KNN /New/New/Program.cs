@@ -8,7 +8,6 @@ using System.Reflection.Emit;
 
 namespace KNNImplementation
 {
-    // Define classes to represent the JSON structure
     public class SequenceDataEntry
     {
         public string SequenceName { get; set; }
@@ -24,20 +23,16 @@ namespace KNNImplementation
     {
         static void Main(string[] args)
         {
-            // Read JSON data from file
             string jsonFilePath = "/Users/zakaahmedchishti/Projects/New/New/Dataset_KNN.json"; 
             string jsonData = File.ReadAllText(jsonFilePath);
 
-            // Deserialize JSON data into a list of SequenceDataEntry objects
             List<SequenceDataEntry> sequenceDataList = JsonConvert.DeserializeObject<List<SequenceDataEntry>>(jsonData);
 
-            // Separate the data into training and testing sets
             List<List<double>> trainingFeatures = new List<List<double>>();
             List<string> trainingLabels = new List<string>();
             List<List<double>> testingFeatures = new List<List<double>>();
             List<string> testingLabels = new List<string>();
 
-            // Assuming you want to randomly assign data to training or testing set
             Random rand = new Random();
             foreach (var entry in sequenceDataList)
             {
@@ -47,7 +42,6 @@ namespace KNNImplementation
                     string label = entry.SequenceName;
                     List<double> features = entry.SequenceData;
 
-                    // Randomly assign data to training or testing set (example logic)
                     if (rand.NextDouble() < 0.8) // 80% for training
                     {
                         
@@ -62,7 +56,6 @@ namespace KNNImplementation
                 }
             }
 
-            // Train and test the KNN classifier using the extracted data
             TrainAndTestKNNClassifier(trainingFeatures, trainingLabels, testingFeatures, testingLabels);
         }
 
