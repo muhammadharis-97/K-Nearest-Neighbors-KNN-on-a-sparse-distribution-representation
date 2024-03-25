@@ -7,9 +7,21 @@ using System.Threading.Tasks;
 
 namespace KNN
 {
+    /// <summary>
+    /// KNN class is designed to perform classification tasks on sequences derived from the SDR (Sparse Distributed Representation) dataset
+    /// </summary>
     public class KNNClassifier
     {
-        public List<string> Test(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k)
+        //// <summary>
+        /// Performs classification on the testing features using k-Nearest Neighbors algorithm.
+        /// </summary>
+        /// <param name="testingFeatures">The list of features for which predictions are to be made.</param>
+        /// <param name="trainingFeatures">The list of features used for training the classifier.</param>
+        /// <param name="trainingLabels">The list of labels corresponding to the training features.</param>
+        /// <param name="k">The number of nearest neighbors to consider for classification.</param>
+        /// <returns>The list of predicted labels for the testing features.</returns>
+
+        public List<string> Classifier(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k)
         {
             List<string> predictedLabels = new List<string>();
 
@@ -40,13 +52,18 @@ namespace KNN
                 // Vote for the class based on the top k nearest neighbors
                 int result = Vote(nearestNeighbors, trainingLabels, trainingLabels.Count, k);
                 predictedLabels.Add(trainingLabels[result]);
-
-
             }
 
             return predictedLabels;
         }
 
+        /// <summary>
+        /// Calculates the accuracy of the predicted labels compared to the actual labels.
+        /// </summary>
+        /// <param name="predictedLabels">The list of predicted labels.</param>
+        /// <param name="actualLabels">The list of actual labels.</param>
+        /// <returns>The accuracy percentage.</returns>
+        /// 
         public double CalculateAccuracy(List<string> predictedLabels, List<string> actualLabels)
         {
             int correctPredictions = predictedLabels.Where((predictedLabel, index) => predictedLabel == actualLabels[index]).Count();
@@ -90,19 +107,15 @@ namespace KNN
         /// <param name="k">The number of nearest neighbors to consider.</param>
         /// <returns>The class label with the most votes among the nearest neighbors.</returns>
 
-
-
         private int Vote(IndexAndDistance[] nearestNeighbors, List<string> trainingLabels, int numOfClasses, int k)
         {
             Dictionary<string, int> votes = new Dictionary<string, int>();
 
-            // Initialize vote counts for each class label
             foreach (string label in trainingLabels)
             {
                 votes[label] = 0;
             }
 
-            // Count the votes for each class label based on the nearest neighbors
             for (int i = 0; i < k; ++i)
             {
                 string neighborLabel = trainingLabels[nearestNeighbors[i].Index];
@@ -111,21 +124,8 @@ namespace KNN
 
             // Find the class label with the most votes
             string classWithMostVotes = votes.OrderByDescending(pair => pair.Value).First().Key;
-
             Debug.WriteLine($"  Predicted class for test data: {(classWithMostVotes == "S1" ? "Even" : (classWithMostVotes == "S2" ? "Odd" : (classWithMostVotes == "S3" ? "Neither Odd nor Even" : "Unknown")))}");
             return trainingLabels.IndexOf(classWithMostVotes);
-        }
-
-
-        private int GetMax(int[] arr)
-        {
-            int max = arr[0];
-            for (int i = 1; i < arr.Length; i++)
-            {
-                if (arr[i] > max)
-                    max = arr[i];
-            }
-            return max;
         }
     }
 

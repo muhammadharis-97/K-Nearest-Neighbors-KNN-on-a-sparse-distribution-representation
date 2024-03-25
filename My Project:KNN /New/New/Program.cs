@@ -20,18 +20,39 @@ namespace KNNImplementation
         static void Main(string[] args)
         {
             string jsonFilePath = "/Users/zakaahmedchishti/Projects/New/New/Dataset_KNN.json";
-            string jsonData = File.ReadAllText(jsonFilePath);
+            TrainAndTestKNNClassifier(jsonFilePath);
+        }
 
-            List<SequenceDataEntry> sequenceDataList = JsonConvert.DeserializeObject<List<SequenceDataEntry>>(jsonData);
-
-            List<List<double>> allFeatures = sequenceDataList.Select(entry => entry.SequenceData).ToList();
-            List<string> allLabels = sequenceDataList.Select(entry => entry.SequenceName).ToList();
+        static void TrainAndTestKNNClassifier(string jsonFilePath)
+        {
+            List<SequenceDataEntry> sequenceDataList = LoadDataset(jsonFilePath);
 
             // Split data into training and testing sets
-            List<List<double>> trainingFeatures = new List<List<double>>();
-            List<string> trainingLabels = new List<string>();
-            List<List<double>> testingFeatures = new List<List<double>>();
-            List<string> testingLabels = new List<string>();
+            SplitDataset(sequenceDataList, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels);
+
+            Debug.WriteLine("Starting of KNN Classifier on Sparse Distribution Representation");
+
+            // Initialize and test KNN classifier
+            KNNClassifier knnClassifier = new KNNClassifier();
+            List<string> predictedLabels = knnClassifier.Classifier(testingFeatures, trainingFeatures, trainingLabels, k: 3);
+
+            // Calculate accuracy
+            double accuracy = knnClassifier.CalculateAccuracy(predictedLabels, testingLabels);
+            Debug.WriteLine($"Accuracy of KNN Classifier: {accuracy}%");
+        }
+
+        static List<SequenceDataEntry> LoadDataset(string jsonFilePath)
+        {
+            string jsonData = File.ReadAllText(jsonFilePath);
+            return JsonConvert.DeserializeObject<List<SequenceDataEntry>>(jsonData);
+        }
+
+        static void SplitDataset(List<SequenceDataEntry> sequenceDataList, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels)
+        {
+            trainingFeatures = new List<List<double>>();
+            trainingLabels = new List<string>();
+            testingFeatures = new List<List<double>>();
+            testingLabels = new List<string>();
 
             Random rand = new Random();
             foreach (var entry in sequenceDataList)
@@ -50,10 +71,6 @@ namespace KNNImplementation
                     testingLabels.Add(label);
                 }
             }
-
-            Debug.WriteLine("Starting of KNN Classifier on Sparse Distribution Representation");
-
-            TrainAndTestKNNClassifier(trainingFeatures, trainingLabels, testingFeatures, testingLabels);
         }
 
         static void TrainAndTestKNNClassifier(List<List<double>> trainingFeatures, List<string> trainingLabels,
@@ -63,7 +80,7 @@ namespace KNNImplementation
             KNNClassifier knnClassifier = new KNNClassifier();
 
             // Test the classifier with testing data
-            List<string> predictedLabels = knnClassifier.Test(testingFeatures, trainingFeatures, trainingLabels, 3);
+            List<string> predictedLabels = knnClassifier.Classifier(testingFeatures, trainingFeatures, trainingLabels, 3);
             foreach (var label in predictedLabels)
             {
                 Console.WriteLine(label);
