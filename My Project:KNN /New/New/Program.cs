@@ -9,28 +9,35 @@ using System.Diagnostics;
 
 namespace KNNImplementation
 {
+    // Represents an entry in the dataset, containing a sequence name and its associated data.
     public class SequenceDataEntry
     {
+        // The name of the sequence.
         public string SequenceName { get; set; }
+        // The data associated with the sequence.
         public List<double> SequenceData { get; set; }
     }
 
     class Program
     {
+        // Main method to start the program
         static void Main(string[] args)
         {
             string jsonFilePath = "/Users/zakaahmedchishti/Projects/New/New/Dataset_KNN.json";
-            TrainAndTestKNNClassifier(jsonFilePath);
+
+            // start experiement that demonstrates how to predict the squence based on HTM predcited cells.
+            KNNClassificationExperiment(jsonFilePath);
         }
 
-        static void TrainAndTestKNNClassifier(string jsonFilePath)
+        // Conducts a KNN classification experiment using the provided dataset. Method Classifier is called inside this method. 
+        static void KNNClassificationExperiment(string jsonFilePath)
         {
-            List<SequenceDataEntry> sequenceDataList = LoadDataset(jsonFilePath);
+            List<SequenceDataEntry> sequenceDataEntries = LoadDataset(jsonFilePath);
 
             // Split data into training and testing sets
-            SplitDataset(sequenceDataList, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels);
+            KNN.KNNClassifier.SplitDataset(sequenceDataEntries, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels);
 
-            Debug.WriteLine("Starting of KNN Classifier on Sparse Distribution Representation");
+            Debug.WriteLine("Starting KNN Classifier on Sparse Distribution Representation");
 
             // Initialize and test KNN classifier
             KNNClassifier knnClassifier = new KNNClassifier();
@@ -41,53 +48,18 @@ namespace KNNImplementation
             Debug.WriteLine($"Accuracy of KNN Classifier: {accuracy}%");
         }
 
+        // Loads the dataset from the specified JSON file.
         static List<SequenceDataEntry> LoadDataset(string jsonFilePath)
         {
             string jsonData = File.ReadAllText(jsonFilePath);
             return JsonConvert.DeserializeObject<List<SequenceDataEntry>>(jsonData);
         }
-
-        static void SplitDataset(List<SequenceDataEntry> sequenceDataList, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels)
-        {
-            trainingFeatures = new List<List<double>>();
-            trainingLabels = new List<string>();
-            testingFeatures = new List<List<double>>();
-            testingLabels = new List<string>();
-
-            Random rand = new Random();
-            foreach (var entry in sequenceDataList)
-            {
-                string label = entry.SequenceName;
-                List<double> features = entry.SequenceData;
-
-                if (rand.NextDouble() < 0.8) // 80% for training
-                {
-                    trainingFeatures.Add(features.ToList()); // Add a copy of features
-                    trainingLabels.Add(label);
-                }
-                else // 20% for testing
-                {
-                    testingFeatures.Add(features.ToList()); // Add a copy of features
-                    testingLabels.Add(label);
-                }
-            }
-        }
-
-        static void TrainAndTestKNNClassifier(List<List<double>> trainingFeatures, List<string> trainingLabels,
-                                              List<List<double>> testingFeatures, List<string> testingLabels)
-        {
-            // Initialize KNN classifier
-            KNNClassifier knnClassifier = new KNNClassifier();
-
-            // Test the classifier with testing data
-            List<string> predictedLabels = knnClassifier.Classifier(testingFeatures, trainingFeatures, trainingLabels, 3);
-            foreach (var label in predictedLabels)
-            {
-                Console.WriteLine(label);
-            }
-
-            double accuracy = knnClassifier.CalculateAccuracy(predictedLabels, testingLabels);
-            Debug.WriteLine($"Accuracy: {accuracy}%");
-        }
     }
 }
+
+
+//TestingFeatures is our test Data
+//TrainingFeatures is our training Data
+
+//Training Labels
+//Testing Labels

@@ -4,21 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KNNImplementation;
 
 namespace KNN
 {
-    /// <summary>
     /// KNN class is designed to perform classification tasks on sequences derived from the SDR (Sparse Distributed Representation) dataset
-    /// </summary>
     public class KNNClassifier
     {
-        //// <summary>
         /// Performs classification on the testing features using k-Nearest Neighbors algorithm.
-        /// </summary>
-        /// <param name="testingFeatures">The list of features for which predictions are to be made.</param>
-        /// <param name="trainingFeatures">The list of features used for training the classifier.</param>
-        /// <param name="trainingLabels">The list of labels corresponding to the training features.</param>
-        /// <param name="k">The number of nearest neighbors to consider for classification.</param>
         /// <returns>The list of predicted labels for the testing features.</returns>
 
         public List<string> Classifier(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k)
@@ -50,47 +43,70 @@ namespace KNN
                 }
 
                 // Vote for the class based on the top k nearest neighbors
-                int result = Vote(nearestNeighbors, trainingLabels, trainingLabels.Count, k);
+                int result = Vote(nearestNeighbors, trainingLabels, k);
                 predictedLabels.Add(trainingLabels[result]);
             }
 
             return predictedLabels;
         }
 
-        /// <summary>
-        /// Calculates the accuracy of the predicted labels compared to the actual labels.
-        /// </summary>
-        /// <param name="predictedLabels">The list of predicted labels.</param>
-        /// <param name="actualLabels">The list of actual labels.</param>
-        /// <returns>The accuracy percentage.</returns>
-        /// 
-        public double CalculateAccuracy(List<string> predictedLabels, List<string> actualLabels)
+        // Splits the dataset into training and testing sets.
+        public static void SplitDataset(List<SequenceDataEntry> sequenceDataList, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels)
         {
-            int correctPredictions = predictedLabels.Where((predictedLabel, index) => predictedLabel == actualLabels[index]).Count();
+            trainingFeatures = new List<List<double>>();
+            trainingLabels = new List<string>();
+            testingFeatures = new List<List<double>>();
+            testingLabels = new List<string>();
+
+            Random rand = new Random();
+            foreach (var entry in sequenceDataList)
+            {
+                string label = entry.SequenceName;
+                List<double> features = entry.SequenceData;
+
+                if (rand.NextDouble() < 0.8) // 80% for training
+                {
+                    trainingFeatures.Add(new List<double>(features)); // Add a copy of features
+                    trainingLabels.Add(label);
+                }
+                else // 20% for testing
+                {
+                    testingFeatures.Add(new List<double>(features)); // Add a copy of features
+                    testingLabels.Add(label);
+                }
+            }
+        }
+
+
+
+            // Calculates the accuracy of the predicted labels compared to the actual labels.
+              public double CalculateAccuracy(List<string> predictedLabels, List<string> testingLabels)
+        {
+            int correctPredictions = predictedLabels.Where((predictedLabel, index) => predictedLabel == testingLabels[index]).Count();
             double accuracy = (double)correctPredictions / predictedLabels.Count * 100;
             return accuracy;
         }
 
-        /// <summary>
-        /// Calculates the Euclidean distance between two vectors.
-        /// </summary>
-        /// <param name="testData">The test data vector.</param>
-        /// <param name="trainData">The training data vector.</param>
-        /// <returns>The Euclidean distance between the two vectors.</returns>
+        // <summary>
+        // Calculates the Euclidean distance between two vectors.
+        // </summary>
+        // <param name="testData">The test data vector.</param>
+        // <param name="trainData">The training data vector.</param>
+        // <returns>The Euclidean distance between the two vectors.</returns>
 
-        private double CalculateEuclideanDistance(List<double> testData, List<double> trainData)
+        private double CalculateEuclideanDistance(List<double> testingFeatures, List<double> trainingFeatures)
         {
-            if (testData == null || trainData == null)
+            if (testingFeatures == null || trainingFeatures == null)
                 throw new ArgumentNullException("Both testData and trainData must not be null.");
 
-            if (testData.Count != trainData.Count)
+            if (testingFeatures.Count != trainingFeatures.Count)
                 throw new ArgumentException("testData and trainData must have the same length.");
 
             double sumOfSquaredDifferences = 0.0;
 
-            for (int i = 0; i < testData.Count; ++i)
+            for (int i = 0; i < testingFeatures.Count; ++i)
             {
-                double difference = testData[i] - trainData[i];
+                double difference = testingFeatures[i] - trainingFeatures[i];
                 sumOfSquaredDifferences += difference * difference;
             }
 
@@ -98,16 +114,16 @@ namespace KNN
             return Math.Sqrt(sumOfSquaredDifferences);
         }
 
-        /// <summary>
-        /// Determines the class label by majority voting among the k nearest neighbors.
-        /// </summary>
-        /// <param name="nearestNeighbors">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
-        /// <param name="trainingLabels">The training data containing class labels.</param>
-        /// <param name="numOfClasses">The total number of classes.</param>
-        /// <param name="k">The number of nearest neighbors to consider.</param>
-        /// <returns>The class label with the most votes among the nearest neighbors.</returns>
+        // <summary>
+        // Determines the class label by majority voting among the k nearest neighbors.
+        // </summary>
+        // <param name="nearestNeighbors">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
+        // <param name="trainingLabels">The training data containing class labels.</param>
+        // <param name="numOfClasses">The total number of classes.</param>
+        // <param name="k">The number of nearest neighbors to consider.</param>
+        // <returns>The class label with the most votes among the nearest neighbors.</returns>
 
-        private int Vote(IndexAndDistance[] nearestNeighbors, List<string> trainingLabels, int numOfClasses, int k)
+        private int Vote(IndexAndDistance[] nearestNeighbors, List<string> trainingLabels, int k)
         {
             Dictionary<string, int> votes = new Dictionary<string, int>();
 
@@ -130,25 +146,14 @@ namespace KNN
     }
 
 
-    /// <summary>
-    /// Compares the instance to another based on distance.
-    /// </summary>
-    /// <param name="other">The other IndexAndDistance instance to compare with.</param>
-    /// <returns>
-
+    // Compares the instance to another based on distance.
     public class IndexAndDistance : IComparable<IndexAndDistance>
     {
-        /// <summary>
         /// Index of a training item.
-        /// </summary>
         public int Index;
-        /// <summary>
         /// Distance to the unknown point.
-        /// </summary>
         public double Distance;
-        /// <summary>
         /// Compares this instance to another based on distance.
-        /// </summary>
         public int CompareTo(IndexAndDistance other)
         {
             return Distance.CompareTo(other.Distance);
