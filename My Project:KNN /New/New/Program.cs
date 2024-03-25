@@ -15,11 +15,6 @@ namespace KNNImplementation
         public List<double> SequenceData { get; set; }
     }
 
-    public class Dataset
-    {
-        public List<SequenceDataEntry> Data { get; set; }
-    }
-
     class Program
     {
         static void Main(string[] args)
@@ -56,21 +51,16 @@ namespace KNNImplementation
                 }
             }
 
-            Debug.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
+            Debug.WriteLine("Starting of KNN Classifier on Sparse Distribution Representation");
 
             TrainAndTestKNNClassifier(trainingFeatures, trainingLabels, testingFeatures, testingLabels);
-
-            
         }
-
 
         static void TrainAndTestKNNClassifier(List<List<double>> trainingFeatures, List<string> trainingLabels,
                                               List<List<double>> testingFeatures, List<string> testingLabels)
         {
-           
             // Initialize KNN classifier
             KNNClassifier knnClassifier = new KNNClassifier();
-           
 
             // Test the classifier with testing data
             List<string> predictedLabels = knnClassifier.Test(testingFeatures, trainingFeatures, trainingLabels, 3);
@@ -79,9 +69,8 @@ namespace KNNImplementation
                 Console.WriteLine(label);
             }
 
-
             double accuracy = knnClassifier.CalculateAccuracy(predictedLabels, testingLabels);
-            Console.WriteLine($"Accuracy: {accuracy}%");
+            Debug.WriteLine($"Accuracy: {accuracy}%");
         }
     }
 }

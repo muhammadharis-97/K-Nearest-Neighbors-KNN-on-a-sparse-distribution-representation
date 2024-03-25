@@ -7,11 +7,61 @@ using System.Threading.Tasks;
 
 namespace KNN
 {
-
-
     public class KNNClassifier
     {
-        public double CalculateEuclideanDistance(List<double> testData, List<double> trainData)
+        public List<string> Test(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k)
+        {
+            List<string> predictedLabels = new List<string>();
+
+            foreach (var testFeature in testingFeatures)
+            {
+                IndexAndDistance[] nearestNeighbors = new IndexAndDistance[trainingFeatures.Count];
+
+                for (int i = 0; i < trainingFeatures.Count; i++)
+                {
+                    double distance = CalculateEuclideanDistance(testFeature, trainingFeatures[i]);
+                    nearestNeighbors[i] = new IndexAndDistance { Index = i, Distance = distance };
+                }
+
+                // Sort distances
+                Array.Sort(nearestNeighbors);
+
+                Debug.WriteLine("   Nearest     /    Distance      /     Class   ");
+                Debug.WriteLine("   ==========================================   ");
+
+                for (int i = 0; i < k; i++)
+                {
+                    int nearestIndex = nearestNeighbors[i].Index;
+                    double nearestDistance = nearestNeighbors[i].Distance;
+                    string nearestClass = trainingLabels[nearestIndex];
+                    Debug.WriteLine($"( {trainingFeatures[nearestIndex][0]}, {trainingFeatures[nearestIndex][1]} )  :  {nearestDistance}        {nearestClass}");
+                }
+
+                // Vote for the class based on the top k nearest neighbors
+                string result = Vote(nearestNeighbors, trainingLabels, trainingLabels.Count, k);
+
+                Debug.WriteLine($"  Predicted class for test data: {(result != "Even" ? "Even" : (result == "Odd" ? "Odd" : (result == "Neither Odd nor Even" ? "Neither Odd nor Even" : "Unknown")))}");
+
+            }
+
+            return predictedLabels;
+        }
+
+        public double CalculateAccuracy(List<string> predictedLabels, List<string> actualLabels)
+        {
+            int correctPredictions = predictedLabels.Where((predictedLabel, index) => predictedLabel == actualLabels[index]).Count();
+            double accuracy = (double)correctPredictions / predictedLabels.Count * 100;
+            return accuracy;
+        }
+
+        /// <summary>
+        /// Calculates the Euclidean distance between two vectors.
+        /// </summary>
+        /// <param name="testData">The test data vector.</param>
+        /// <param name="trainData">The training data vector.</param>
+        /// <returns>The Euclidean distance between the two vectors.</returns>
+
+        private double CalculateEuclideanDistance(List<double> testData, List<double> trainData)
         {
             if (testData == null || trainData == null)
                 throw new ArgumentNullException("Both testData and trainData must not be null.");
@@ -31,24 +81,40 @@ namespace KNN
             return Math.Sqrt(sumOfSquaredDifferences);
         }
 
-        public int Vote(IndexAndDistance[] info, List<string> trainLabels, int numofclass, int k)
+        /// <summary>
+        /// Determines the class label by majority voting among the k nearest neighbors.
+        /// </summary>
+        /// <param name="nearestNeighbors">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
+        /// <param name="trainingLabels">The training data containing class labels.</param>
+        /// <param name="numOfClasses">The total number of classes.</param>
+        /// <param name="k">The number of nearest neighbors to consider.</param>
+        /// <returns>The class label with the most votes among the nearest neighbors.</returns>
+
+
+
+        private string Vote(IndexAndDistance[] nearestNeighbors, List<string> trainingLabels, int numOfClasses, int k)
         {
-            int[] votes = new int[numofclass];
+            Dictionary<string, int> votes = new Dictionary<string, int>();
 
-            for (int i = 0; i < k; ++i)
+            // Initialize vote counts for each class label
+            foreach (string label in trainingLabels)
             {
-
-                int idx = info[i].idx;
-                string c = trainLabels[idx];
-                int classIndex = trainLabels.IndexOf(c);
-                ++votes[classIndex];
+                votes[label] = 0;
             }
 
-            int classWithMostVotes = Array.IndexOf(votes, Max(votes));
+            // Count the votes for each class label based on the nearest neighbors
+            for (int i = 0; i < k; ++i)
+            {
+                string neighborLabel = trainingLabels[nearestNeighbors[i].Index];
+                votes[neighborLabel]++;
+            }
+
+            // Find the class label with the most votes
+            string classWithMostVotes = votes.OrderByDescending(pair => pair.Value).First().Key;
             return classWithMostVotes;
         }
 
-        private int Max(int[] arr)
+        private int GetMax(int[] arr)
         {
             int max = arr[0];
             for (int i = 1; i < arr.Length; i++)
@@ -58,66 +124,31 @@ namespace KNN
             }
             return max;
         }
-
-        public List<string> Test(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k)
-        {
-            List<string> predictedLabels = new List<string>();
-
-            foreach (var testData in testingFeatures)
-            {
-                IndexAndDistance[] info = new IndexAndDistance[trainingFeatures.Count];
-
-                // Calculate distances from the current test data point to all training data points
-                for (int i = 0; i < trainingFeatures.Count; i++)
-                {
-                    double dist = CalculateEuclideanDistance(testData, trainingFeatures[i]);
-                    info[i] = new IndexAndDistance { idx = i, dist = dist };
-                }
-
-                // Sort distances
-                Array.Sort(info);
-
-                Console.WriteLine("   Nearest     /    Distance      /     Class   ");
-                Console.WriteLine("   ==========================================   ");
-
-                // Print Nearest, Distance, and Class for the k nearest neighbors
-                for (int i = 0; i < k; i++)
-                {
-                    int nearestIndex = info[i].idx;
-                    double distance = info[i].dist;
-                    string nearestClass = trainingLabels[nearestIndex];
-                    Console.WriteLine($"( {trainingFeatures[nearestIndex][0]}, {trainingFeatures[nearestIndex][1]} )  :  {distance}        {nearestClass}");
-                }
-
-                // Vote for the class based on the top k nearest neighbors
-                int result = Vote(info, trainingLabels, trainingLabels.Count, k);
-                predictedLabels.Add(trainingLabels[result]);
-            }
-
-            return predictedLabels;
-        }
-
-        public double CalculateAccuracy(List<string> predictedLabels, List<string> actualLabels)
-        {
-            int correctPredictions = 0;
-            for (int i = 0; i < predictedLabels.Count; i++)
-            {
-                if (predictedLabels[i] == actualLabels[i])
-                    correctPredictions++;
-            }
-            double accuracy = (double)correctPredictions / predictedLabels.Count * 100;
-            return accuracy;
-        }
     }
+
+
+    /// <summary>
+    /// Compares the instance to another based on distance.
+    /// </summary>
+    /// <param name="other">The other IndexAndDistance instance to compare with.</param>
+    /// <returns>
 
     public class IndexAndDistance : IComparable<IndexAndDistance>
     {
-        public int idx;
-        public double dist;
-
+        /// <summary>
+        /// Index of a training item.
+        /// </summary>
+        public int Index;
+        /// <summary>
+        /// Distance to the unknown point.
+        /// </summary>
+        public double Distance;
+        /// <summary>
+        /// Compares this instance to another based on distance.
+        /// </summary>
         public int CompareTo(IndexAndDistance other)
         {
-            return dist.CompareTo(other.dist);
+            return Distance.CompareTo(other.Distance);
         }
     }
 }
