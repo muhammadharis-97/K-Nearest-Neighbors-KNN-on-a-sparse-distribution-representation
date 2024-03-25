@@ -38,9 +38,9 @@ namespace KNN
                 }
 
                 // Vote for the class based on the top k nearest neighbors
-                string result = Vote(nearestNeighbors, trainingLabels, trainingLabels.Count, k);
+                int result = Vote(nearestNeighbors, trainingLabels, trainingLabels.Count, k);
+                predictedLabels.Add(trainingLabels[result]);
 
-                Debug.WriteLine($"  Predicted class for test data: {(result != "Even" ? "Even" : (result == "Odd" ? "Odd" : (result == "Neither Odd nor Even" ? "Neither Odd nor Even" : "Unknown")))}");
 
             }
 
@@ -92,7 +92,7 @@ namespace KNN
 
 
 
-        private string Vote(IndexAndDistance[] nearestNeighbors, List<string> trainingLabels, int numOfClasses, int k)
+        private int Vote(IndexAndDistance[] nearestNeighbors, List<string> trainingLabels, int numOfClasses, int k)
         {
             Dictionary<string, int> votes = new Dictionary<string, int>();
 
@@ -111,8 +111,11 @@ namespace KNN
 
             // Find the class label with the most votes
             string classWithMostVotes = votes.OrderByDescending(pair => pair.Value).First().Key;
-            return classWithMostVotes;
+
+            Debug.WriteLine($"  Predicted class for test data: {(classWithMostVotes == "S1" ? "Even" : (classWithMostVotes == "S2" ? "Odd" : (classWithMostVotes == "S3" ? "Neither Odd nor Even" : "Unknown")))}");
+            return trainingLabels.IndexOf(classWithMostVotes);
         }
+
 
         private int GetMax(int[] arr)
         {
