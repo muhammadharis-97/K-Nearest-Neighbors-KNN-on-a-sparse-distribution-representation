@@ -76,7 +76,8 @@ namespace NeoCortexApiSample
                 i = i + 1;
 
                 // Displaying the predicted class for the test data
-                Debug.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither Odd nor Even" : "Unknown")))}");
+                Debug.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "S1= [ 2, 4, 6, 8, 10, 12, 14 ]" : (prediction == 1 ? "S1= [ 1, 3, 5, 7, 9, 11, 13 ]" : (prediction == 2 ? "S1 = [4.5, 11.4, 12.8, 15.5, 16.6, 17.7]": "unknown")))}");
+                Debug.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither odd or Even": "unknown")))}");
             }
 
 
