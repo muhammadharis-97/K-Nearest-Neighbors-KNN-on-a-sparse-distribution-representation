@@ -47,20 +47,20 @@ namespace KNNImplementation
         /// <summary>
         /// Calculates the Euclidean distance between two vectors.
         /// </summary>
-        /// <param name="testData">The test data vector.</param>
-        /// <param name="trainData">The training data vector.</param>
-        /// <returns>The Euclidean distance between the two vectors.</returns>
-        public double CalculateEuclideanDistance(double[] testData, double[] trainData)
+        /// <param name="testData">The test data Feature.</param>
+        /// <param name="trainData">The training data Feature.</param>
+        /// <returns>The Euclidean distance between the two Feature of training data and testing data.</returns>
+        private double CalculateEuclideanDistance(List<double> testData, List<double> trainData)
         {
             if (testData == null || trainData == null)
                 throw new ArgumentNullException("Both testData and trainData must not be null.");
 
-            if (testData.Length != trainData.Length)
+            if (testData.Count != trainData.Count)
                 throw new ArgumentException("testData and trainData must have the same length.");
 
             double sumOfSquaredDifferences = 0.0;
 
-            for (int i = 0; i < testData.Length; ++i)
+            for (int i = 0; i < testData.Count; ++i)
             {
                 double difference = testData[i] - trainData[i];
                 sumOfSquaredDifferences += difference * difference;
