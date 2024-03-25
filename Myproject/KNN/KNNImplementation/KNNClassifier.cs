@@ -251,10 +251,8 @@ namespace KNNImplementation
         /// <summary>
         /// Compares this instance to another based on distance.
         /// </summary>
-        public int CompareTo(IndexAndDistance other)
-        {
-            return dist.CompareTo(other.dist);
-        }
+        public int CompareTo(IndexAndDistance other)=> dist.CompareTo(other.dist);
+        
     }
 
 
