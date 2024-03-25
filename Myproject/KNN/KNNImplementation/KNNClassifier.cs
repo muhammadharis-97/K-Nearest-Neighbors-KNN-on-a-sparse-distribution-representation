@@ -82,64 +82,93 @@ namespace KNNImplementation
 
             return Math.Sqrt(sumOfSquaredDifferences);
         }
+
         /// <summary>
         /// Determines the class label by majority voting among the k nearest neighbors.
         /// </summary>
-        /// <param name="info">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
-        /// <param name="trainData">The training data containing class labels.</param>
-        /// <param name="numofclass">The total number of classes.</param>
+        /// <param name="nearestNeighbors">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
+        /// <param name="trainingLabels">The training label contain the class labels of training data.</param>
         /// <param name="k">The number of nearest neighbors to consider.</param>
         /// <returns>The class label with the most votes among the nearest neighbors.</returns>
 
-        public int Vote(IndexAndDistance[] info, double[][] trainData, int numofclass, int k)
+        private int Vote(IndexAndDistance[] nearestNeighbors, List<string> trainingLabels, int k)
         {
-            int[] votes = new int[numofclass];
+            Dictionary<string, int> votes = new Dictionary<string, int>();
+
+            foreach (string label in trainingLabels)
+            {
+                votes[label] = 0;
+            }
 
             for (int i = 0; i < k; ++i)
             {
-                int idx = info[i].idx;
-                int c = (int)trainData[idx].Last();
-                ++votes[c];
+                string neighborLabel = trainingLabels[nearestNeighbors[i].idx];
+                votes[neighborLabel]++;
             }
 
-            int classWithMostVotes = Array.IndexOf(votes, votes.Max());
-            return classWithMostVotes;
+            // Find the class label with the most votes
+            string classWithMostVotes = votes.OrderByDescending(pair => pair.Value).First().Key;
+            Debug.WriteLine($"  Predicted class for test data: {(classWithMostVotes == "S1" ? "Even" : (classWithMostVotes == "S2" ? "Odd" : (classWithMostVotes == "S3" ? "Neither Odd nor Even" : "Unknown")))}");
+            return trainingLabels.IndexOf(classWithMostVotes);
         }
 
         /// <summary>
         /// Classifies the unknown SDR based on the k-nearest neighbors in the training data using the KNN algorithm.
         /// </summary>
-        /// <param name="testData">The testing data containing unknown SDR to be classified.</param>
-        /// <param name="trainData">The training data containing known SDRs.</param>
-        /// <param name="numofclass">The total number of classes.</param>
+        /// <param name="testingFeatures">The Featurees of testing data containing testing SDR value to be classified.</param>
+        /// <param name="trainingFeatures">The Features of training data containing training SDRs value.</param>
+        /// <param name="trainingLabels">The training label contain the class labels of training data.</param>
         /// <param name="k">The number of nearest neighbors to consider in the classification.</param>
-        /// <returns>The predicted class label for the unknown SDR.</returns>
+        /// <returns> The list of predicted labels for the testing features.</returns>
 
-        public int Classifier(double[] testData, double[][] trainData, int numofclass, int k)
+        public List<string> Classifier(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k)
         {
-            int n = trainData.Length;
-            IndexAndDistance[] info = new IndexAndDistance[n];
+            List<string> predictedLabels = new List<string>();
 
-            for (int i = 0; i < n; i++)
+            foreach (var testFeature in testingFeatures)
             {
-                double dist = CalculateEuclideanDistance(testData, trainData[i]);
-                info[i] = new IndexAndDistance { idx = i, dist = dist };
+                IndexAndDistance[] nearestNeighbors = new IndexAndDistance[trainingFeatures.Count];
+                for (int i = 0; i < trainingFeatures.Count; i++)
+                {
+                    double distance = CalculateEuclideanDistance(testFeature, trainingFeatures[i]);
+                    nearestNeighbors[i] = new IndexAndDistance { idx = i, dist = distance };
+                }
+
+
+                // Sort distances
+                Array.Sort(nearestNeighbors);
+
+                // Display information for the k-nearest items
+                Debug.WriteLine("   Nearest     /    Distance      /     Class   ");
+                Debug.WriteLine("   ==========================================   ");
+
+                for (int i = 0; i < k; i++)
+                {
+                    int nearestIndex = nearestNeighbors[i].idx;
+                    double nearestDistance = nearestNeighbors[i].dist;
+                    string nearestClass = trainingLabels[nearestIndex];
+                    Debug.WriteLine($"( {trainingFeatures[nearestIndex][0]}, {trainingFeatures[nearestIndex][1]} )  :  {nearestDistance}        {nearestClass}");
+                }
+
+                // Vote for the class based on the top k nearest neighbors
+                int result = Vote(nearestNeighbors, trainingLabels, k);
+                predictedLabels.Add(trainingLabels[result]);
             }
+            return predictedLabels;
+        }
 
-            Array.Sort(info);
+        /// <summary>
+        /// Finding Accuracy of KNN CLassifue
+        /// </summary>
+        /// <param name="predictedLabels"></param>
+        /// <param name="actualLabels"></param>
+        /// <returns></returns> Retyrn the accuracy in Percentage 
 
-            // Display information for the k-nearest items
-            Debug.WriteLine("   Nearest     /    Distance      /     Class   ");
-            Debug.WriteLine("   ==========================================   ");
-            for (int i = 0; i < k; ++i)
-            {
-                int c = (int)trainData[info[i].idx].Last();
-                string dist = info[i].dist.ToString("F3");
-                Debug.WriteLine($"( {trainData[info[i].idx][0]}, {trainData[info[i].idx][1]} )  :  {dist}        {c}");
-            }
-
-            int result = Vote(info, trainData, numofclass, k);
-            return result;
+        public double CalculateAccuracy(List<string> predictedLabels, List<string> actualLabels)
+        {
+            int correctPredictions = predictedLabels.Where((predictedLabel, index) => predictedLabel == actualLabels[index]).Count();
+            double accuracy = (double)correctPredictions / predictedLabels.Count * 100;
+            return accuracy;
         }
 
         /// <summary>
@@ -180,19 +209,7 @@ namespace KNNImplementation
 
 
 
-        /// <summary>
-        /// Finding Accuracy of KNN CLassifue
-        /// </summary>
-        /// <param name="predictedLabels"></param>
-        /// <param name="actualLabels"></param>
-        /// <returns></returns> Retyrn the accuracy in Percentage 
 
-        public double CalculateAccuracy(int[] predictedLabels, int[] actualLabels)
-        {
-            int correctPredictions = predictedLabels.Zip(actualLabels, (p, a) => p == a ? 1 : 0).Sum();
-            double accuracy = (double)correctPredictions / predictedLabels.Length * 100;
-            return accuracy;
-        }
 
 
         /// <summary>
