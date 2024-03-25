@@ -15,21 +15,35 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
  the data to discern patterns, while 30% is reserved for performance evaluation. Testing employs the K-Nearest Neighbors Classifier, predicting labels using
  Classifier method. Accuracy is assessed with CalculateAccuracy, comparing predicted and actual labels.
     
-
  For an Example:
 
  we have Sample Data in a Dataset which we split in training and testing data
 
  training data = [
- 7665, 8260, 8304, 8495, 9285, 9366, 9388, 9603, 9641, 9707, 9774, 9819, 9837, 10020, 10096, 10149, 10263, 10313, 10873, 10914, 0
- 8360, 9729, 9769, 9826, 9860, 10039, 10064, 10169, 10338, 10408, 10461, 10609, 10669, 10689, 10792, 10889, 11235, 11339, 11435, 11672, 1
- 9460, 9558, 9725, 9883, 10336, 10393, 10896, 10933, 10982, 11113, 11173, 11423, 11719, 11835, 11897, 11902, 12075, 12164, 12415, 12715, 2]
+  {
+    "SequenceName": "S1",
+    "SequenceData": [8039, 8738, 9334, 9558, 9604, 9697, 9772, 9841, 9851, 9922, 9963, 10023, 10121, 10197, 10373, 10459, 10594, 10629, 10664, 11124]
+  },
+{
+    "SequenceName": "S2",
+    "SequenceData": [9051, 9075, 9133, 9178, 9365, 9448, 9481, 9599, 9635, 9740, 10032, 10224, 10281, 10762, 10778, 10934, 11143, 11306, 11494, 11763]
+  },
+{
+    "SequenceName": "S3",
+    "SequenceData": [10808, 10834, 11053, 11085, 11434, 11471, 11479, 11553, 11597, 11634, 11720, 11743, 11766, 11812, 11872, 11897, 11909, 12094, 12332, 12504]
+  }, ...
+]
 
 
- testing Data = [8870, 9787, 9970, 10025, 10070, 10085, 10136, 10197, 10208, 10241, 10315, 10352, 10468, 10740, 10906, 11002, 11142, 11159, 11204, 11475, 1]
+ testing Data = [
+{
+    "SequenceName": "S1",
+    "SequenceData": [7665, 8260, 8304, 8495, 9285, 9366, 9388, 9603, 9641, 9707, 9774, 9819, 9837, 10020, 10096, 10149, 10263, 10313, 10873, 10914]
+  }
+]
 
 
- Here's the verdict: The model has predicted the testing data as Class 1, representing the odd number sequence SDR's.
+ Here's the verdict: The model has predicted the testing data as Class S1, representing sequence S1 SDR's closet to testing data SDR'S.
 
  The output includes the label class of the testing data and the accuracy of the model. 
 
