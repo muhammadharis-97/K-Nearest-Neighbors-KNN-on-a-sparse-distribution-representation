@@ -10,14 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-
 /*
- The Neocortex API generates sequences of numbers categorized as 0 as Even,1 as Odd,and 2 as Neither odd nor eveb, crucial for dataset creation. It learns
- from a file using LearnDatafromthefile, then splits the data 70-30 for training and testing using SplitData. The Classifier model is trained on 70% of 
- the data to discern patterns, while 30% is reserved for performance evaluation. Testing employs the K-Nearest Neighbors Classifier, predicting labels using
- Classifier method. Accuracy is assessed with CalculateAccuracy, comparing predicted and actual labels.
+ The Neocortex API generates SDR from different sequences S1, S2, and S3, S1 consider is off even numbers,S2 as Odd number,and S3 as decimal number which 
+ are Neither odd nor even, crucial for dataset creation. 'Classifierleanring' Class is declare to lean from the JSON file Dataset and split the dataset 
+ into training and testing data with respect to spliting ratio. The 'KNNClassifier' class is declare to trained on training data to recognize patterns, while 
+ testing data is reserved for performance evaluation. Testing employs the K-Nearest Neighbors Classifier, predicting labels using 'Classifier' method. Accuracy
+ is assessed with 'CalculateAccuracy', comparing predicted and actual labels of training data and testing data.
     
- For an Example:
+ For an Example: 
 
  we have Sample Data in a Dataset which we split in training and testing data
 
@@ -213,16 +213,14 @@ namespace KNNImplementation
     /// </summary>
     public class SequenceDataEntry
     {
-        // The name of the sequence.
         public required string SequenceName { get; set; }
-        // The data associated with the sequence.
         public required List<double> SequenceData { get; set; }
     }
 
     /// <summary>
     /// Class to lean from the JSON file Dataset and split the dataset into training and testing data with respect to spliting ratio.
     /// </summary>
-    public class Classfierleaning : IClassifier
+    public class Classifierleaning : IClassifier
     {
 
         /// <summary>
