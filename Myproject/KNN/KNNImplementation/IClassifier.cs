@@ -11,11 +11,15 @@ namespace KNNImplementation
 {
     public interface IClassifier
     {
+        
+        public List<string> Classifier(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k);
 
-        public int Classifier(double[] testData, double[][] trainData, int numofclass, int k);
+        public double CalculateEuclideanDistance(List<double> testFeature, List<double> trainFeature);
 
-        public double[][] LoadDataFromFile(string filePath);
-       
+        public List<SequenceDataEntry> LoadDataset(string jsonFilePath);
+        
+
+
 
 
 

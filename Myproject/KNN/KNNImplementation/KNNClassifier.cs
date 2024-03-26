@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using Newtonsoft.Json;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 /*
  The Neocortex API generates sequences of numbers categorized as 0 as Even,1 as Odd,and 2 as Neither odd nor eveb, crucial for dataset creation. It learns
@@ -61,22 +63,22 @@ namespace KNNImplementation
         /// <summary>
         /// Calculates the Euclidean distance between two vectors.
         /// </summary>
-        /// <param name="testData">The test data Feature.</param>
-        /// <param name="trainData">The training data Feature.</param>
+        /// <param name="testFeature">Feature of test Data.</param>
+        /// <param name="trainFeature">Feature of train Data.</param>
         /// <returns>The Euclidean distance between the two Feature of training data and testing data.</returns>
-        private double CalculateEuclideanDistance(List<double> testData, List<double> trainData)
+        public double CalculateEuclideanDistance(List<double> testFeature, List<double> trainFeature)
         {
-            if (testData == null || trainData == null)
+            if (testFeature == null || trainFeature == null)
                 throw new ArgumentNullException("Both testData and trainData must not be null.");
 
-            if (testData.Count != trainData.Count)
+            if (testFeature.Count != trainFeature.Count)
                 throw new ArgumentException("testData and trainData must have the same length.");
 
             double sumOfSquaredDifferences = 0.0;
 
-            for (int i = 0; i < testData.Count; ++i)
+            for (int i = 0; i < testFeature.Count; ++i)
             {
-                double difference = testData[i] - trainData[i];
+                double difference = testFeature[i] - trainFeature[i];
                 sumOfSquaredDifferences += difference * difference;
             }
 
@@ -139,7 +141,7 @@ namespace KNNImplementation
                 Array.Sort(nearestNeighbors);
 
                 // Display information for the k-nearest items
-                Debug.WriteLine("   Nearest     /    Distance      /     Class   ");
+                Debug.WriteLine("   Nearest Features    /    Euclidean Distance      /     Class label   ");
                 Debug.WriteLine("   ==========================================   ");
 
                 for (int i = 0; i < k; i++)
@@ -171,76 +173,10 @@ namespace KNNImplementation
             return accuracy;
         }
 
-        /// <summary>
-        /// Creating Method to learn data from a datset file
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns> Returning the dataset and storing it in Two Dimensional Array
-
-        public double[][] LoadDataFromFile(string filePath)
-        {
-            try
-            {
-                string[] lines = File.ReadAllLines(filePath);
-                double[][] datasets = new double[lines.Length][];
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    string[] values = lines[i].Split(',');
-
-                    datasets[i] = new double[values.Length];
-                    for (int j = 0; j < values.Length; j++)
-                    {
-                        if (!double.TryParse(values[j], out datasets[i][j]))
-                        {
-                            throw new FormatException($"Failed to parse value at line {i + 1}, position {j + 1}");
-                        }
-                    }
-                }
-
-                return datasets;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return null;
-            }
-        }
-
-
-
-
-
-
-        /// <summary>
-        /// Method for Extracting AcutualLabels from test Dataset
-        /// </summary>
-        /// <param name="testData"></param>
-        /// <returns></returns> Returning the Acutual Labels from test data
-
-        public int[] ExtractActualLabelsFromDataset(double[][] testData)
-        {
-            return testData.Select(row => (int)row.Last()).ToArray();
-        }
-
-        /// <summary>
-        /// Spliting the dataset in training dataset and testing dataset
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="trainRatio"></param>
-        /// <returns></returns> Returning the split Training data and testing Data in Two dimensional Array 
-
-        public (double[][], double[][]) SplitData(double[][] data, double trainRatio)
-        {
-            int totalRows = data.Length;
-            int trainRows = (int)(totalRows * trainRatio);
-            int testRows = totalRows - trainRows;
-
-            int[] indices = Enumerable.Range(0, totalRows).OrderBy(x => Guid.NewGuid()).ToArray();
-            double[][] trainData = indices.Take(trainRows).Select(i => data[i]).ToArray();
-            double[][] testData = indices.Skip(trainRows).Select(i => data[i]).ToArray();
-
-            return (trainData, testData);
+        public List<SequenceDataEntry>? LoadDataset(string jsonFilePath)
+        { 
+            throw new NotImplementedException();
+        
         }
 
 
@@ -248,7 +184,7 @@ namespace KNNImplementation
 
 
     /// <summary>
-    /// Compares the instance to another based on distance.
+    /// Compares the instance to another based on distance
     /// </summary>
     /// <param name="other">The other IndexAndDistance instance to compare with.</param>
     /// <returns>
@@ -270,6 +206,81 @@ namespace KNNImplementation
         /// </summary>
         public int CompareTo(IndexAndDistance other)=> dist.CompareTo(other.dist);
         
+    }
+
+    /// <summary>
+    /// Represents an entry in the dataset, containing a sequence name and its associated data.
+    /// </summary>
+    public class SequenceDataEntry
+    {
+        // The name of the sequence.
+        public required string SequenceName { get; set; }
+        // The data associated with the sequence.
+        public required List<double> SequenceData { get; set; }
+    }
+
+    /// <summary>
+    /// Class to lean from the JSON file Dataset and split the dataset into training and testing data with respect to spliting ratio.
+    /// </summary>
+    public class Classfierleaning : IClassifier
+    {
+
+        /// <summary>
+        /// Loading Dataset from the JSON file 
+        /// </summary>
+        /// <param name="jsonFilePath"></param>
+        /// <returns></returns>
+        public List<SequenceDataEntry> LoadDataset(string jsonFilePath)
+        {
+            string jsonData = File.ReadAllText(jsonFilePath);
+            return JsonConvert.DeserializeObject<List<SequenceDataEntry>>(jsonData);
+        }
+
+        /// <summary>
+        /// Spliting the dataset in training dataset and testing dataset based on Features and label or value and key
+        /// </summary>
+        /// <param name="sequenceDataList"></param>
+        /// <param name="trainingFeatures"></param>
+        /// <param name="trainingLabels"></param>
+        /// <param name="testingFeatures"></param>
+        /// <param name="testingLabels"></param>
+        public static void SplitDataset(List<SequenceDataEntry> sequenceDataList, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels, double Splitingratio)
+        {
+            trainingFeatures = new List<List<double>>();
+            trainingLabels = new List<string>();
+            testingFeatures = new List<List<double>>();
+            testingLabels = new List<string>();
+            Random rand = new Random();
+
+            foreach (var entry in sequenceDataList)
+            {
+                string label = entry.SequenceName;
+                List<double> features = entry.SequenceData;
+
+                if (rand.NextDouble() < Splitingratio) // spliting ratio for training
+                {
+                    trainingFeatures.Add(new List<double>(features));
+                    trainingLabels.Add(label);
+                }
+                else // remaining out of 1 is for testing
+                {
+                    testingFeatures.Add(new List<double>(features));
+                    testingLabels.Add(label);
+                }
+            }
+
+
+        }
+
+        public List<string> Classifier(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k)
+        {
+            throw new NotImplementedException();
+        }
+
+        double IClassifier.CalculateEuclideanDistance(List<double> testFeature, List<double> trainFeature)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
