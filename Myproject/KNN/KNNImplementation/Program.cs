@@ -21,73 +21,30 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
 
-
             //RunMultiSequenceLearningExperiment();
             
-            // start experiement that demonstrates how to predict the squence based on HTM predcited cells.
-            KNNClassificationExperiment("C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\Dataset\\sdr_dataset.txt");
+            KNNClassificationExperiment();
 
         }
 
-        private static void KNNClassificationExperiment(string Datasetfilepath)
+        /// <summary>
+        /// Run a KNN Classifier Experiment on Simple sequence SDR's
+        /// </summary>
+        /// <param name="Datasetfilepath"></param>
+        private static void KNNClassificationExperiment()
         {
-            // Defining the value of K
-            int k = 3;
-
-            // Intailizing the number of classes 
-            int numofclass = 3;
-            double[] features = new double[20];
-
-            // Set the ratio for splitting (70% training, 30% testing)
-            double trainRatio = 0.7;
-
-            /// creating an Instance of the class KNN
-            KNNClassifier kNN = new KNNClassifier();
-
-            // Learning data from the dataset file
-            double[][] sdrData = kNN.LoadDataFromFile(Datasetfilepath);
-
-            // Call the method to split the data
-            var (trainDataset, testDataset) = kNN.SplitData(sdrData, trainRatio);
-
-            // Extracting the Actual labels from test dataset
-            int[] actualLabels = kNN.ExtractActualLabelsFromDataset(testDataset);
-            int[] predictedlabels = new int[testDataset.Length];
-
-
-            // Starting the KNN Classifier
-            Debug.WriteLine(" Starting of KNN Classifier on Sparse Distribution Representation");
-            //Debug.WriteLine();
-
-
-
-            int i = 0;
-            Debug.WriteLine($"  Value of K is equal to {k}");
-
-            // Looping through each test dataset
-            foreach (var testData in testDataset)
-            {
-
-                // Classifying the test data using KNN Classifier 
-                int prediction = kNN.Classifier(testData, trainDataset, numofclass, k);
-
-                predictedlabels[i] = prediction;
-
-                i = i + 1;
-
-                // Displaying the predicted class for the test data
-                Debug.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "S1= [ 2, 4, 6, 8, 10, 12, 14 ]" : (prediction == 1 ? "S1= [ 1, 3, 5, 7, 9, 11, 13 ]" : (prediction == 2 ? "S1 = [4.5, 11.4, 12.8, 15.5, 16.6, 17.7]": "unknown")))}");
-                Debug.WriteLine($"  Predicted class for test data: {(prediction == 0 ? "Even" : (prediction == 1 ? "Odd" : (prediction == 2 ? "Neither odd or Even": "unknown")))}");
-            }
-
-
-
-            double accuracy = kNN.CalculateAccuracy(predictedlabels, actualLabels);
-            Debug.WriteLine("  Calculated Accuracy   =   " + accuracy);
+            string Datasetfilepath = "C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\Dataset\\Dataset_KNN.json";
+            Classifierleaning classifierleaning = new Classifierleaning();
             
-
-
-
+            KNNClassifier kNNClassifier = new KNNClassifier();
+            
+            List<SequenceDataEntry> sequenceDataEntries = classifierleaning.LoadDataset(Datasetfilepath);
+            
+            Classifierleaning.SplitDataset(sequenceDataEntries, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels, 0.7);
+            
+            List<string> predictedLabels = kNNClassifier.Classifier(testingFeatures, trainingFeatures, trainingLabels, k: 3);
+            
+            kNNClassifier.CalculateAccuracy(predictedLabels, testingLabels);
 
         }
 

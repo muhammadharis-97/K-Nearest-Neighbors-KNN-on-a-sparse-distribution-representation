@@ -110,7 +110,14 @@ namespace KNNImplementation
 
             // Find the class label with the most votes
             string classWithMostVotes = votes.OrderByDescending(pair => pair.Value).First().Key;
-            Debug.WriteLine($"  Predicted class for test data: {(classWithMostVotes == "S1" ? "Even" : (classWithMostVotes == "S2" ? "Odd" : (classWithMostVotes == "S3" ? "Neither Odd nor Even" : "Unknown")))}");
+
+            Debug.WriteLine("");
+            Debug.WriteLine($"  Predicted class for test data: {(classWithMostVotes == "S1" ? " S1 = {2, 4, 6, 8, 10, 12, 14} (Even)  Sequence Match" 
+                : (classWithMostVotes == "S2" ? "S2 = {3, 5, 7, 9, 11, 13, 15} (Odd)  Sequence Match" :
+                (classWithMostVotes == "S3" ? " S3 = { 4.5, 11.4, 12.8, 15.5, 16.6, 17.7 } (Neither Odd nor Even)  Sequence Match" 
+                : "MisMatch")))}");
+
+            Debug.WriteLine("");
             return trainingLabels.IndexOf(classWithMostVotes);
         }
 
@@ -125,6 +132,9 @@ namespace KNNImplementation
 
         public List<string> Classifier(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k)
         {
+            Debug.WriteLine("");
+            Debug.WriteLine("Starting KNN Classifier on Sparse Distribution Representation");
+            Debug.WriteLine("");
             List<string> predictedLabels = new List<string>();
 
             foreach (var testFeature in testingFeatures)
@@ -136,23 +146,21 @@ namespace KNNImplementation
                     nearestNeighbors[i] = new IndexAndDistance { idx = i, dist = distance };
                 }
 
-
-                // Sort distances
                 Array.Sort(nearestNeighbors);
 
                 // Display information for the k-nearest items
                 Debug.WriteLine("   Nearest Features    /    Euclidean Distance      /     Class label   ");
-                Debug.WriteLine("   ==========================================   ");
+                Debug.WriteLine("   ==================================================================   ");
 
                 for (int i = 0; i < k; i++)
                 {
                     int nearestIndex = nearestNeighbors[i].idx;
                     double nearestDistance = nearestNeighbors[i].dist;
                     string nearestClass = trainingLabels[nearestIndex];
-                    Debug.WriteLine($"( {trainingFeatures[nearestIndex][0]}, {trainingFeatures[nearestIndex][1]} )  :  {nearestDistance}        {nearestClass}");
+                    Debug.WriteLine($"    ({trainingFeatures[nearestIndex][0]}, {trainingFeatures[nearestIndex][1]} )  :          " +
+                        $"{nearestDistance}        :     {nearestClass}");
                 }
 
-                // Vote for the class based on the top k nearest neighbors
                 int result = Vote(nearestNeighbors, trainingLabels, k);
                 predictedLabels.Add(trainingLabels[result]);
             }
@@ -160,18 +168,22 @@ namespace KNNImplementation
         }
 
         /// <summary>
-        /// Finding Accuracy of KNN CLassifue
+        /// Finding Accuracy of the CLassifier
         /// </summary>
         /// <param name="predictedLabels"></param>
         /// <param name="actualLabels"></param>
         /// <returns></returns> Retyrn the accuracy in Percentage 
 
-        public double CalculateAccuracy(List<string> predictedLabels, List<string> actualLabels)
+        public void CalculateAccuracy(List<string> predictedLabels, List<string> actualLabels)
         {
             int correctPredictions = predictedLabels.Where((predictedLabel, index) => predictedLabel == actualLabels[index]).Count();
             double accuracy = (double)correctPredictions / predictedLabels.Count * 100;
-            return accuracy;
+            Debug.WriteLine($"Sequences Matching with accuray of : {accuracy}%");
+            Debug.WriteLine(""); 
+            
         }
+           
+            
 
         public List<SequenceDataEntry>? LoadDataset(string jsonFilePath)
         { 
@@ -182,7 +194,6 @@ namespace KNNImplementation
 
     }
 
-
     /// <summary>
     /// Compares the instance to another based on distance
     /// </summary>
@@ -192,12 +203,12 @@ namespace KNNImplementation
     public class IndexAndDistance : IComparable<IndexAndDistance>
     {
         /// <summary>
-        /// Index of a training item.
+        /// Index of a training feature.
         /// </summary>
         public int idx;
 
         /// <summary>
-        /// Distance to the unknown point.
+        /// Distance to the testing Feature.
         /// </summary>
         public double dist;
 
@@ -218,7 +229,7 @@ namespace KNNImplementation
     }
 
     /// <summary>
-    /// Class to lean from the JSON file Dataset and split the dataset into training and testing data with respect to spliting ratio.
+    /// Class to load dataset from the JSON file and split the dataset into training and testing data with respect to spliting ratio.
     /// </summary>
     public class Classifierleaning : IClassifier
     {
@@ -226,11 +237,11 @@ namespace KNNImplementation
         /// <summary>
         /// Loading Dataset from the JSON file 
         /// </summary>
-        /// <param name="jsonFilePath"></param>
+        /// <param name="DatasetFilePath"></param>
         /// <returns></returns>
-        public List<SequenceDataEntry> LoadDataset(string jsonFilePath)
+        public List<SequenceDataEntry> LoadDataset(string DatasetFilePath)
         {
-            string jsonData = File.ReadAllText(jsonFilePath);
+            string jsonData = File.ReadAllText(DatasetFilePath);
             return JsonConvert.DeserializeObject<List<SequenceDataEntry>>(jsonData);
         }
 
@@ -242,7 +253,8 @@ namespace KNNImplementation
         /// <param name="trainingLabels"></param>
         /// <param name="testingFeatures"></param>
         /// <param name="testingLabels"></param>
-        public static void SplitDataset(List<SequenceDataEntry> sequenceDataList, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels, double Splitingratio)
+        public static void SplitDataset(List<SequenceDataEntry> sequenceDataList, out List<List<double>> trainingFeatures,
+            out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels, double Splitingratio)
         {
             trainingFeatures = new List<List<double>>();
             trainingLabels = new List<string>();
