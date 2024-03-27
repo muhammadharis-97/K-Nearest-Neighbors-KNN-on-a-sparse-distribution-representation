@@ -87,9 +87,9 @@ namespace KNNImplementation
             string classWithMostVotes = votes.OrderByDescending(pair => pair.Value).First().Key;
 
             Debug.WriteLine("");
-            Debug.WriteLine($"  Predicted class for test data: {(classWithMostVotes == "S1" ? " S1 = {2, 4, 6, 8, 10, 12, 14} (Even)  Sequence Match" 
+            Debug.WriteLine($"  Predicted class for test data: {(classWithMostVotes == "S1" ? " S1 = {2, 4, 6, 8, 10, 12, 14} (Even)  Sequence Match"
                 : (classWithMostVotes == "S2" ? "S2 = {3, 5, 7, 9, 11, 13, 15} (Odd)  Sequence Match" :
-                (classWithMostVotes == "S3" ? " S3 = { 4.5, 11.4, 12.8, 15.5, 16.6, 17.7 } (Neither Odd nor Even)  Sequence Match" 
+                (classWithMostVotes == "S3" ? " S3 = { 4.5, 11.4, 12.8, 15.5, 16.6, 17.7 } (Neither Odd nor Even)  Sequence Match"
                 : "MisMatch")))}");
 
             Debug.WriteLine("");
@@ -111,7 +111,7 @@ namespace KNNImplementation
             Debug.WriteLine("Starting KNN Classifier on Sparse Distribution Representation");
             Debug.WriteLine("");
             List<string> predictedLabels = new List<string>();
-            CalculateDistance calculateDistance = new CalculateDistance(); 
+            CalculateDistance calculateDistance = new CalculateDistance();
 
             foreach (var testFeature in testingFeatures)
             {
@@ -157,15 +157,15 @@ namespace KNNImplementation
             int correctPredictions = predictedLabels.Where((predictedLabel, index) => predictedLabel == actualLabels[index]).Count();
             double accuracy = (double)correctPredictions / predictedLabels.Count * 100;
             Debug.WriteLine($"Sequences Matching with accuray of : {accuracy}%");
-            Debug.WriteLine(""); 
-            
-        }
-           
+            Debug.WriteLine("");
 
-        public List<SequenceDataEntry>? LoadDataset(string jsonFilePath)
-        { 
+        }
+
+
+        public List<SequenceDataEntry> LoadDataset(string jsonFilePath)
+        {
             throw new NotImplementedException();
-        
+
         }
 
 
@@ -192,17 +192,8 @@ namespace KNNImplementation
         /// <summary>
         /// Compares this instance to another based on distance.
         /// </summary>
-        public int CompareTo(IndexAndDistance other)=> dist.CompareTo(other.dist);
-        
-    }
+        public int CompareTo(IndexAndDistance other) => dist.CompareTo(other.dist);
 
-    /// <summary>
-    /// Represents an entry in the dataset, containing a sequence name and its associated data.
-    /// </summary>
-    public class SequenceDataEntry
-    {
-        public required string SequenceName { get; set; }
-        public required List<double> SequenceData { get; set; }
     }
 
     /// <summary>
@@ -266,7 +257,19 @@ namespace KNNImplementation
 
     }
 
-    public class CalculateDistance 
+    /// <summary>
+    /// Class Represents an entry in the dataset, containing a sequence name and its associated data.
+    /// </summary>
+    public class SequenceDataEntry
+    {
+        public required string SequenceName { get; set; }
+        public required List<double> SequenceData { get; set; }
+    }
+
+    /// <summary>
+    /// CLass contain three type of distance calculation method between two features point.
+    /// </summary>
+    public class CalculateDistance
     {
 
         /// <summary>
@@ -324,7 +327,7 @@ namespace KNNImplementation
         /// <param name="testFeature">Feature of test Data.</param>
         /// <param name="trainFeature">Feature of train Data.</param>
         /// <returns>The Euclidean distance between the two Feature of training data and testing data.</returns>
-        public double CalculateMinkowskiDistance(List<double> testFeature, List<double> trainFeature)
+        public double CalculateMinkowskiDistance(List<double> testFeature, List<double> trainFeature, int p)
         {
             if (testFeature == null || trainFeature == null)
                 throw new ArgumentNullException("Both testData and trainData must not be null.");

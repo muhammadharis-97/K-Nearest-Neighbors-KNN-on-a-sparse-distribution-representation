@@ -11,11 +11,11 @@ namespace KNNImplementation
 {
     public interface IClassifier
     {
-        
+
         public List<string> Classifier(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k);
 
         public List<SequenceDataEntry> LoadDataset(string jsonFilePath);
-      
+
 
     }
 }
