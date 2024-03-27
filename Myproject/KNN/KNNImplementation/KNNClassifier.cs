@@ -61,31 +61,6 @@ namespace KNNImplementation
     {
 
         /// <summary>
-        /// Calculates the Euclidean distance between two vectors.
-        /// </summary>
-        /// <param name="testFeature">Feature of test Data.</param>
-        /// <param name="trainFeature">Feature of train Data.</param>
-        /// <returns>The Euclidean distance between the two Feature of training data and testing data.</returns>
-        public double CalculateEuclideanDistance(List<double> testFeature, List<double> trainFeature)
-        {
-            if (testFeature == null || trainFeature == null)
-                throw new ArgumentNullException("Both testData and trainData must not be null.");
-
-            if (testFeature.Count != trainFeature.Count)
-                throw new ArgumentException("testData and trainData must have the same length.");
-
-            double sumOfSquaredDifferences = 0.0;
-
-            for (int i = 0; i < testFeature.Count; ++i)
-            {
-                double difference = testFeature[i] - trainFeature[i];
-                sumOfSquaredDifferences += difference * difference;
-            }
-
-            return Math.Sqrt(sumOfSquaredDifferences);
-        }
-
-        /// <summary>
         /// Determines the class label by majority voting among the k nearest neighbors.
         /// </summary>
         /// <param name="nearestNeighbors">An array of IndexAndDistance objects representing the k nearest neighbors.</param>
@@ -136,13 +111,16 @@ namespace KNNImplementation
             Debug.WriteLine("Starting KNN Classifier on Sparse Distribution Representation");
             Debug.WriteLine("");
             List<string> predictedLabels = new List<string>();
+            CalculateDistance calculateDistance = new CalculateDistance(); 
 
             foreach (var testFeature in testingFeatures)
             {
                 IndexAndDistance[] nearestNeighbors = new IndexAndDistance[trainingFeatures.Count];
                 for (int i = 0; i < trainingFeatures.Count; i++)
                 {
-                    double distance = CalculateEuclideanDistance(testFeature, trainingFeatures[i]);
+                    double distance = calculateDistance.CalculateEuclideanDistance(testFeature, trainingFeatures[i]);
+                    //double distance = calculateDistance.CalculateManhattanDistance(testFeature, trainingFeatures[i]);
+                    //double distance = calculateDistance.CalculateMinkowskiDistance(testFeature, trainingFeatures[i]);
                     nearestNeighbors[i] = new IndexAndDistance { idx = i, dist = distance };
                 }
 
@@ -183,7 +161,6 @@ namespace KNNImplementation
             
         }
            
-            
 
         public List<SequenceDataEntry>? LoadDataset(string jsonFilePath)
         { 
@@ -287,10 +264,86 @@ namespace KNNImplementation
             throw new NotImplementedException();
         }
 
-        double IClassifier.CalculateEuclideanDistance(List<double> testFeature, List<double> trainFeature)
+    }
+
+    public class CalculateDistance 
+    {
+
+        /// <summary>
+        /// Calculates the Euclidean distance between two Features.
+        /// </summary>
+        /// <param name="testFeature">Feature of test Data.</param>
+        /// <param name="trainFeature">Feature of train Data.</param>
+        /// <returns>The Euclidean distance between the two Feature of training data and testing data.</returns>
+        public double CalculateEuclideanDistance(List<double> testFeature, List<double> trainFeature)
         {
-            throw new NotImplementedException();
+            if (testFeature == null || trainFeature == null)
+                throw new ArgumentNullException("Both testData and trainData must not be null.");
+
+            if (testFeature.Count != trainFeature.Count)
+                throw new ArgumentException("testData and trainData must have the same length.");
+
+            double sumOfSquaredDifferences = 0.0;
+
+            for (int i = 0; i < testFeature.Count; ++i)
+            {
+                double difference = testFeature[i] - trainFeature[i];
+                sumOfSquaredDifferences += difference * difference;
+            }
+
+            return Math.Sqrt(sumOfSquaredDifferences);
         }
+
+        /// <summary>
+        /// Calculates the Manhattan distance between two Features.
+        /// </summary>
+        /// <param name="testFeature">Feature of test Data.</param>
+        /// <param name="trainFeature">Feature of train Data.</param>
+        /// <returns>The Euclidean distance between the two Feature of training data and testing data.</returns>
+        public double CalculateManhattanDistance(List<double> testFeature, List<double> trainFeature)
+        {
+            if (testFeature == null || trainFeature == null)
+                throw new ArgumentNullException("Both testData and trainData must not be null.");
+
+            if (testFeature.Count != trainFeature.Count)
+                throw new ArgumentException("testData and trainData must have the same length.");
+
+            double sumOfAbsdiff = 0.0;
+
+            for (int i = 0; i < testFeature.Count; ++i)
+            {
+                sumOfAbsdiff += Math.Abs(testFeature[i] - trainFeature[i]);
+            }
+
+            return Math.Sqrt(sumOfAbsdiff);
+        }
+
+        /// <summary>
+        /// Calculates the Minkowski distance between two Feature.
+        /// </summary>
+        /// <param name="testFeature">Feature of test Data.</param>
+        /// <param name="trainFeature">Feature of train Data.</param>
+        /// <returns>The Euclidean distance between the two Feature of training data and testing data.</returns>
+        public double CalculateMinkowskiDistance(List<double> testFeature, List<double> trainFeature)
+        {
+            if (testFeature == null || trainFeature == null)
+                throw new ArgumentNullException("Both testData and trainData must not be null.");
+
+            if (testFeature.Count != trainFeature.Count)
+                throw new ArgumentException("testData and trainData must have the same length.");
+
+            double sumofpowdiff = 0.0;
+
+            for (int i = 0; i < testFeature.Count; ++i)
+            {
+                double difference = Math.Abs(testFeature[i] - trainFeature[i]);
+                sumofpowdiff += Math.Pow(difference, p);
+            }
+
+            return Math.Sqrt(sumofpowdiff);
+        }
+
+
     }
 
 
