@@ -117,7 +117,7 @@ namespace NeoCortexApi.Classifiers
     /// <summary>
     /// Implementation of the KNN algorithm. 
     /// </summary>
-    public class KNeighborsClassifier<TIN, TOUT> : IClassifierKnn<TIN, TOUT>
+    public class KNeighborsClassifier<TIN, TOUT> : IClassifier<TIN, TOUT>
     {
         private int _nNeighbors = 1; // From Numenta's example 1 is default
         private DefaultDictionary<string, List<int[]>> _sdrMap = new DefaultDictionary<string, List<int[]>>();

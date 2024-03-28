@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NeoCortexApi.Classifiers
 {
-    public class HtmUnionClassifier<TIN, TOUT> : IClassifier<TIN, TOUT>, IClassifierKnn<TIN, TOUT>
+    public class HtmUnionClassifier<TIN, TOUT> : IClassifier<TIN, TOUT>
     {
         private Dictionary<TIN, int[]> m_ActiveMap = new Dictionary<TIN, int[]>();
 

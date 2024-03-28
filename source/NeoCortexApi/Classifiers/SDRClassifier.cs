@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace NeoCortexApi.Classifiers
 {
-    public class SdrClassifier<TIN, TOUT> : IClassifier<TIN, TOUT>, IClassifierKnn<TIN, TOUT>
+    public class SdrClassifier<TIN, TOUT> : IClassifier<TIN, TOUT>
     {
         private double alpha = 0.001;
         private int learnIteration;

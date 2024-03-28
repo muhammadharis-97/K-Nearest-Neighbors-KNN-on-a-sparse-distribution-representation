@@ -1,9 +1,11 @@
 ﻿//Global Vari8iable
 using NeoCortexApi;
+using NeoCortexApi.Classifiers;
 using NeoCortexApi.Encoders;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using static NeoCortexApiSample.MultiSequenceLearning;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -33,10 +35,11 @@ namespace NeoCortexApiSample
             //GridCellSamples gridCells = new GridCellSamples();
             //gridCells.Run();
 
-           RunMultiSimpleSequenceLearningExperiment();
+           //RunMultiSimpleSequenceLearningExperiment();
 
 
-            //RunMultiSequenceLearningExperiment();
+            RunMultiSequenceLearningExperiment();
+
         }
 
         private static void RunMultiSimpleSequenceLearningExperiment()
@@ -66,6 +69,7 @@ namespace NeoCortexApiSample
         }
 
 
+       
         /// <summary>
         /// This example demonstrates how to learn two sequences and how to use the prediction mechanism.
         /// First, two sequences are learned.
@@ -82,24 +86,29 @@ namespace NeoCortexApiSample
             // sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 2.0, 3.0, 4.0, 2.0, 5.0, }));
             // sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
 
-            sequences.Add("S1", new List<double>(new double[] { 2, 4, 7, 10, 13, 16, 19, 22, 25, 28 }));
-            // This sequence has a difference of 5 between each number. First Number starting from 3
-            sequences.Add("S2", new List<double>(new double[] { 3, 8, 13, 18, 23, 28, 33, 38, 43, 48 }));
-            //The sequence is continued by subtracting 2 each time. First Number Starting from 25 
-           // sequences.Add("S3", new List<double>(new double[] { 25, 23, 21, 19, 17, 15, 13, 11, 9, 7 }));
+
+            // Define the first sequence (S1) with even numbers: 2, 4, 6, 8, 10, 12, 14.
+            sequences.Add("S1", new List<double>(new double[] { 2, 4, 6, 8, 10, 12, 14 }));
+
+            // Define the second sequence (S2) with odd numbers starting from 3: 3, 5, 7, 9, 11, 13, 15.
+            sequences.Add("S2", new List<double>(new double[] { 3, 5, 7, 9, 11, 13, 15 }));
+
+            // Define the thirth sequence (S3) with numbers that are neither odd nor even: 4.5, 11.4, 12.8, 15.5, 16.6, 17.7.
+            sequences.Add("S3", new List<double>(new double[] { 4.5, 11.4, 12.8, 15.5, 16.6, 17.7 }));
 
             //
             // Prototype for building the prediction engine.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
             var predictor = experiment.Run(sequences);
+          
 
             //
             // These list are used to see how the prediction works.
             // Predictor is traversing the list element by element. 
             // By providing more elements to the prediction, the predictor delivers more precise result.
-           // var list1 = new double[] { 1.0, 2.0, 3.0, 4.0, 2.0, 5.0 };
-           // var list2 = new double[] { 2.0, 3.0, 4.0 };
-           // var list3 = new double[] { 8.0, 1.0, 2.0 };
+            // var list1 = new double[] { 1.0, 2.0, 3.0, 4.0, 2.0, 5.0 };
+            // var list2 = new double[] { 2.0, 3.0, 4.0 };
+            // var list3 = new double[] { 8.0, 1.0, 2.0 };
 
             //predictor.Reset();
             //PredictNextElement(predictor, list1);
@@ -107,8 +116,8 @@ namespace NeoCortexApiSample
             //predictor.Reset();
             //PredictNextElement(predictor, list2);
 
-           // predictor.Reset();
-           // PredictNextElement(predictor, list3);
+            // predictor.Reset();
+            // PredictNextElement(predictor, list3);
         }
 
         private static void PredictNextElement(Predictor predictor, double[] list)
