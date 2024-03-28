@@ -21,9 +21,9 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
 
-            //RunMultiSequenceLearningExperiment();
+            RunMultiSequenceLearningExperiment();
             
-            KNNClassificationExperiment();
+            
 
         }
 
@@ -33,12 +33,14 @@ namespace NeoCortexApiSample
         /// <param name="Datasetfilepath"></param>
         private static void KNNClassificationExperiment()
         {
-            string Datasetfilepath = "C:\\Users\\Lenovo\\Documents\\GitHub\\Global_Variables\\Myproject\\KNN\\Dataset\\Dataset_KNN.json";
+            string datasetFileName = "Dataset_KNN.json";
+            string datasetDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "DataSet");
+            string datasetFilePath = Path.Combine(datasetDirectory, datasetFileName);
             Classifierleaning classifierleaning = new Classifierleaning();
             
             KNNClassifier kNNClassifier = new KNNClassifier();
             
-            List<SequenceDataEntry> sequenceDataEntries = classifierleaning.LoadDataset(Datasetfilepath);
+            List<SequenceDataEntry> sequenceDataEntries = classifierleaning.LoadDataset(datasetFilePath);
             
             Classifierleaning.SplitDataset(sequenceDataEntries, out List<List<double>> trainingFeatures, out List<string> trainingLabels, out List<List<double>> testingFeatures, out List<string> testingLabels, 0.7);
             
@@ -68,6 +70,7 @@ namespace NeoCortexApiSample
 
             // Run the experiment to build the prediction engine.
             var predictor = experiment.Run(sequences);
+
         }
 
 
@@ -102,6 +105,7 @@ namespace NeoCortexApiSample
 
             // Run the experiment to build the prediction engine.
             var predictor = experiment.Run(sequences);
+            KNNClassificationExperiment();
         }
 
         /// <summary>
