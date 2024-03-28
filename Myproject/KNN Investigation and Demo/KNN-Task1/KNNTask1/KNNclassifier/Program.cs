@@ -39,10 +39,13 @@ double[] unknown = new double[] { 483, 487, 500, 509, 510, 515, 519, 529, 533, 5
 //Console.WriteLine("Predicted class = " + predicted);
 
 /// Applying classifier for K=1
-int k = 1;
-Console.WriteLine("With k = 4");
-int predicted = KNN.Classifier(unknown, trainData, numClasses, k);
-Console.WriteLine("Predicted class = " + predicted);
+int k;
+for (k = 1; k < 9; k++)
+{
+    Console.WriteLine("With k = " + k);
+    int predicted = KNN.Classifier(unknown, trainData, numClasses, k);
+    Console.WriteLine("Predicted class = " + predicted);
+}
 Console.WriteLine("End kNN ");
 Console.ReadLine();
 

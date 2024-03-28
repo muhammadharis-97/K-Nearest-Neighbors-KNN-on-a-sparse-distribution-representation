@@ -23,7 +23,10 @@ namespace NeoCortexApiSample
 
             RunMultiSequenceLearningExperiment();
             
-            
+            // Start a experiment to demonstrate KNN classifier prediction sequence based on SDR's
+            KNNClassificationExperiment();
+
+
 
         }
 
@@ -103,7 +106,7 @@ namespace NeoCortexApiSample
 
             // Run the experiment to build the prediction engine.
             var predictor = experiment.Run(sequences);
-            KNNClassificationExperiment();
+            
         }
 
         /// <summary>
