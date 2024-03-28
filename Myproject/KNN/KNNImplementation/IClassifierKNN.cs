@@ -9,7 +9,7 @@ using NeoCortexApi.Classifiers;
 
 namespace KNNImplementation
 {
-    public interface IClassifier
+    public interface IClassifierKNN
     {
 
         public List<string> Classifier(List<List<double>> testingFeatures, List<List<double>> trainingFeatures, List<string> trainingLabels, int k);

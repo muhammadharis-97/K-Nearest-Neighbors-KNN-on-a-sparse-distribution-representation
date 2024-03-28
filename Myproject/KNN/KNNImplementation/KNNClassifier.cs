@@ -57,7 +57,7 @@ namespace KNNImplementation
     /// KNN class is designed to perform classification tasks on sequences derived from the SDR (Sparse Distributed Representation) dataset
     /// </summary>
 
-    public class KNNClassifier : IClassifier
+    public class KNNClassifier : IClassifierKNN
     {
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace KNNImplementation
     /// <summary>
     /// Class to load dataset from the JSON file and split the dataset into training and testing data with respect to spliting ratio.
     /// </summary>
-    public class Classifierleaning : IClassifier
+    public class Classifierleaning : IClassifierKNN
     {
 
         /// <summary>
