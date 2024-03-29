@@ -11,11 +11,23 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 /*
- The Neocortex API generates SDR from different sequences S1, S2, and S3, S1 consider is off even numbers,S2 as Odd number,and S3 as decimal number which 
- are Neither odd nor even, crucial for dataset creation. 'Classifierleanring' Class is declare to lean from the JSON file Dataset and split the dataset 
- into training and testing data with respect to spliting ratio. The 'KNNClassifier' class is declare to trained on training data to recognize patterns, while 
- testing data is reserved for performance evaluation. Testing employs the K-Nearest Neighbors Classifier, predicting labels using 'Classifier' method. Accuracy
- is assessed with 'CalculateAccuracy', comparing predicted and actual labels of training data and testing data.
+ The Neocortex API generates three sequences of numbers, categorizing them as Even, Odd, or decimal numbers, which serve as predicted cells for creating a 
+comprehensive dataset for model training.
+
+The process begins with the utilization of the 'LoadDataset(Datasetfilepath)' method from class 'Classifierleaning', which enables the model to ingest and 
+comprehend the dataset from a specified JSON file path. Following this, the dataset is partitioned into a 70-30 ratio using the
+'SplitDataset(sequenceDataEntries, out trainingfeatures, out testing features, out traininglabels, out testinglabels)' method from same class 
+'Classifierleaning'.
+
+The 70% of the data is allocated for training the Classifier model, allowing it to discern intricate patterns and relationships inherent in the dataset.
+Meanwhile, the remaining 30% is reserved for assessing the model's performance.
+
+During the testing phase, the K-Nearest Neighbors (KNN) Classifier employs the 'Classifier(testingFeatures, trainingFeatures, trainingLabels, k: 3)' 
+method from class 'KNNClassifier' to predict the labels of the testing data.
+
+To evaluate the model's accuracy, the predicted labels are compare with the actual labels extracted from the training dataset. This comparison is
+accomplished through the 'CalculateAccuracy(predictedLabels, testingLabels)' method from Class 'KNNClassifier', which quantifies the accuracy of the model's 
+predictions, providing valuable insights into its efficacy and performance.
     
  For an Example: 
 
