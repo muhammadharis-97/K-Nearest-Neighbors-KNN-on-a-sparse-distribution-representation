@@ -1,4 +1,5 @@
-﻿using System;
+﻿/// The interface is written by Gloabl Variable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

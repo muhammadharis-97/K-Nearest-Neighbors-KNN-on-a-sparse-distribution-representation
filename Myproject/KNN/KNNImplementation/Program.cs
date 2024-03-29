@@ -30,6 +30,7 @@ namespace NeoCortexApiSample
 
         }
 
+        /// The KNN Classification experiment is written by Global Variable
         /// <summary>
         /// Run a KNN Classifier Experiment on Simple sequence SDR's
         /// </summary>
@@ -81,7 +82,7 @@ namespace NeoCortexApiSample
 
         }
 
-
+        //// Global Variable just edited the sequences as per our requirements 
         /// <summary>
         /// Runs a multi-sequence learning experiment using various types of sequences.
         /// </summary>

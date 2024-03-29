@@ -1,4 +1,4 @@
-﻿//Global Variable
+﻿// The namespace KNNimplementation is written by GLobal Variable
 using NeoCortexEntities.NeuroVisualizer;
 using System;
 using System.Collections.Generic;

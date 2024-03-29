@@ -1,3 +1,5 @@
+//The unit test is written by Global Variables
+
 using KNNImplementation;
 using System;
 
