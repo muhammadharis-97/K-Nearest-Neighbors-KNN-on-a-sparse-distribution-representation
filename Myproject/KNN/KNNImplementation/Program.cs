@@ -21,7 +21,7 @@ namespace NeoCortexApiSample
         static void Main(string[] args)
         {
 
-            RunMultiSequenceLearningExperiment();
+            //RunMultiSequenceLearningExperiment();
             
             // Start a experiment to demonstrate KNN classifier prediction sequence based on SDR's
             KNNClassificationExperiment();
